@@ -24,11 +24,11 @@ public function setDefaultOptions(OptionsResolverInterface $resolver)
     $resolver
         ->setDefaults(array(
             // ...
-            'transformer_id' => 'lexik_form_filter.transformer.text',
+            'transformer_id' => 'spiriit_form_filter.transformer.text',
             // ...
         ))
         ->setAllowedValues(array(
-            'transformer_id'    => array('lexik_form_filter.transformer.text','lexik_form_filter.transformer.default'),
+            'transformer_id'    => array('spiriit_form_filter.transformer.text','lexik_form_filter.transformer.default'),
         ))
     ;
 }

@@ -122,7 +122,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 'secret' => 'test',
                 'http_method_override' => true,
             ],
-            'lexik_form_filter' => [
+            'spiriit_form_filter' => [
                 'listeners' => [
                     'doctrine_orm' => true, 'doctrine_dbal' => true, 'doctrine_mongodb' => true,
                 ]
