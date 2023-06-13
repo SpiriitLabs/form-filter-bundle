@@ -1,8 +1,8 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Form\Type;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Form\Type;
 
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

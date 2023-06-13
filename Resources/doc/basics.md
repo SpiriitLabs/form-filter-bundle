@@ -48,7 +48,7 @@ namespace Project\Bundle\SuperBundle\Filter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class ItemFilterType extends AbstractType
 {
@@ -100,7 +100,7 @@ class DefaultController extends Controller
                 ->createQueryBuilder('e');
 
             // build the query from the given form object
-            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+            $this->get('spiriit_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
 
             // now look at the DQL =)
             var_dump($filterBuilder->getDql());
@@ -126,16 +126,16 @@ Basic template
 ii. Inner workings
 ------------------
 
-Filters are applied by using events. Basically the `lexik_form_filter.query_builder_updater` service will trigger a default event named according to the form type to get the condition for a given filter.
+Filters are applied by using events. Basically the `spiriit_form_filter.query_builder_updater` service will trigger a default event named according to the form type to get the condition for a given filter.
 Then once all conditions have been gotten another event will be triggered to add these conditions to the (doctrine) query builder according to the operators defined by the condition builder.
 We provide a event/listener that supports Doctrine ORM, DBAL and MongoDB.
 
-The default event name pattern is `lexik_form_filter.apply.<query_builder_type>.<form_type_name>`.
+The default event name pattern is `spiriit_form_filter.apply.<query_builder_type>.<form_type_name>`.
 
 For example, let's say I use a form type with a name field:
 
 ```php
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 public function buildForm(FormBuilder $builder, array $options)
 {
@@ -145,11 +145,11 @@ public function buildForm(FormBuilder $builder, array $options)
 
 The event name that will be triggered to get conditions to apply will be:
 
-* `lexik_form_filter.apply.orm.filter_text` if you provide a `Doctrine\ORM\QueryBuilder`
+* `spiriit_form_filter.apply.orm.filter_text` if you provide a `Doctrine\ORM\QueryBuilder`
 
-* `lexik_form_filter.apply.dbal.filter_text` if you provide a `Doctrine\DBAL\Query\QueryBuilder`
+* `spiriit_form_filter.apply.dbal.filter_text` if you provide a `Doctrine\DBAL\Query\QueryBuilder`
 
-* `lexik_form_filter.apply.mongodb.filter_text` if you provide a `Doctrine\ODM\MongoDB\Query\Builder`
+* `spiriit_form_filter.apply.mongodb.filter_text` if you provide a `Doctrine\ODM\MongoDB\Query\Builder`
 
 Then another event will be triggered to add all the conditions to the (doctrine) query builder instance:
 

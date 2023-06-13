@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Document;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
 
@@ -42,7 +42,7 @@ class Item
     protected $updatedAt;
 
     /**
-     * @Mongo\EmbedMany(targetDocument="Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Document\Options", strategy="set")
+     * @Mongo\EmbedMany(targetDocument="Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Document\Options", strategy="set")
      */
     protected $options;
 

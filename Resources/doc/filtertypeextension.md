@@ -12,8 +12,8 @@ You can pass a Closure or a valid callback to this option, here is a simple exam
 ```php
 <?php
 
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -84,7 +84,7 @@ Create a custom extraction method:
 namespace Super\Namespace;
 
 use Symfony\Component\Form\FormInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\DataExtractor\Method\DataExtractionMethodInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\DataExtractionMethodInterface;
 
 class RainbowExtractionMethod implements DataExtractionMethodInterface
 {
@@ -112,18 +112,18 @@ class RainbowExtractionMethod implements DataExtractionMethodInterface
 }
 ```
 
-Then define your class as a service with the `lexik_form_filter.data_extraction_method` tag:
+Then define your class as a service with the `spiriit_form_filter.data_extraction_method` tag:
 
 ```xml
 <service id="my_project.data_extraction_method.rainbow" class="Super\Namespace\RainbowExtractionMethod">
-    <tag name="lexik_form_filter.data_extraction_method" />
+    <tag name="spiriit_form_filter.data_extraction_method" />
 </service>
 ```
 
 Now you can use your method:
 
 ```php
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 public function buildForm(FormBuilderInterface $builder, array $options)
 {
@@ -136,7 +136,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 ##### The `filter_condition_builder` option:
 
 This option is used to defined the operator (and/or) to use between each condition.
-This option is expected to be closure and recieve one parameter which is an instance of `Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface`.
+This option is expected to be closure and recieve one parameter which is an instance of `Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface`.
 
 See [4.iii section](working-with-the-bundle.md#iii-customize-condition-operator) for examples.
 

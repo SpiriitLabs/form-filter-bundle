@@ -31,7 +31,7 @@ class DefaultController extends Controller
             $form->submit($request->query->get($form->getName()));
 
             // build the query from the given form object
-            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+            $this->get('spiriit_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
         }
 
         $query = $filterBuilder->getQuery();

@@ -1,10 +1,10 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Doctrine\Expression;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression;
 
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\Query\Expr\Literal;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 
 abstract class ExpressionBuilder
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\DependencyInjection;
+namespace Spiriit\Bundle\FormFilterBundle\DependencyInjection;
 
-use Lexik\Bundle\FormFilterBundle\DependencyInjection\Configuration;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\DependencyInjection\Configuration;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * @author Cédric Girard <c.girard@lexik.fr>
  */
-class LexikFormFilterExtension extends Extension
+class SpiriitFormFilterExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -38,7 +38,7 @@ class LexikFormFilterExtension extends Extension
         }
 
         if (isset($config['force_case_insensitivity'])) {
-            $filterPrepareDef = $container->getDefinition('lexik_form_filter.filter_prepare');
+            $filterPrepareDef = $container->getDefinition('spiriit_form_filter.filter_prepare');
             $filterPrepareDef->addMethodCall(
                 'setForceCaseInsensitivity',
                 [$config['force_case_insensitivity']]
@@ -46,14 +46,14 @@ class LexikFormFilterExtension extends Extension
         }
 
         if (isset($config['encoding'])) {
-            $filterPrepareDef = $container->getDefinition('lexik_form_filter.filter_prepare');
+            $filterPrepareDef = $container->getDefinition('spiriit_form_filter.filter_prepare');
             $filterPrepareDef->addMethodCall(
                 'setEncoding',
                 [$config['encoding']]
             );
         }
 
-        $container->setParameter('lexik_form_filter.where_method', $config['where_method']);
-        $container->setParameter('lexik_form_filter.text.condition_pattern', FilterOperands::getStringOperandByString($config['condition_pattern']));
+        $container->setParameter('spiriit_form_filter.where_method', $config['where_method']);
+        $container->setParameter('spiriit_form_filter.text.condition_pattern', FilterOperands::getStringOperandByString($config['condition_pattern']));
     }
 }

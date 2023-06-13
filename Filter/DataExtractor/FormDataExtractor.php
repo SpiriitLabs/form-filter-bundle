@@ -1,8 +1,8 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\DataExtractor;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor;
 
-use Lexik\Bundle\FormFilterBundle\Filter\DataExtractor\Method\DataExtractionMethodInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\DataExtractionMethodInterface;
 use Symfony\Component\Form\FormInterface;
 
 /**

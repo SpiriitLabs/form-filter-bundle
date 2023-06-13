@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Form\Type;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Form\Type;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

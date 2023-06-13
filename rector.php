@@ -11,6 +11,7 @@ use Rector\Set\ValueObject\LevelSetList;
 use Rector\Symfony\Set\SymfonyLevelSetList;
 use Rector\Symfony\Set\SymfonySetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictNativeCallRector;
+use Rector\Renaming\Rector\Name\RenameClassRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
@@ -24,6 +25,7 @@ return static function (RectorConfig $rectorConfig): void {
         ReturnTypeFromStrictNativeCallRector::class,
         ReturnTypeFromStrictScalarReturnExprRector::class,
      ]);
+
     $rectorConfig->phpVersion(PhpVersion::PHP_71);
     $rectorConfig->importShortClasses(false);
     $rectorConfig->importNames();

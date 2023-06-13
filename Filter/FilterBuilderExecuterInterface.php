@@ -1,8 +1,8 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter;
+namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 /**
  * @author Cédric Girard <c.girard@lexik.fr>

@@ -4,7 +4,7 @@
 i. Customize condition operator
 -------------------------------
 
-By default the `lexik_form_filter.query_builder_updater` service will add conditions by using `AND`.
+By default the `spiriit_form_filter.query_builder_updater` service will add conditions by using `AND`.
 But you can customize the operator (and/or) to use between each conditions when its added to the (doctrine) query builder.
 To do so you will have to use the `filter_condition_builder` option in your main type class.
 
@@ -18,7 +18,7 @@ namespace Project\Bundle\SuperBundle\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class RelatedOptionsType extends AbstractType
 {
@@ -43,9 +43,9 @@ namespace Project\Bundle\SuperBundle\Filter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\OptionsResolver\ConditionBuilderInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
 
 class ItemFilterType extends AbstractType
 {
@@ -116,7 +116,7 @@ If this option is defined the `QueryBuilderUpdater` won't trigger any event, but
 
 The closure takes 3 parameters:
 
-* an object that implements `Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface` from which you can get the query builder and the expression class.
+* an object that implements `Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface` from which you can get the query builder and the expression class.
 * the field name.
 * an array of values containing the field value and some other data.
 
@@ -129,8 +129,8 @@ namespace Project\Bundle\SuperBundle\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class ItemFilterType extends AbstractType
 {
@@ -173,8 +173,8 @@ namespace Project\Bundle\SuperBundle\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class ItemFilterType extends AbstractType
 {
@@ -208,7 +208,7 @@ class ItemFilterType extends AbstractType
 Another way to override the default way to apply the filter is to listen a custom event name.
 This event name is composed of the form type name plus the form type's parent names, so the custom event name is like:
 
-`lexik_form_filter.apply.<query_builder_type>.<parents_field_name>.<field_name>`
+`spiriit_form_filter.apply.<query_builder_type>.<parents_field_name>.<field_name>`
 
 For example, if I use the following form type:
 
@@ -219,7 +219,7 @@ namespace Project\Bundle\SuperBundle\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class ItemFilterType extends AbstractType
 {
@@ -237,7 +237,7 @@ class ItemFilterType extends AbstractType
 
 The custom event name will be:
 
-`lexik_form_filter.apply.orm.item_filter.position`
+`spiriit_form_filter.apply.orm.item_filter.position`
 
 The corresponding listener could looks like:
 
@@ -246,7 +246,7 @@ The corresponding listener could looks like:
 ```php
 namespace MyBundle\EventListener;
 
-use Lexik\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
 
 class ItemPositionFilterConditionListener
 {
@@ -274,7 +274,7 @@ class ItemPositionFilterConditionListener
 ```php
 namespace MyBundle\EventListener;
 
-use Lexik\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
 
 class ItemPositionFilterConditionListener
 {
@@ -295,11 +295,11 @@ class ItemPositionFilterConditionListener
 
 ```xml
 <service id="my_bundle.listener.get_item_position_filter" class="MyBundle\EventListener\ItemPositionFilterConditionListener">
-    <tag name="kernel.event_listener" event="lexik_form_filter.apply.orm.item_filter.position" method="onGetFilterCondition" />
+    <tag name="kernel.event_listener" event="spiriit_form_filter.apply.orm.item_filter.position" method="onGetFilterCondition" />
 </service>
 ```
 
-Note that before triggering the default event name, the `lexik_form_filter.query_builder_updater` service checks if this custom event has some listeners, in which case this event will be triggered instead of the default one.
+Note that before triggering the default event name, the `spiriit_form_filter.query_builder_updater` service checks if this custom event has some listeners, in which case this event will be triggered instead of the default one.
 
 #### C. Disable filtering for one field
 
@@ -313,7 +313,7 @@ namespace Project\Bundle\SuperBundle\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class ItemFilterType extends AbstractType
 {
@@ -353,7 +353,7 @@ namespace Project\Bundle\SuperBundle\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 /**
  * Embed filter type.
@@ -387,8 +387,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class ItemFilterType extends AbstractType
 {
@@ -402,7 +402,7 @@ class ItemFilterType extends AbstractType
             'add_shared' => function (FilterBuilderExecuterInterface $qbe)  {
                 $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
                     // add the join clause to the doctrine query builder
-                    // the where clause for the label and color fields will be added automatically with the right alias later by the Lexik\Filter\QueryBuilderUpdater
+                    // the where clause for the label and color fields will be added automatically with the right alias later by the Spiriit\Filter\QueryBuilderUpdater
                     $filterBuilder->leftJoin($alias . '.options', $joinAlias);
                 };
 
@@ -430,8 +430,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Doctrine\ODM\MongoDB\Query\Expr;
 use Doctrine\ODM\MongoDB\Query\Builder;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class ItemFilterType extends AbstractType
 {
@@ -476,7 +476,7 @@ namespace Project\Bundle\SuperBundle\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class ItemFilterType extends AbstractType
 {
@@ -505,7 +505,7 @@ namespace Project\Bundle\SuperBundle\Filter;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 
-use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -534,7 +534,7 @@ class OptionsFilterType extends AbstractType
 #### C. Use existing join alias defined on the query builder (ORM).
 
 So as explained above you can add some joins dynamically.
-But in case you've already set some joins on the query builder and you want to use them, you can use the `setParts()` method from the `lexik_form_filter.query_builder_updater` service.
+But in case you've already set some joins on the query builder and you want to use them, you can use the `setParts()` method from the `spiriit_form_filter.query_builder_updater` service.
 This method allow you to pre-set aliases to use for each relation (join).
 
 ```php
@@ -551,7 +551,7 @@ $queryBuilder
     ->leftJoin('e.user', 'u')
     ->innerJoin('u.addresses', 'a');
 
-$qbUpdater = $container->get('lexik_form_filter.query_builder_updater');
+$qbUpdater = $container->get('spiriit_form_filter.query_builder_updater');
 
 // set the joins
 $qbUpdater->setParts(array(
@@ -589,15 +589,15 @@ class UserFilterType extends AbstractType
 }
 ```
 Then in the `AddressFilterType` we will have to implement the `EmbeddedFilterTypeInterface`.
-This interface does not define any methods, it's just used by the `lexik_form_filter.query_builder_updater` service to differentiate it from an embedded type with relations.
+This interface does not define any methods, it's just used by the `spiriit_form_filter.query_builder_updater` service to differentiate it from an embedded type with relations.
 
 ```php
 namespace Project\Bundle\SuperBundle\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\EmbeddedFilterTypeInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\EmbeddedFilterTypeInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class AddressFilterType extends AbstractType implements EmbeddedFilterTypeInterface
 {
@@ -616,7 +616,7 @@ v. Create your own filter type
 Let's see that through a simple example, we suppose I want to create a `LocaleFilterType` class to filter fields which contain a locale as value.
 
 A filter type is basicaly a standard form type and Symfony provide a LocaleType that display a combox of locales.
-So we can start by creating a form type, with the `locale` type as parent. We will also define a default value for the `data_extraction_method`, this options will define how the `lexik_form_filter.query_builder_updater` service will get infos from the form before the filter is applied.
+So we can start by creating a form type, with the `locale` type as parent. We will also define a default value for the `data_extraction_method`, this options will define how the `spiriit_form_filter.query_builder_updater` service will get infos from the form before the filter is applied.
 
 So the `LocaleFilterType` class would look like:
 
@@ -674,7 +674,7 @@ Now we can use the `LocaleFilterType` type, but no filter will be applied. To ap
 namespace Super\Namespace\Listener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Lexik\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
 
 class FilterSubscriber implements EventSubscriberInterface
 {
@@ -684,11 +684,11 @@ class FilterSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            // if a Doctrine\ORM\QueryBuilder is passed to the lexik_form_filter.query_builder_updater service
-            'lexik_form_filter.apply.orm.filter_locale' => array('filterLocale'),
+            // if a Doctrine\ORM\QueryBuilder is passed to the spiriit_form_filter.query_builder_updater service
+            'spiriit_form_filter.apply.orm.filter_locale' => array('filterLocale'),
 
-            // if a Doctrine\DBAL\Query\QueryBuilder is passed to the lexik_form_filter.query_builder_updater service
-            'lexik_form_filter.apply.dbal.filter_locale' => array('filterLocale'),
+            // if a Doctrine\DBAL\Query\QueryBuilder is passed to the spiriit_form_filter.query_builder_updater service
+            'spiriit_form_filter.apply.dbal.filter_locale' => array('filterLocale'),
         );
     }
 
@@ -717,14 +717,14 @@ class FilterSubscriber implements EventSubscriberInterface
 Don't forget to defined the subscriber as a service.
 
 ```xml
-<service id="lexik_form_filter.doctrine_subscriber" class="Super\Namespace\Listener\FilterSubscriber">
+<service id="spiriit_form_filter.doctrine_subscriber" class="Super\Namespace\Listener\FilterSubscriber">
     <tag name="kernel.event_subscriber" />
 </service>
 ```
 
-Now the `lexik_form_filter.query_builder_updater` service is able to add filter condition for a locale field.
+Now the `spiriit_form_filter.query_builder_updater` service is able to add filter condition for a locale field.
 
-__Tip__: As you can see the `LocaleFilterType` class is very simple, we use the `default` data extraction method and we don't add any additional field to the form builder, we only use the parent form. In this case we could only create the listener and listen to `lexik_form_filter.apply.xxx.locale` instead of `lexik_form_filter.apply.xxx.filter_locale` and use the provided `locale` type:
+__Tip__: As you can see the `LocaleFilterType` class is very simple, we use the `default` data extraction method and we don't add any additional field to the form builder, we only use the parent form. In this case we could only create the listener and listen to `spiriit_form_filter.apply.xxx.locale` instead of `spiriit_form_filter.apply.xxx.filter_locale` and use the provided `locale` type:
 
 ```php
 [...]
@@ -736,8 +736,8 @@ class FilterSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'lexik_form_filter.apply.orm.locale' => array('filterLocale'),
-            'lexik_form_filter.apply.dbal.locale' => array('filterLocale'),
+            'spiriit_form_filter.apply.orm.locale' => array('filterLocale'),
+            'spiriit_form_filter.apply.dbal.locale' => array('filterLocale'),
         );
     }
     [...]
@@ -770,7 +770,7 @@ $filterForm = $this->createForm(new OrderFilterType());
 $filterForm->handleRequest($request);
 
 if ($filterForm->isValid()) {
-	$filterBuilder = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+	$filterBuilder = $this->get('spiriit_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
 }
 ```
 Now the Symfony `requestHandler` will take over and won't `addFilterConditions` to the builder in case the form isn't valid.

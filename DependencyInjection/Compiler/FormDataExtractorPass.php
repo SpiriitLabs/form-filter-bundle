@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\DependencyInjection\Compiler;
+namespace Spiriit\Bundle\FormFilterBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,10 +18,10 @@ class FormDataExtractorPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container): void
     {
-        if ($container->hasDefinition('lexik_form_filter.form_data_extractor')) {
-            $definition = $container->getDefinition('lexik_form_filter.form_data_extractor');
+        if ($container->hasDefinition('spiriit_form_filter.form_data_extractor')) {
+            $definition = $container->getDefinition('spiriit_form_filter.form_data_extractor');
 
-            foreach ($container->findTaggedServiceIds('lexik_form_filter.data_extraction_method') as $id => $attributes) {
+            foreach ($container->findTaggedServiceIds('spiriit_form_filter.data_extraction_method') as $id => $attributes) {
                 $definition->addMethodCall('addMethod', [new Reference($id)]);
             }
         }

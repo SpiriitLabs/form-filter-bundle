@@ -1,19 +1,19 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter;
+namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
-use Lexik\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
-use Lexik\Bundle\FormFilterBundle\Event\FilterEvents;
-use Lexik\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
-use Lexik\Bundle\FormFilterBundle\Event\PrepareEvent;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionNodeInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\DataExtractor\FormDataExtractorInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\EmbeddedFilterTypeInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Event\FilterEvents;
+use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Event\PrepareEvent;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilder;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionNodeInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\FormDataExtractorInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\EmbeddedFilterTypeInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
@@ -203,9 +203,9 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
             $condition = call_user_func($callable, $filterQuery, $field, $values);
         } else {
             // trigger a specific or a global event name
-            $eventName = sprintf('lexik_form_filter.apply.%s.%s', $filterQuery->getEventPartName(), $completeName);
+            $eventName = sprintf('spiriit_form_filter.apply.%s.%s', $filterQuery->getEventPartName(), $completeName);
             if (!$this->dispatcher->hasListeners($eventName)) {
-                $eventName = sprintf('lexik_form_filter.apply.%s.%s', $filterQuery->getEventPartName(), is_string($callable) ? $callable : $formType->getBlockPrefix());
+                $eventName = sprintf('spiriit_form_filter.apply.%s.%s', $filterQuery->getEventPartName(), is_string($callable) ? $callable : $formType->getBlockPrefix());
             }
 
             $event = new GetFilterConditionEvent($filterQuery, $field, $values);

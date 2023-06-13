@@ -1,11 +1,11 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Event\Listener;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Event\Listener;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Lexik\Bundle\FormFilterBundle\Event\Listener\PrepareListener;
+use Spiriit\Bundle\FormFilterBundle\Event\Listener\PrepareListener;
 use PHPUnit\Framework\TestCase;
 
 class PrepareListenerTest extends TestCase

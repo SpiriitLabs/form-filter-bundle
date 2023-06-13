@@ -1,12 +1,12 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Event\Subscriber;
+namespace Spiriit\Bundle\FormFilterBundle\Event\Subscriber;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
-use Lexik\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
+use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
 
 /**
  * Provide Doctrine ORM and DBAL filters.

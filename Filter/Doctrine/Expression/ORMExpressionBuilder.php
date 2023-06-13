@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Doctrine\Expression;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression;
 
 use Doctrine\ORM\Query\Expr;
 

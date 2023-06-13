@@ -1,10 +1,9 @@
-LexikFormFilterBundle
+SpiriitFormFilterBundle
 =====================
 
 This Symfony bundle aims to provide classes to build some form types dedicated to filter an entity.
 Once you created your form type you will be able to update a doctrine query builder conditions from a form type.
 
-[![Build Status](https://travis-ci.org/lexik/LexikFormFilterBundle.png?branch=master)](https://travis-ci.org/lexik/LexikFormFilterBundle)
 [![Latest Stable Version](https://poser.pugx.org/lexik/form-filter-bundle/v/stable.svg)](https://packagist.org/packages/lexik/form-filter-bundle)
 [![CI Tests](https://github.com/lexik/LexikFormFilterBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/lexik/LexikFormFilterBundle/actions/workflows/ci.yml)
 
@@ -45,7 +44,7 @@ For installation and how to use the bundle refer to [Resources/doc/index.md](Res
 Community Support
 -----------------
 
-Please consider [opening a question on StackOverflow](http://stackoverflow.com/questions/ask) using the [`lexikformfilterbundle` tag](http://stackoverflow.com/questions/tagged/lexikformfilterbundle),  it is the official support platform for this bundle.
+Please consider [opening a question on StackOverflow](http://stackoverflow.com/questions/ask) using the [`spiriitformfilterbundle` tag](http://stackoverflow.com/questions/tagged/spiriitformfilterbundle),  it is the official support platform for this bundle.
   
 Github Issues are dedicated to bug reports and feature requests.
 
@@ -57,8 +56,8 @@ Please use last tag v5.*
 Credits
 -------
 
-* Lexik <dev@spiriit.fr>
-* [All contributors](https://github.com/lexik/LexikFormFilterBundle/graphs/contributors)
+* Spiriit <dev@spiriit.com>
+* [All contributors](https://github.com/SpiriitLabs/form-filter-bundle/graphs/contributors)
 
 License
 -------

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Condition;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Condition;
 
 /**
  * Used to build a condition nodes hierarchy to defined condition pattern.

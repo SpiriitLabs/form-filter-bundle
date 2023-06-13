@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Doctrine;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder as DBALQueryBuilder;

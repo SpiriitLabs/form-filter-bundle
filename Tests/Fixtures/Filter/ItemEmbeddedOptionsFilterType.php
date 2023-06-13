@@ -1,13 +1,13 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter;
 
 use Doctrine\ORM\Query\Expr as ORMExpr;
 use Doctrine\ORM\QueryBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

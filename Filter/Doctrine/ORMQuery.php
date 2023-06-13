@@ -1,13 +1,13 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Doctrine;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine;
 
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\Condition;
-use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\Expression\ExpressionBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\Expression\ORMExpressionBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\Condition;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression\ExpressionBuilder;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression\ORMExpressionBuilder;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 /**
  * @author Jeremy Barthe <j.barthe@lexik.fr>

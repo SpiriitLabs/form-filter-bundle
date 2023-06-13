@@ -6,3 +6,4 @@ composer.lock
 bin
 .idea
 nbproject
+.phpunit.result.cache

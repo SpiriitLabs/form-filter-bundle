@@ -5,40 +5,40 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="lexik_form_filter.query_builder_updater.class">Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater</parameter>
-        <parameter key="lexik_form_filter.form_data_extractor.class">Lexik\Bundle\FormFilterBundle\Filter\DataExtractor\FormDataExtractor</parameter>
-        <parameter key="lexik_form_filter.data_extraction_method.default.class">Lexik\Bundle\FormFilterBundle\Filter\DataExtractor\Method\DefaultExtractionMethod</parameter>
-        <parameter key="lexik_form_filter.data_extraction_method.text.class">Lexik\Bundle\FormFilterBundle\Filter\DataExtractor\Method\TextExtractionMethod</parameter>
-        <parameter key="lexik_form_filter.data_extraction_method.key_values.class">Lexik\Bundle\FormFilterBundle\Filter\DataExtractor\Method\ValueKeysExtractionMethod</parameter>
-        <parameter key="lexik_form_filter.filter_prepare.class">Lexik\Bundle\FormFilterBundle\Event\Listener\PrepareListener</parameter>
+        <parameter key="spiriit_form_filter.query_builder_updater.class">Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater</parameter>
+        <parameter key="spiriit_form_filter.form_data_extractor.class">Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\FormDataExtractor</parameter>
+        <parameter key="spiriit_form_filter.data_extraction_method.default.class">Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\DefaultExtractionMethod</parameter>
+        <parameter key="spiriit_form_filter.data_extraction_method.text.class">Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\TextExtractionMethod</parameter>
+        <parameter key="spiriit_form_filter.data_extraction_method.key_values.class">Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\ValueKeysExtractionMethod</parameter>
+        <parameter key="spiriit_form_filter.filter_prepare.class">Spiriit\Bundle\FormFilterBundle\Event\Listener\PrepareListener</parameter>
     </parameters>
 
     <services>
         <!-- query builder updater and aliases for autowiring-->
-        <service id="Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater" alias="lexik_form_filter.query_builder_updater" public="false"/>
-        <service id="Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface" alias="lexik_form_filter.query_builder_updater" public="false"/>
-        <service id="lexik_form_filter.query_builder_updater" class="%lexik_form_filter.query_builder_updater.class%" public="true">
-            <argument type="service" id="lexik_form_filter.form_data_extractor" />
+        <service id="Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater" alias="spiriit_form_filter.query_builder_updater" public="false"/>
+        <service id="Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface" alias="spiriit_form_filter.query_builder_updater" public="false"/>
+        <service id="spiriit_form_filter.query_builder_updater" class="%spiriit_form_filter.query_builder_updater.class%" public="true">
+            <argument type="service" id="spiriit_form_filter.form_data_extractor" />
             <argument type="service" id="event_dispatcher" />
         </service>
 
         <!-- form data extraction -->
-        <service id="lexik_form_filter.form_data_extractor" class="%lexik_form_filter.form_data_extractor.class%" />
+        <service id="spiriit_form_filter.form_data_extractor" class="%spiriit_form_filter.form_data_extractor.class%" />
 
-        <service id="lexik_form_filter.data_extraction_method.default" class="%lexik_form_filter.data_extraction_method.default.class%">
-            <tag name="lexik_form_filter.data_extraction_method" />
+        <service id="spiriit_form_filter.data_extraction_method.default" class="%spiriit_form_filter.data_extraction_method.default.class%">
+            <tag name="spiriit_form_filter.data_extraction_method" />
         </service>
 
-        <service id="lexik_form_filter.data_extraction_method.text" class="%lexik_form_filter.data_extraction_method.text.class%">
-            <tag name="lexik_form_filter.data_extraction_method" />
+        <service id="spiriit_form_filter.data_extraction_method.text" class="%spiriit_form_filter.data_extraction_method.text.class%">
+            <tag name="spiriit_form_filter.data_extraction_method" />
         </service>
 
-        <service id="lexik_form_filter.data_extraction_method.key_values" class="%lexik_form_filter.data_extraction_method.key_values.class%">
-            <tag name="lexik_form_filter.data_extraction_method" />
+        <service id="spiriit_form_filter.data_extraction_method.key_values" class="%spiriit_form_filter.data_extraction_method.key_values.class%">
+            <tag name="spiriit_form_filter.data_extraction_method" />
         </service>
 
         <!-- Prepare listener -->
-        <service id="lexik_form_filter.filter_prepare" class="%lexik_form_filter.filter_prepare.class%" public="true">
+        <service id="spiriit_form_filter.filter_prepare" class="%spiriit_form_filter.filter_prepare.class%" public="true">
             <tag name="kernel.event_listener" event="lexik_filter.prepare" method="onFilterBuilderPrepare" />
         </service>
     </services>

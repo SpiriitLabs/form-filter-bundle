@@ -1,8 +1,8 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\DependencyInjection;
+namespace Spiriit\Bundle\FormFilterBundle\DependencyInjection;
 
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -20,7 +20,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        return (new TreeBuilder('lexik_form_filter'))->getRootNode()
+        return (new TreeBuilder('spiriit_form_filter'))->getRootNode()
             ->children()
                 ->arrayNode('listeners')
                     ->addDefaultsIfNotSet()

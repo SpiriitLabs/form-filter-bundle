@@ -1,17 +1,17 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\FormType;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemCallbackFilterType;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemFilterType;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\RangeFilterType;
-use Lexik\Bundle\FormFilterBundle\Tests\TestCase;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\FormType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemCallbackFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\RangeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\TestCase;
 
 /**
  * Filter query builder tests.

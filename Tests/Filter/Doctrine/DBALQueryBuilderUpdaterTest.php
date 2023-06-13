@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
 
 /**
  * Filter query builder tests.

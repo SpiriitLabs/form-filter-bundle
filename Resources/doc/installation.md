@@ -33,7 +33,7 @@ Register the bundle with your kernel:
     // in AppKernel::registerBundles()
     $bundles = array(
         // ...
-        new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
+        new Spiriit\Bundle\FormFilterBundle\SpiriitFormFilterBundle(),
         // ...
     );
 ```

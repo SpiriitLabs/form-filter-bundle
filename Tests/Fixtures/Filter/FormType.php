@@ -1,9 +1,9 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter;
 
 use Doctrine\ODM\MongoDB\Query\Expr;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

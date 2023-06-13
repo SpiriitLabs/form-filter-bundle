@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Condition;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Condition;
 
 /**
  * Represent a filter condition to ba added on a query builder.

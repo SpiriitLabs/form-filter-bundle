@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Event\Subscriber;
+namespace Spiriit\Bundle\FormFilterBundle\Event\Subscriber;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Connection;
@@ -8,7 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\QueryBuilder;
-use Lexik\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -25,37 +25,37 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
     {
         return [
             // Lexik form filter types
-            'lexik_form_filter.apply.orm.filter_boolean' => ['filterBoolean'],
-            'lexik_form_filter.apply.orm.filter_checkbox' => ['filterCheckbox'],
-            'lexik_form_filter.apply.orm.filter_choice' => ['filterValue'],
-            'lexik_form_filter.apply.orm.filter_date' => ['filterDate'],
-            'lexik_form_filter.apply.orm.filter_date_range' => ['filterDateRange'],
-            'lexik_form_filter.apply.orm.filter_datetime' => ['filterDateTime'],
-            'lexik_form_filter.apply.orm.filter_datetime_range' => ['filterDateTimeRange'],
-            'lexik_form_filter.apply.orm.filter_entity' => ['filterEntity'],
-            'lexik_form_filter.apply.orm.filter_number' => ['filterNumber'],
-            'lexik_form_filter.apply.orm.filter_number_range' => ['filterNumberRange'],
-            'lexik_form_filter.apply.orm.filter_text' => ['filterText'],
+            'spiriit_form_filter.apply.orm.filter_boolean' => ['filterBoolean'],
+            'spiriit_form_filter.apply.orm.filter_checkbox' => ['filterCheckbox'],
+            'spiriit_form_filter.apply.orm.filter_choice' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.filter_date' => ['filterDate'],
+            'spiriit_form_filter.apply.orm.filter_date_range' => ['filterDateRange'],
+            'spiriit_form_filter.apply.orm.filter_datetime' => ['filterDateTime'],
+            'spiriit_form_filter.apply.orm.filter_datetime_range' => ['filterDateTimeRange'],
+            'spiriit_form_filter.apply.orm.filter_entity' => ['filterEntity'],
+            'spiriit_form_filter.apply.orm.filter_number' => ['filterNumber'],
+            'spiriit_form_filter.apply.orm.filter_number_range' => ['filterNumberRange'],
+            'spiriit_form_filter.apply.orm.filter_text' => ['filterText'],
             // Symfony types
-            'lexik_form_filter.apply.orm.text' => ['filterText'],
-            'lexik_form_filter.apply.orm.email' => ['filterValue'],
-            'lexik_form_filter.apply.orm.integer' => ['filterValue'],
-            'lexik_form_filter.apply.orm.money' => ['filterValue'],
-            'lexik_form_filter.apply.orm.number' => ['filterValue'],
-            'lexik_form_filter.apply.orm.percent' => ['filterValue'],
-            'lexik_form_filter.apply.orm.search' => ['filterValue'],
-            'lexik_form_filter.apply.orm.url' => ['filterValue'],
-            'lexik_form_filter.apply.orm.choice' => ['filterValue'],
-            'lexik_form_filter.apply.orm.entity' => ['filterEntity'],
-            'lexik_form_filter.apply.orm.country' => ['filterValue'],
-            'lexik_form_filter.apply.orm.language' => ['filterValue'],
-            'lexik_form_filter.apply.orm.locale' => ['filterValue'],
-            'lexik_form_filter.apply.orm.timezone' => ['filterValue'],
-            'lexik_form_filter.apply.orm.date' => ['filterDate'],
-            'lexik_form_filter.apply.orm.datetime' => ['filterDate'],
-            'lexik_form_filter.apply.orm.birthday' => ['filterDate'],
-            'lexik_form_filter.apply.orm.checkbox' => ['filterValue'],
-            'lexik_form_filter.apply.orm.radio' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.text' => ['filterText'],
+            'spiriit_form_filter.apply.orm.email' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.integer' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.money' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.number' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.percent' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.search' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.url' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.choice' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.entity' => ['filterEntity'],
+            'spiriit_form_filter.apply.orm.country' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.language' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.locale' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.timezone' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.date' => ['filterDate'],
+            'spiriit_form_filter.apply.orm.datetime' => ['filterDate'],
+            'spiriit_form_filter.apply.orm.birthday' => ['filterDate'],
+            'spiriit_form_filter.apply.orm.checkbox' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.radio' => ['filterValue'],
         ];
     }
 

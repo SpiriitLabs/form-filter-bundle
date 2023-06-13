@@ -1,12 +1,12 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Event\Listener;
+namespace Spiriit\Bundle\FormFilterBundle\Event\Listener;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Expr;
-use Lexik\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionNodeInterface;
+use Spiriit\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionNodeInterface;
 
 /**
  * Add filter conditions on a Doctrine MongoDB query builder.

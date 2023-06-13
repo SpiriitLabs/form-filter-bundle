@@ -23,7 +23,7 @@ By default only Doctrine ORM listeners are enabled.
 
 ```yaml
 # app/config/config.yml
-lexik_form_filter:
+spiriit_form_filter:
     listeners:
         doctrine_orm: true
         doctrine_dbal: false
@@ -37,7 +37,7 @@ If you want to avoid that, there is a configuration option:
 
 ```yaml
 # app/config/config.yml
-lexik_form_filter:
+spiriit_form_filter:
     force_case_insensitivity: false
     encoding: ~ # Encoding for case insensitive LIKE comparisons. For example: UTF-8
 ```
@@ -55,7 +55,7 @@ And so if the value is `null` it will override the existing where clause (in cas
 
 ```yaml
 # app/config/config.yml
-lexik_form_filter:
+spiriit_form_filter:
     where_method: ~  # null | and | or
 ```
 
@@ -65,7 +65,7 @@ This option allow you to define the default text pattern the `TextFilterType` wi
 
 ```yaml
 # app/config/config.yml
-lexik_form_filter:
+spiriit_form_filter:
     condition_pattern: text.starts
 ```
 Available values for this option are: `text.contains`, `text.starts`, `text.ends`, `text.equal`.
