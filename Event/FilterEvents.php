@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Event;
+namespace Spiriit\Bundle\FormFilterBundle\Event;
 
 /**
  * Available filter events.

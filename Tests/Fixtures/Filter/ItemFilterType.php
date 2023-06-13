@@ -1,14 +1,14 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter;
 
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\CheckboxFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CheckboxFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

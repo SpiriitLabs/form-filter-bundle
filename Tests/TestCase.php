@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests;
+namespace Spiriit\Bundle\FormFilterBundle\Tests;
 
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
@@ -14,10 +14,10 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Tools\Setup;
-use Lexik\Bundle\FormFilterBundle\DependencyInjection\Compiler\FormDataExtractorPass;
-use Lexik\Bundle\FormFilterBundle\DependencyInjection\LexikFormFilterExtension;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\FilterExtension;
-use Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle;
+use Spiriit\Bundle\FormFilterBundle\DependencyInjection\Compiler\FormDataExtractorPass;
+use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtension;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\FilterExtension;
+use Spiriit\Bundle\FormFilterBundle\SpiriitFormFilterBundle;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -107,7 +107,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $config->setHydratorDir(sys_get_temp_dir());
 
         $config->setProxyNamespace('Proxy');
-        $config->setDefaultDB('lexik_form_filter_bundle_test');
+        $config->setDefaultDB('spiriit_form_filter_bundle_test');
         $config->setHydratorNamespace('Doctrine\ODM\MongoDB\Hydrator');
         $config->setAutoGenerateHydratorClasses(true);
         $config->setDefaultCommitOptions([]);
@@ -122,14 +122,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 'secret' => 'test',
                 'http_method_override' => true,
             ],
-            'lexik_form_filter' => [
+            'spiriit_form_filter' => [
                 'listeners' => [
                     'doctrine_orm' => true, 'doctrine_dbal' => true, 'doctrine_mongodb' => true,
                 ]
             ],
         ]);
 
-        return $container->get('lexik_form_filter.query_builder_updater');
+        return $container->get('spiriit_form_filter.query_builder_updater');
     }
 
     private static function createContainerBuilder(array $configs = [])
@@ -138,7 +138,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             'kernel.bundles' => [
                 'FrameworkBundle' => FrameworkBundle::class,
                 'DoctrineBundle' => DoctrineBundle::class,
-                'LexikFormFilterBundle' => LexikFormFilterBundle::class
+                'LexikFormFilterBundle' => SpiriitFormFilterBundle::class
             ],
             'kernel.bundles_metadata' => [],
             'kernel.cache_dir' => __DIR__,
@@ -154,7 +154,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         ]));
 
         $container->registerExtension(new FrameworkExtension());
-        $container->registerExtension(new LexikFormFilterExtension());
+        $container->registerExtension(new SpiriitFormFilterExtension());
 
         $extension = new DoctrineExtension();
         $container->registerExtension($extension);
@@ -174,7 +174,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         ],
         ], $container);
 
-        $container->setParameter('lexik_form_filter.where_method', null);
+        $container->setParameter('spiriit_form_filter.where_method', null);
 
         foreach ($configs as $extension => $config) {
             $container->loadFromExtension($extension, $config);

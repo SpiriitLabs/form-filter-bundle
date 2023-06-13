@@ -1,19 +1,19 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Query\Builder;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Document\Item;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\FormType;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemCallbackFilterType;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemEmbeddedOptionsFilterType;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemFilterType;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\RangeFilterType;
-use Lexik\Bundle\FormFilterBundle\Tests\TestCase;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Document\Item;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\FormType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemCallbackFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemEmbeddedOptionsFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\RangeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\TestCase;
 
 /**
  * Mongodb query builder tests.

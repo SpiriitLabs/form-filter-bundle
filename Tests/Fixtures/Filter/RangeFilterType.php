@@ -1,11 +1,11 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter;
 
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateRangeFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeRangeFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\NumberRangeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateRangeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeRangeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberRangeFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 

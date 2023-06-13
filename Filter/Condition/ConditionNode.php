@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Condition;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Condition;
 
 /**
  * Define the operator to use for a list of fields.

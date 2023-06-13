@@ -1,10 +1,10 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
+namespace Spiriit\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
 
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item;
-use Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemEmbeddedOptionsFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemEmbeddedOptionsFilterType;
 
 /**
  * Filter query builder tests.
@@ -15,52 +15,52 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
 {
     public function testBuildQuery()
     {
-        parent::createBuildQueryTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i', 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\'', 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\' AND i.position > :p_i_position', 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\' AND i.position > :p_i_position AND i.enabled = :p_i_enabled', 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\' AND i.position > :p_i_position AND i.enabled = :p_i_enabled', 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'%blabla\' AND i.position <= :p_i_position AND i.createdAt = :p_i_createdAt', 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'%blabla\' AND i.position <= :p_i_position AND i.createdAt = :p_i_createdAt']);
+        parent::createBuildQueryTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\'', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\' AND i.position > :p_i_position', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\' AND i.position > :p_i_position AND i.enabled = :p_i_enabled', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\' AND i.position > :p_i_position AND i.enabled = :p_i_enabled', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'%blabla\' AND i.position <= :p_i_position AND i.createdAt = :p_i_createdAt', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'%blabla\' AND i.position <= :p_i_position AND i.createdAt = :p_i_createdAt']);
     }
 
     public function testDisabledFieldQuery()
     {
-        parent::createDisabledFieldTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.position > :p_i_position']);
+        parent::createDisabledFieldTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.position > :p_i_position']);
     }
 
     public function testApplyFilterOption()
     {
-        parent::createApplyFilterOptionTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name <> \'blabla\' AND i.position <> 2']);
+        parent::createApplyFilterOptionTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name <> \'blabla\' AND i.position <> 2']);
     }
 
     public function testNumberRange()
     {
-        parent::createNumberRangeTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.position > :p_i_position_left AND i.position < :p_i_position_right']);
+        parent::createNumberRangeTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.position > :p_i_position_left AND i.position < :p_i_position_right']);
     }
 
     public function testNumberRangeWithSelector()
     {
-        parent::createNumberRangeCompoundTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.position_selector > :p_i_position_selector_left AND i.position_selector <= :p_i_position_selector_right']);
+        parent::createNumberRangeCompoundTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.position_selector > :p_i_position_selector_left AND i.position_selector <= :p_i_position_selector_right']);
     }
 
     public function testNumberRangeDefaultValues()
     {
-        parent::createNumberRangeDefaultValuesTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.default_position >= :p_i_default_position_left AND i.default_position <= :p_i_default_position_right']);
+        parent::createNumberRangeDefaultValuesTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.default_position >= :p_i_default_position_left AND i.default_position <= :p_i_default_position_right']);
     }
 
     public function testDateRange()
     {
-        parent::createDateRangeTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.createdAt <= \'2012-05-22 23:59:59\' AND i.createdAt >= \'2012-05-12 00:00:00\'']);
+        parent::createDateRangeTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.createdAt <= \'2012-05-22 23:59:59\' AND i.createdAt >= \'2012-05-12 00:00:00\'']);
     }
 
     public function testDateRangeWithTimezone()
     {
-        parent::createDateRangeWithTimezoneTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.startAt <= \'2015-10-20 18:59:59\' AND i.startAt >= \'2015-10-19 19:00:00\'', 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.startAt <= \'2015-10-16 18:59:59\' AND i.startAt >= \'2015-09-30 19:00:00\'']);
+        parent::createDateRangeWithTimezoneTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.startAt <= \'2015-10-20 18:59:59\' AND i.startAt >= \'2015-10-19 19:00:00\'', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.startAt <= \'2015-10-16 18:59:59\' AND i.startAt >= \'2015-09-30 19:00:00\'']);
     }
 
     public function testDateTimeRange()
     {
-        parent::createDateTimeRangeTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.updatedAt <= \'2012-06-10 22:12:00\' AND i.updatedAt >= \'2012-05-12 14:55:00\'']);
+        parent::createDateTimeRangeTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.updatedAt <= \'2012-06-10 22:12:00\' AND i.updatedAt >= \'2012-05-12 14:55:00\'']);
     }
 
     public function testFilterStandardType()
     {
-        parent::createFilterStandardTypeTest('getDQL', ['SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'%hey dude%\' AND i.position = 99']);
+        parent::createFilterStandardTypeTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'%hey dude%\' AND i.position = 99']);
     }
 
     public function testEmbedFormFilter()
@@ -72,7 +72,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $doctrineQueryBuilder = $this->createDoctrineQueryBuilder();
         $form->submit(['name' => 'dude', 'options' => [['label' => 'color', 'rank' => 3]]]);
 
-        $expectedDql = 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
+        $expectedDql = 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
         $expectedDql .= ' LEFT JOIN i.options opt WHERE i.name LIKE \'dude\' AND (opt.label LIKE \'color\' AND opt.rank = :p_opt_rank)';
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
 
@@ -87,7 +87,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $doctrineQueryBuilder->leftJoin('i.options', 'o');
         $form->submit(['name' => 'dude', 'options' => [['label' => 'size', 'rank' => 5]]]);
 
-        $expectedDql = 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
+        $expectedDql = 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
         $expectedDql .= ' LEFT JOIN i.options o WHERE i.name LIKE \'dude\' AND (o.label LIKE \'size\' AND o.rank = :p_o_rank)';
 
         $filterQueryBuilder->setParts(['i.options' => 'o']);
@@ -116,7 +116,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $doctrineQueryBuilder = $this->createDoctrineQueryBuilder();
         $form->submit(['name' => 'dude', 'options' => [['label' => 'color', 'rank' => 6]]]);
 
-        $expectedDql = 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
+        $expectedDql = 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
         $expectedDql .= ' LEFT JOIN i.options opt WHERE opt.label LIKE \'color\' OR (opt.rank = :p_opt_rank AND i.name LIKE \'dude\')';
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
 
@@ -143,7 +143,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $doctrineQueryBuilder = $this->createDoctrineQueryBuilder();
         $form->submit(['name' => 'dude', 'position' => 1, 'options' => [['label' => 'color', 'rank' => 6]]]);
 
-        $expectedDql = 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
+        $expectedDql = 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
         $expectedDql .= ' LEFT JOIN i.options opt WHERE (i.name LIKE \'dude\' OR opt.label LIKE \'color\') AND (opt.rank = :p_opt_rank OR i.position = :p_i_position)';
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
 
@@ -160,7 +160,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $doctrineQueryBuilder = $this->createDoctrineQueryBuilder();
         $form->submit(['name' => 'dude', 'options' => [['label' => 'color', 'rank' => 6]]]);
 
-        $expectedDql = 'SELECT i FROM Lexik\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
+        $expectedDql = 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i';
         $expectedDql .= ' LEFT JOIN i.options opt WHERE i.name LIKE \'dude\' AND (opt.label LIKE \'color\' AND opt.rank = :p_opt_rank)';
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
 

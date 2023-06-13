@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter;
+namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
 /**
  * @author Cédric Girard <c.girard@lexik.fr>

@@ -1,13 +1,13 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Event\Subscriber;
+namespace Spiriit\Bundle\FormFilterBundle\Event\Subscriber;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Expr;
-use Lexik\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
+use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -22,36 +22,36 @@ class DoctrineMongodbSubscriber implements EventSubscriberInterface
     {
         return [
             // Lexik form filter types
-            'lexik_form_filter.apply.mongodb.filter_boolean' => ['filterBoolean'],
-            'lexik_form_filter.apply.mongodb.filter_checkbox' => ['filterCheckbox'],
-            'lexik_form_filter.apply.mongodb.filter_choice' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.filter_date' => ['filterDate'],
-            'lexik_form_filter.apply.mongodb.filter_date_range' => ['filterDateRange'],
-            'lexik_form_filter.apply.mongodb.filter_datetime' => ['filterDateTime'],
-            'lexik_form_filter.apply.mongodb.filter_datetime_range' => ['filterDateTimeRange'],
-            'lexik_form_filter.apply.mongodb.filter_number' => ['filterNumber'],
-            'lexik_form_filter.apply.mongodb.filter_number_range' => ['filterNumberRange'],
-            'lexik_form_filter.apply.mongodb.filter_text' => ['filterText'],
-            'lexik_form_filter.apply.mongodb.filter_document' => ['filterDocument'],
+            'spiriit_form_filter.apply.mongodb.filter_boolean' => ['filterBoolean'],
+            'spiriit_form_filter.apply.mongodb.filter_checkbox' => ['filterCheckbox'],
+            'spiriit_form_filter.apply.mongodb.filter_choice' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.filter_date' => ['filterDate'],
+            'spiriit_form_filter.apply.mongodb.filter_date_range' => ['filterDateRange'],
+            'spiriit_form_filter.apply.mongodb.filter_datetime' => ['filterDateTime'],
+            'spiriit_form_filter.apply.mongodb.filter_datetime_range' => ['filterDateTimeRange'],
+            'spiriit_form_filter.apply.mongodb.filter_number' => ['filterNumber'],
+            'spiriit_form_filter.apply.mongodb.filter_number_range' => ['filterNumberRange'],
+            'spiriit_form_filter.apply.mongodb.filter_text' => ['filterText'],
+            'spiriit_form_filter.apply.mongodb.filter_document' => ['filterDocument'],
             // Symfony types
-            'lexik_form_filter.apply.mongodb.text' => ['filterText'],
-            'lexik_form_filter.apply.mongodb.email' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.integer' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.money' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.number' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.percent' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.search' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.url' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.choice' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.country' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.language' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.locale' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.timezone' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.date' => ['filterDate'],
-            'lexik_form_filter.apply.mongodb.datetime' => ['filterDate'],
-            'lexik_form_filter.apply.mongodb.birthday' => ['filterDate'],
-            'lexik_form_filter.apply.mongodb.checkbox' => ['filterValue'],
-            'lexik_form_filter.apply.mongodb.radio' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.text' => ['filterText'],
+            'spiriit_form_filter.apply.mongodb.email' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.integer' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.money' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.number' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.percent' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.search' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.url' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.choice' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.country' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.language' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.locale' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.timezone' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.date' => ['filterDate'],
+            'spiriit_form_filter.apply.mongodb.datetime' => ['filterDate'],
+            'spiriit_form_filter.apply.mongodb.birthday' => ['filterDate'],
+            'spiriit_form_filter.apply.mongodb.checkbox' => ['filterValue'],
+            'spiriit_form_filter.apply.mongodb.radio' => ['filterValue'],
         ];
     }
 

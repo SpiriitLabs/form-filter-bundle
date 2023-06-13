@@ -1,20 +1,20 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Form;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Form;
 
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\CheckboxFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\ChoiceFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateRangeFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeRangeFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\NumberRangeFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CheckboxFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\ChoiceFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateRangeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeRangeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberRangeFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use Symfony\Component\Form\AbstractExtension;
 
 /**

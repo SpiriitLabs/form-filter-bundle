@@ -1,8 +1,8 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle;
+namespace Spiriit\Bundle\FormFilterBundle;
 
-use Lexik\Bundle\FormFilterBundle\DependencyInjection\Compiler\FormDataExtractorPass;
+use Spiriit\Bundle\FormFilterBundle\DependencyInjection\Compiler\FormDataExtractorPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * @author Cédric Girard <c.girard@lexik.fr>
  */
-class LexikFormFilterBundle extends Bundle
+class SpiriitFormFilterBundle extends Bundle
 {
     /**
      * {@inheritdoc}

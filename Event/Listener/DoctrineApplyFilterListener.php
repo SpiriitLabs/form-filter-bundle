@@ -1,13 +1,13 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Event\Listener;
+namespace Spiriit\Bundle\FormFilterBundle\Event\Listener;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\ORM\Query\Expr\Composite;
-use Lexik\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionNodeInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\DoctrineQueryBuilderAdapter;
+use Spiriit\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionNodeInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\DoctrineQueryBuilderAdapter;
 
 /**
  * Add filter conditions on a Doctrine ORM or DBAL query builder.

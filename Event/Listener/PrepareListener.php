@@ -1,14 +1,14 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Event\Listener;
+namespace Spiriit\Bundle\FormFilterBundle\Event\Listener;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ORM\QueryBuilder;
-use Lexik\Bundle\FormFilterBundle\Event\PrepareEvent;
-use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\DBALQuery;
-use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\MongodbQuery;
-use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
+use Spiriit\Bundle\FormFilterBundle\Event\PrepareEvent;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\DBALQuery;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\MongodbQuery;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 
 /**
  * Prepare listener event

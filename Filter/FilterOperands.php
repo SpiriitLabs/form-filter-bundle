@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter;
+namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
 /**
  * This class aim to regroup constants used in form filter types and in expression classes.

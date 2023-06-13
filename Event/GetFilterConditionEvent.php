@@ -1,10 +1,10 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Event;
+namespace Spiriit\Bundle\FormFilterBundle\Event;
 
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\Condition;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\Condition;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**

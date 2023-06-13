@@ -1,6 +1,6 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter;
+namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
 use Symfony\Component\Form\FormInterface;
 

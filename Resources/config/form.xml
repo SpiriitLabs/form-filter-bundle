@@ -6,76 +6,76 @@
 
     <parameters>
         <!-- Filter Types -->
-        <parameter key="lexik_form_filter.type.filter_text.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_number.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_number_range.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\NumberRangeFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_checkbox.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\CheckboxFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_boolean.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_choice.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\ChoiceFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_date.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_date_range.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateRangeFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_datetime.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_datetime_range.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeRangeFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_collection_adapter.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType</parameter>
-        <parameter key="lexik_form_filter.type.filter_sharedable.class">Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_text.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_number.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_number_range.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberRangeFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_checkbox.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CheckboxFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_boolean.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_choice.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\ChoiceFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_date.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_date_range.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateRangeFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_datetime.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_datetime_range.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeRangeFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_collection_adapter.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_sharedable.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType</parameter>
 
         <!-- Type extension -->
-        <parameter key="lexik_form_filter.type_extension.filter_extension.class">Lexik\Bundle\FormFilterBundle\Filter\Form\FilterTypeExtension</parameter>
+        <parameter key="spiriit_form_filter.type_extension.filter_extension.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\FilterTypeExtension</parameter>
     </parameters>
 
     <services>
         <!-- Filter Types -->
-        <service id="lexik_form_filter.type.filter_text" class="%lexik_form_filter.type.filter_text.class%">
-            <argument>%lexik_form_filter.text.condition_pattern%</argument>
+        <service id="spiriit_form_filter.type.filter_text" class="%spiriit_form_filter.type.filter_text.class%">
+            <argument>%spiriit_form_filter.text.condition_pattern%</argument>
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_number" class="%lexik_form_filter.type.filter_number.class%">
+        <service id="spiriit_form_filter.type.filter_number" class="%spiriit_form_filter.type.filter_number.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_number_range" class="%lexik_form_filter.type.filter_number_range.class%">
+        <service id="spiriit_form_filter.type.filter_number_range" class="%spiriit_form_filter.type.filter_number_range.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_checkbox" class="%lexik_form_filter.type.filter_checkbox.class%">
+        <service id="spiriit_form_filter.type.filter_checkbox" class="%spiriit_form_filter.type.filter_checkbox.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_boolean" class="%lexik_form_filter.type.filter_boolean.class%">
+        <service id="spiriit_form_filter.type.filter_boolean" class="%spiriit_form_filter.type.filter_boolean.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_choice" class="%lexik_form_filter.type.filter_choice.class%">
+        <service id="spiriit_form_filter.type.filter_choice" class="%spiriit_form_filter.type.filter_choice.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_date" class="%lexik_form_filter.type.filter_date.class%">
+        <service id="spiriit_form_filter.type.filter_date" class="%spiriit_form_filter.type.filter_date.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_date_range" class="%lexik_form_filter.type.filter_date_range.class%">
+        <service id="spiriit_form_filter.type.filter_date_range" class="%spiriit_form_filter.type.filter_date_range.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_datetime" class="%lexik_form_filter.type.filter_datetime.class%">
+        <service id="spiriit_form_filter.type.filter_datetime" class="%spiriit_form_filter.type.filter_datetime.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_datetime_range" class="%lexik_form_filter.type.filter_datetime_range.class%">
+        <service id="spiriit_form_filter.type.filter_datetime_range" class="%spiriit_form_filter.type.filter_datetime_range.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_collection_adapter" class="%lexik_form_filter.type.filter_collection_adapter.class%">
+        <service id="spiriit_form_filter.type.filter_collection_adapter" class="%spiriit_form_filter.type.filter_collection_adapter.class%">
             <tag name="form.type" />
         </service>
 
-        <service id="lexik_form_filter.type.filter_sharedable" class="%lexik_form_filter.type.filter_sharedable.class%">
+        <service id="spiriit_form_filter.type.filter_sharedable" class="%spiriit_form_filter.type.filter_sharedable.class%">
             <tag name="form.type" />
         </service>
 
         <!-- Type extension -->
-        <service id="lexik_form_filter.type_extension.filter_extension" class="%lexik_form_filter.type_extension.filter_extension.class%">
+        <service id="spiriit_form_filter.type_extension.filter_extension" class="%spiriit_form_filter.type_extension.filter_extension.class%">
             <tag name="form.type_extension" extended_type="Symfony\Component\Form\Extension\Core\Type\FormType" />
         </service>
     </services>

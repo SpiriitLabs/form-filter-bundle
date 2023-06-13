@@ -1,8 +1,8 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Query;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Query;
 
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
 
 /**
  * @author Jeremy Barthe <j.barthe@lexik.fr>

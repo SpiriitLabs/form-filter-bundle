@@ -1,12 +1,12 @@
 <?php
 
-namespace Lexik\Bundle\FormFilterBundle\Filter\Doctrine;
+namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Condition\Condition;
-use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\Expression\DBALExpressionBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Condition\Condition;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression\DBALExpressionBuilder;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 /**
  * @author Jeremy Barthe <j.barthe@lexik.fr>
@@ -103,7 +103,7 @@ class DBALQuery implements QueryInterface
     /**
      * Get expr class.
      *
-     * @return \Lexik\Bundle\FormFilterBundle\Filter\Doctrine\Expression\ExpressionBuilder
+     * @return \Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression\ExpressionBuilder
      */
     public function getExpressionBuilder()
     {
