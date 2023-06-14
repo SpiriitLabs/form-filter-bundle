@@ -1,11 +1,16 @@
 SpiriitFormFilterBundle
 =====================
 
+The LexikFormFilterBundle, a historical bundle, is now renamed to SpiriitFormFilterBundle. 
+The code remains unchanged; only the name and organization have changed on GitHub.
+
+------------------------------------------------------------------------------------------------
+
 This Symfony bundle aims to provide classes to build some form types dedicated to filter an entity.
 Once you created your form type you will be able to update a doctrine query builder conditions from a form type.
 
-[![Latest Stable Version](https://poser.pugx.org/lexik/form-filter-bundle/v/stable.svg)](https://packagist.org/packages/lexik/form-filter-bundle)
-[![CI Tests](https://github.com/lexik/LexikFormFilterBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/lexik/LexikFormFilterBundle/actions/workflows/ci.yml)
+[![Latest Stable Version](https://poser.pugx.org/spiriitlabs/form-filter-bundle/v/stable.svg)](https://packagist.org/packages/spiriitlabs/form-filter-bundle)
+[![CI Tests](https://github.com/SpiriitLabs/form-filter-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/SpiriitLabs/form-filter-bundle/actions/workflows/ci.yml)
 
 The idea is:
 
