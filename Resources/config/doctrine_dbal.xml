@@ -16,7 +16,7 @@
 
         <service id="spiriit_form_filter.apply_filter.doctrine_dbal" class="%spiriit_form_filter.apply_filter.doctrine_dbal.class%">
             <argument>%spiriit_form_filter.where_method%</argument>
-            <tag name="kernel.event_listener" event="lexik_filter.apply_filters.dbal" method="onApplyFilterCondition" />
+            <tag name="kernel.event_listener" event="spiriit_filter.apply_filters.dbal" method="onApplyFilterCondition" />
         </service>
     </services>
 </container>

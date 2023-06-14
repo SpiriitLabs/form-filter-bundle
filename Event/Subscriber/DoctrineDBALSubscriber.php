@@ -17,7 +17,7 @@ class DoctrineDBALSubscriber extends AbstractDoctrineSubscriber implements Event
     public static function getSubscribedEvents(): array
     {
         return [
-            // Lexik form filter types
+            // spiriit form filter types
             'spiriit_form_filter.apply.dbal.filter_boolean' => ['filterBoolean'],
             'spiriit_form_filter.apply.dbal.filter_checkbox' => ['filterCheckbox'],
             'spiriit_form_filter.apply.dbal.filter_choice' => ['filterValue'],

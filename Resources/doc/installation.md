@@ -6,7 +6,7 @@ Add the bundle to your `composer.json` file:
 ```javascript
 require: {
     // ...
-    "lexik/form-filter-bundle": "~5.0" // check packagist.org for more tags
+    "spiriitlabs/form-filter-bundle": "~8.0" // check packagist.org for more tags
     // ...
 }
 ```
@@ -14,9 +14,9 @@ require: {
 Or install directly through composer with:
 
 ```
-composer.phar require lexik/form-filter-bundle ~5.0
+composer.phar require spiriitlabs/form-filter-bundle ~8.0
 # For latest version
-composer.phar require lexik/form-filter-bundle dev-master
+composer.phar require spiriitlabs/form-filter-bundle dev-master
 ```
 
 Then run a composer update:
@@ -24,7 +24,7 @@ Then run a composer update:
 ```shell
 composer.phar update
 # OR
-composer.phar update lexik/form-filter-bundle # to only update the bundle
+composer.phar update spiriitlabs/form-filter-bundle # to only update the bundle
 ```
 
 Register the bundle with your kernel:

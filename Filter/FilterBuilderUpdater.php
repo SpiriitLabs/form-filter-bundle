@@ -103,7 +103,7 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
         $this->addFilters($form, $event->getFilterQuery(), $alias);
 
         // walk condition nodes to add condition on the query builder instance
-        $name = sprintf('lexik_filter.apply_filters.%s', $event->getFilterQuery()->getEventPartName());
+        $name = sprintf('spiriit_filter.apply_filters.%s', $event->getFilterQuery()->getEventPartName());
 
         $this->dispatcher->dispatch(new ApplyFilterConditionEvent($queryBuilder, $this->conditionBuilder), $name);
 

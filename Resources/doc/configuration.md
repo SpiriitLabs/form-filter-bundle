@@ -10,7 +10,7 @@ You only need to add the following lines in your `app/config/config.yml`. This f
 # app/config/config.yml
 twig:
     form_themes:
-        - LexikFormFilterBundle:Form:form_div_layout.html.twig
+        - SpiriitFormFilterBundle:Form:form_div_layout.html.twig
 ```
 
 Bundle's options

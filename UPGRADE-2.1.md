@@ -3,7 +3,7 @@ UPGRADE FROM 2.0 to 2.1
 
 #### Remove support of old way to apply filter condition
 
-The query builder updater service does not dispatch anymore the `lexik_filter.get` event.
+The query builder updater service does not dispatch anymore the `spiriit_filter.get` event.
 So now you have to use the `apply_filer` option from the form type or listen a specific event, see the `Filter customization` section in the documentation.
 
 #### Update way to embed filter inside another one
@@ -40,7 +40,7 @@ class ItemFilterType extends AbstractType
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\QueryBuilder;
-use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\FilterTypeSharedableInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\FilterTypeSharedableInterface;
 
 class OptionsFilterType extends AbstractType implements FilterTypeSharedableInterface
 {
@@ -62,7 +62,7 @@ class OptionsFilterType extends AbstractType implements FilterTypeSharedableInte
     {
         $closure = function(QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
             // add the join clause to the doctrine query builder
-            // the where clause for the label and color fields will be added automatically with the right alias later by the Lexik\Filter\QueryBuilderUpdater
+            // the where clause for the label and color fields will be added automatically with the right alias later by the Spiriit\Filter\QueryBuilderUpdater
             $filterBuilder->leftJoin($alias . '.options', 'opt');
         }
 
@@ -96,7 +96,7 @@ class ItemFilterType extends AbstractType
             'add_shared => funciton (FilterBuilderExecuterInterface $qbe)  {
                 $closure = function(QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
                     // add the join clause to the doctrine query builder
-                    // the where clause for the label and color fields will be added automatically with the right alias later by the Lexik\Filter\QueryBuilderUpdater
+                    // the where clause for the label and color fields will be added automatically with the right alias later by the Spiriit\Filter\QueryBuilderUpdater
                     $filterBuilder->leftJoin($alias . '.options', $joinAlias');
                 }
 

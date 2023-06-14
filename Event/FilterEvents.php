@@ -9,5 +9,5 @@ namespace Spiriit\Bundle\FormFilterBundle\Event;
  */
 class FilterEvents
 {
-    public const PREPARE = 'lexik_filter.prepare';
+    public const PREPARE = 'spiriit_filter.prepare';
 }

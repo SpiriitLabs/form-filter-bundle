@@ -39,7 +39,7 @@
 
         <!-- Prepare listener -->
         <service id="spiriit_form_filter.filter_prepare" class="%spiriit_form_filter.filter_prepare.class%" public="true">
-            <tag name="kernel.event_listener" event="lexik_filter.prepare" method="onFilterBuilderPrepare" />
+            <tag name="kernel.event_listener" event="spiriit_filter.prepare" method="onFilterBuilderPrepare" />
         </service>
     </services>
 </container>
