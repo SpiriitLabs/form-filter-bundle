@@ -18,7 +18,7 @@
 
         <service id="spiriit_form_filter.apply_filter.doctrine_orm" class="%spiriit_form_filter.apply_filter.doctrine_orm.class%">
             <argument>%spiriit_form_filter.where_method%</argument>
-            <tag name="kernel.event_listener" event="lexik_filter.apply_filters.orm" method="onApplyFilterCondition" />
+            <tag name="kernel.event_listener" event="spiriit_filter.apply_filters.orm" method="onApplyFilterCondition" />
         </service>
 
         <!-- Specific ORM types -->

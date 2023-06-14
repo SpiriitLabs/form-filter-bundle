@@ -3,7 +3,7 @@ UPGRADE FROM 1.x to 2.0
 
 #### All XxxFilter classes has been removed
 
-All filter classes from namespace `Lexik\Bundle\FormFilterBundle\Filter\ORM\Filters` has been removed.
+All filter classes from namespace `Spiriit\Bundle\FormFilterBundle\Filter\ORM\Filters` has been removed.
 Filter condition are now applied by some listeners.
 
 #### AbstractFilterType has been removed
@@ -28,7 +28,7 @@ public function setDefaultOptions(OptionsResolverInterface $resolver)
             // ...
         ))
         ->setAllowedValues(array(
-            'transformer_id'    => array('spiriit_form_filter.transformer.text','lexik_form_filter.transformer.default'),
+            'transformer_id'    => array('spiriit_form_filter.transformer.text','spiriit_form_filter.transformer.default'),
         ))
     ;
 }
@@ -69,7 +69,7 @@ After:
 You can still get the Expr object from the QueryInterface object.
 
 ```php
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 //...
 

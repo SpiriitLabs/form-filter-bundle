@@ -41,14 +41,14 @@ class NumberFilterType extends AbstractType
     {
         $defaults = ['required' => false, 'condition_operator' => FilterOperands::OPERATOR_EQUAL, 'compound' => function (Options $options) {
             return $options['condition_operator'] == FilterOperands::OPERAND_SELECTOR;
-        }, 'number_options' => ['required' => false], 'choice_options' => ['choices' => FilterOperands::getNumberOperandsChoices(), 'required' => false, 'translation_domain' => 'LexikFormFilterBundle'], 'data_extraction_method' => function (Options $options) {
+        }, 'number_options' => ['required' => false], 'choice_options' => ['choices' => FilterOperands::getNumberOperandsChoices(), 'required' => false, 'translation_domain' => 'SpiriitFormFilterBundle'], 'data_extraction_method' => function (Options $options) {
             return $options['compound'] ? 'text' : 'default';
         }];
-                
+
         if (version_compare(Kernel::VERSION, '3.1.0') < 0) {
             $defaults['choice_options']['choices_as_values'] = true; // must be removed for use in Symfony 3.1, needed for 2.8
         }
-        
+
         $resolver
             ->setDefaults($defaults)
             ->setAllowedValues('data_extraction_method', ['text', 'default'])

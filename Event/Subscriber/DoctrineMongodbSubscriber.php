@@ -21,7 +21,7 @@ class DoctrineMongodbSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            // Lexik form filter types
+            // spiriit form filter types
             'spiriit_form_filter.apply.mongodb.filter_boolean' => ['filterBoolean'],
             'spiriit_form_filter.apply.mongodb.filter_checkbox' => ['filterCheckbox'],
             'spiriit_form_filter.apply.mongodb.filter_choice' => ['filterValue'],

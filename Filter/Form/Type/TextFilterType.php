@@ -51,14 +51,14 @@ class TextFilterType extends AbstractType
     {
         $defaults = ['required' => false, 'condition_pattern' => $this->conditionPattern, 'compound' => function (Options $options) {
             return $options['condition_pattern'] == FilterOperands::OPERAND_SELECTOR;
-        }, 'text_options' => ['required' => false, 'trim' => true], 'choice_options' => ['choices' => FilterOperands::getStringOperandsChoices(), 'required' => false, 'translation_domain' => 'LexikFormFilterBundle'], 'data_extraction_method' => function (Options $options) {
+        }, 'text_options' => ['required' => false, 'trim' => true], 'choice_options' => ['choices' => FilterOperands::getStringOperandsChoices(), 'required' => false, 'translation_domain' => 'SpiriitFormFilterBundle'], 'data_extraction_method' => function (Options $options) {
             return $options['compound'] ? 'text' : 'default';
         }];
-                
+
         if (version_compare(Kernel::VERSION, '3.1.0') < 0) {
             $defaults['choice_options']['choices_as_values'] = true; // must be removed for use in Symfony 3.1, needed for 2.8
         }
-        
+
         $resolver
             ->setDefaults($defaults)
             ->setAllowedValues('data_extraction_method', ['text', 'default'])
