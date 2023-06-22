@@ -14,3 +14,4 @@
 6. [The FilterTypeExtension](filtertypeextension.md)
 7. [Working with other bundles](working-with-other-bundles.md)
     1. [KNP Paginator example](working-with-other-bundles.md#i-knp-paginator-example)
+8. [Advanced usage with PagerFanta](advanced-usage-with-pagerfanta-bundle.md)

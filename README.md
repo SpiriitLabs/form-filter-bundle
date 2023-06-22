@@ -18,7 +18,10 @@ The idea is:
 2. Add form fields by using provided filter types (e.g. use TextFilterType::class instead of a TextType::class type) (*).
 3. Then call a service to build the query from the form instance and execute your query to get your result :).
 
-(*): In fact you can use any type, but if you want to apply a filter by not using a XxxFilterType::class type you will have to create a custom listener class to apply the filter for this type.
+(*): In fact you can use any type, but if you want to apply a filter by not using a XxxFilterType::class type you will 
+have to create a custom listener class to apply the filter for this type.
+
+
 
 Documentation
 =============
