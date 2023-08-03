@@ -16,12 +16,14 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\DocParser;
 use Doctrine\Common\Cache\Psr6\DoctrineProvider;
+use Doctrine\DBAL\DriverManager;
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
+use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Setup;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\Compiler\FormDataExtractorPass;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtension;
@@ -79,28 +81,29 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function getSqliteEntityManager()
     {
         $arrayAdapter = new ArrayAdapter();
-        $cache = DoctrineProvider::wrap(new ArrayAdapter());
+        $cache = new ArrayAdapter();
 
         $reader = new AnnotationReader(new DocParser());
 
         $mappingDriver = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($reader, [__DIR__ . '/Fixtures/Entity']);
 
-        $config = Setup::createAnnotationMetadataConfiguration([]);
+        $config = ORMSetup::createAnnotationMetadataConfiguration([]);
 
         $config->setMetadataDriverImpl($mappingDriver);
         $config->setMetadataCache($arrayAdapter);
-        $config->setQueryCacheImpl($cache);
+        $config->setQueryCache($cache);
         $config->setProxyDir(sys_get_temp_dir());
         $config->setProxyNamespace('Proxy');
         $config->setAutoGenerateProxyClasses(true);
         $config->setClassMetadataFactoryName(ClassMetadataFactory::class);
         $config->setDefaultRepositoryClassName(EntityRepository::class);
 
-        $conn = ['driver' => 'pdo_sqlite', 'memory' => true];
+        $connection = DriverManager::getConnection([
+           'driver' => 'pdo_sqlite',
+           'memory' => true
+       ], $config);
 
-        $em = EntityManager::create($conn, $config);
-
-        return $em;
+        return new EntityManager($connection, $config);
     }
 
     public function getMongodbDocumentManager(): DocumentManager
