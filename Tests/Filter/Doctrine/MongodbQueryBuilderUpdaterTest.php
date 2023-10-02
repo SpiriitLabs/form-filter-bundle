@@ -46,10 +46,10 @@ class MongodbQueryBuilderUpdaterTest extends TestCase
         $year = '2019';
 
         $bson = ['{}', '{"$and":[{"name":"blabla"}]}', '{"$and":[{"name":"blabla"},{"position":{"$gt":2}}]}', '{"$and":[{"name":"blabla"},{"position":{"$gt":2}},{"enabled":true}]}', '{"$and":[{"name":"blabla"},{"position":{"$gt":2}},{"enabled":true}]}', [
-            '{"$and":[{"name":{"regex":".*blabla$","flags":"i"}},{"position":{"$lte":2}},{"createdAt":{"$date":{"$numberLong":"1569535200000"}}}]}',
+            '{"$and":[{"name":{"$regex":".*blabla$","$options":"i"}},{"position":{"$lte":2}},{"createdAt":{"$date":{"$numberLong":"1569535200000"}}}]}',
             '{"$and":[{"name":"\/.*blabla$\/i"},{"position":{"$lte":2}},{"createdAt":{"$date":{"$numberLong":"1569535200000"}}}]}'
         ], [
-            '{"$and":[{"name":{"regex":".*blabla$","flags":"i"}},{"position":{"$lte":2}},{"createdAt":{"$date":{"$numberLong":"1569583260000"}}}]}',
+            '{"$and":[{"name":{"$regex":".*blabla$","$options":"i"}},{"position":{"$lte":2}},{"createdAt":{"$date":{"$numberLong":"1569583260000"}}}]}',
             '{"$and":[{"name":"\/.*blabla$\/i"},{"position":{"$lte":2}},{"createdAt":{"$date":{"$numberLong":"1569583260000"}}}]}'
         ]];
 
@@ -244,7 +244,7 @@ class MongodbQueryBuilderUpdaterTest extends TestCase
         $this->assertContains(
             $this->toBson($mongoQB->getQueryArray()),
             [
-                '{"$and":[{"name":{"regex":".*hey dude.*","flags":"i"}},{"position":99}]}',
+                '{"$and":[{"name":{"$regex":".*hey dude.*","$options":"i"}},{"position":99}]}',
                 '{"$and":[{"name":"\/.*hey dude.*\/i"},{"position":99}]}'
             ]
         );

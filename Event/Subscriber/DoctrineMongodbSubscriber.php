@@ -278,7 +278,7 @@ class DoctrineMongodbSubscriber implements EventSubscriberInterface
         if ('' !== $values['value'] && null !== $values['value']) {
             $pattern = $values['condition_pattern'] ?? FilterOperands::STRING_CONTAINS;
 
-            $patternValues = [FilterOperands::STRING_STARTS => new \MongoRegex('/^' . $values['value'] . '.*/i'), FilterOperands::STRING_ENDS => new \MongoRegex('/.*' . $values['value'] . '$/i'), FilterOperands::STRING_CONTAINS => new \MongoRegex('/.*' . $values['value'] . '.*/i'), FilterOperands::STRING_EQUALS => $values['value']];
+            $patternValues = [FilterOperands::STRING_STARTS => new \MongoDB\BSON\Regex('^' . $values['value'] . '.*', 'i'), FilterOperands::STRING_ENDS => new \MongoDB\BSON\Regex('.*' . $values['value'] . '$', 'i'), FilterOperands::STRING_CONTAINS => new \MongoDB\BSON\Regex('.*' . $values['value'] . '.*', 'i'), FilterOperands::STRING_EQUALS => $values['value']];
 
             if (!isset($patternValues[$pattern])) {
                 throw new \InvalidArgumentException('Wrong type constant in string like expression mapper.');
