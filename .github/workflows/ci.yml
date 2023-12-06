@@ -18,11 +18,10 @@ jobs:
       matrix:
         include:
           - { php: 7.4, mongodb: 3.6, symfony: "5.4.*", composer-flags: '--prefer-stable'}
-          - { php: 8.2, mongodb: 3.6, symfony: "5.4.*", composer-flags: '--prefer-stable'}
-          - { php: 8.2, mongodb: 3.6, symfony: "6.0.*", composer-flags: '--prefer-stable'}
-          - { php: 8.2, mongodb: 3.6, symfony: "6.1.*", composer-flags: '--prefer-stable' }
-          - { php: 8.2, mongodb: 3.6, symfony: "6.2.*", composer-flags: '--prefer-stable' }
-          - { php: 8.2, mongodb: 3.6, symfony: "6.3.*@dev", composer-flags: '' }
+          - { php: 8.3, mongodb: 3.6, symfony: "6.4.*", composer-flags: '--prefer-stable'}
+          - { php: 8.2, mongodb: 3.6, symfony: "6.3.*", composer-flags: '--prefer-stable'}
+          - { php: 8.2, mongodb: 3.6, symfony: "6.4.*", composer-flags: '--prefer-stable' }
+          - { php: 8.3, mongodb: 3.6, symfony: "7.0.*", composer-flags: '--prefer-stable' }
 
     services:
       mongo:
@@ -50,7 +49,7 @@ jobs:
 
       - name: "Require symfony/messenger"
         run: "composer require --dev symfony/doctrine-messenger --no-update"
-        if: "${{ startsWith(matrix.symfony, '5.3') || startsWith(matrix.symfony, '5.4') }}"
+        if: "${{ startsWith(matrix.symfony, '5.4') }}"
 
       - name: Cache Composer dependencies
         uses: actions/cache@v2
