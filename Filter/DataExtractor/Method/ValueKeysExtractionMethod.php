@@ -54,6 +54,7 @@ class ValueKeysExtractionMethod implements DataExtractionMethodInterface
                     }
                 }
             } else {
+                dump($keys, $data);
                 throw new \InvalidArgumentException(sprintf('No value found for key "%s" in form data.', $key));
             }
         }

@@ -149,15 +149,11 @@ The event name that will be triggered to get conditions to apply will be:
 
 * `spiriit_form_filter.apply.dbal.filter_text` if you provide a `Doctrine\DBAL\Query\QueryBuilder`
 
-* `spiriit_form_filter.apply.mongodb.filter_text` if you provide a `Doctrine\ODM\MongoDB\Query\Builder`
-
 Then another event will be triggered to add all the conditions to the (doctrine) query builder instance:
 
 * `spiriit_filter.apply_filters.orm` if you provide a `Doctrine\ORM\QueryBuilder`
 
 * `spiriit_filter.apply_filters.dbal` if you provide a `Doctrine\DBAL\Query\QueryBuilder`
-
-* `spiriit_filter.apply_filters.mongodb` if you provide a `Doctrine\ODM\MongoDB\Query\Builder`
 
 ***
 

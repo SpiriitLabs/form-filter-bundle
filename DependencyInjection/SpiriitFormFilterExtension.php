@@ -11,8 +11,6 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\DependencyInjection;
 
-use Spiriit\Bundle\FormFilterBundle\DependencyInjection\Configuration;
-use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

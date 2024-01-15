@@ -20,7 +20,16 @@ class DBALQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
 {
     public function testBuildQuery()
     {
-        parent::createBuildQueryTest('getSQL', ['SELECT i FROM item i', 'SELECT i FROM item i WHERE i.name LIKE \'blabla\'', 'SELECT i FROM item i WHERE (i.name LIKE \'blabla\') AND (i.position > :p_i_position)', 'SELECT i FROM item i WHERE (i.name LIKE \'blabla\') AND (i.position > :p_i_position) AND (i.enabled = :p_i_enabled)', 'SELECT i FROM item i WHERE (i.name LIKE \'blabla\') AND (i.position > :p_i_position) AND (i.enabled = :p_i_enabled)', 'SELECT i FROM item i WHERE (i.name LIKE \'%blabla\') AND (i.position <= :p_i_position) AND (i.createdAt = :p_i_createdAt)', 'SELECT i FROM item i WHERE (i.name LIKE \'%blabla\') AND (i.position <= :p_i_position) AND (i.createdAt = :p_i_createdAt)']);
+        parent::createBuildQueryTest('getSQL', [
+            'SELECT i FROM item i',
+            'SELECT i FROM item i WHERE i.name LIKE \'blabla\'',
+            'SELECT i FROM item i WHERE (i.name LIKE \'blabla\') AND (i.position > :p_i_position)',
+            'SELECT i FROM item i WHERE (i.name LIKE \'blabla\') AND (i.position > :p_i_position) AND (i.enabled = :p_i_enabled)',
+            'SELECT i FROM item i WHERE (i.name LIKE \'blabla\') AND (i.position > :p_i_position) AND (i.enabled = :p_i_enabled)',
+            'SELECT i FROM item i WHERE (i.name LIKE \'%blabla\') AND (i.position <= :p_i_position) AND (i.createdAt = :p_i_createdAt)',
+            'SELECT i FROM item i WHERE (i.name LIKE \'%blabla\') AND (i.position <= :p_i_position) AND (i.createdAt = :p_i_createdAt)',
+           ]
+        );
     }
 
     public function testDisabledFieldQuery()

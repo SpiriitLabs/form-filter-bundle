@@ -12,23 +12,16 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: PHP v${{ matrix.php }}, Symfony v${{ matrix.symfony }}} with Mongo v${{ matrix.mongodb }}
+    name: PHP v${{ matrix.php }}, Symfony v${{ matrix.symfony }}}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { php: 7.4, mongodb: 3.6, symfony: "5.4.*", composer-flags: '--prefer-stable'}
-          - { php: 8.2, mongodb: 3.6, symfony: "5.4.*", composer-flags: '--prefer-stable'}
-          - { php: 8.2, mongodb: 3.6, symfony: "6.0.*", composer-flags: '--prefer-stable'}
-          - { php: 8.2, mongodb: 3.6, symfony: "6.1.*", composer-flags: '--prefer-stable' }
-          - { php: 8.2, mongodb: 3.6, symfony: "6.2.*", composer-flags: '--prefer-stable' }
-          - { php: 8.2, mongodb: 3.6, symfony: "6.3.*@dev", composer-flags: '' }
-
-    services:
-      mongo:
-        image: mongo:${{ matrix.mongodb }}
-        ports:
-          - 27017:27017
+          - { php: 7.4, symfony: "5.4.*", composer-flags: '--prefer-stable'}
+          - { php: 8.3, symfony: "6.4.*", composer-flags: '--prefer-stable'}
+          - { php: 8.2, symfony: "6.3.*", composer-flags: '--prefer-stable'}
+          - { php: 8.2, symfony: "6.4.*", composer-flags: '--prefer-stable' }
+          - { php: 8.3, symfony: "7.0.*", composer-flags: '--prefer-stable' }
 
     steps:
       - uses: actions/checkout@v2
@@ -36,7 +29,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: curl,mbstring,xdebug,mongodb
+          extensions: curl,mbstring,xdebug
           ini-values: date.timezone="Europe/Paris"
           coverage: xdebug
           tools: "composer:v2,flex"
@@ -50,7 +43,7 @@ jobs:
 
       - name: "Require symfony/messenger"
         run: "composer require --dev symfony/doctrine-messenger --no-update"
-        if: "${{ startsWith(matrix.symfony, '5.3') || startsWith(matrix.symfony, '5.4') }}"
+        if: "${{ startsWith(matrix.symfony, '5.4') }}"
 
       - name: Cache Composer dependencies
         uses: actions/cache@v2
@@ -62,8 +55,6 @@ jobs:
       - name: Install dependencies
         run: |
           perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json
-          composer config platform.ext-mongo 1.6.16
-          composer require alcaeus/mongo-php-adapter --no-update
           composer update ${{ matrix.composer-flags }} --prefer-dist
         env:
           SYMFONY_REQUIRE: "${{ matrix.symfony }}"

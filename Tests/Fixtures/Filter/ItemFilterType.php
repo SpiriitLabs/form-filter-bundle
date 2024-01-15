@@ -40,7 +40,9 @@ class ItemFilterType extends AbstractType
         }
 
         $builder->add('enabled', $options['checkbox'] ? CheckboxFilterType::class : BooleanFilterType::class);
-        $builder->add('createdAt', $options['datetime'] ? DateTimeFilterType::class : DateFilterType::class);
+        $builder->add('createdAt', $options['datetime'] ? DateTimeFilterType::class : DateFilterType::class, [
+            'widget' => 'choice'
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

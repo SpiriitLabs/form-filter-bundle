@@ -9,15 +9,15 @@
     "require": {
         "php": ">=7.4",
         "doctrine/orm": "^2.10",
-        "symfony/form": "^5.3|^6.0",
-        "symfony/framework-bundle": "^5.3|^6.0"
+        "symfony/form": "^5.3|^6.0|^7.0",
+        "symfony/framework-bundle": "^5.3|^6.0|^7.0"
     },
     "require-dev": {
+        "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^1.8 || ^2.0",
-        "doctrine/mongodb-odm-bundle": "^4.4",
         "rector/rector": "^0.17.1",
-        "symfony/phpunit-bridge": "^5.3|^6.0",
-        "symfony/var-dumper": "^5.3|^6.0",
+        "symfony/phpunit-bridge": "^5.3|^6.0|^7.0",
+        "symfony/var-dumper": "^5.3|^6.0|^7.0",
         "symplify/easy-coding-standard": "^11.3"
     },
     "autoload":     {
@@ -25,9 +25,6 @@
     },
     "config": {
         "sort-packages": true
-    },
-    "suggest": {
-        "alcaeus/mongo-php-adapter": "Install this package if using the PHP 7 MongoDB Driver"
     },
     "scripts": {
         "test": [

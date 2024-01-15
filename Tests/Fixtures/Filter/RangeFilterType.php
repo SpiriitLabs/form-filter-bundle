@@ -50,10 +50,20 @@ class RangeFilterType extends AbstractType
             ->add(
                 'updatedAt',
                 DateTimeRangeFilterType::class,
-                ['left_datetime_options' => ['date_widget' => 'single_text', 'time_widget' => 'single_text'], 'right_datetime_options' => ['years' => range(
+                [
+                    'left_datetime_options' => [
+                        'date_widget' => 'single_text',
+                        'time_widget' => 'single_text'
+                    ],
+                    'right_datetime_options' => [
+                        'date_widget' => 'choice',
+                        'time_widget' => 'choice',
+                        'years' => range(
                     2010,
                     2020
-                )]]
+                        )
+                    ]
+                ]
             )
             ->add(
                 'startAt',
