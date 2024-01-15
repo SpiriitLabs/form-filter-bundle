@@ -36,7 +36,6 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->booleanNode('doctrine_dbal')->defaultFalse()->end()
                         ->booleanNode('doctrine_orm')->defaultTrue()->end()
-                        ->booleanNode('doctrine_mongodb')->defaultFalse()->end()
                     ->end()
                 ->end()
 

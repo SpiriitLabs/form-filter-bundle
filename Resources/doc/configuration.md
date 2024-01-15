@@ -27,7 +27,6 @@ spiriit_form_filter:
     listeners:
         doctrine_orm: true
         doctrine_dbal: false
-        doctrine_mongodb: false
 ```
 
 * Case insensitivity:

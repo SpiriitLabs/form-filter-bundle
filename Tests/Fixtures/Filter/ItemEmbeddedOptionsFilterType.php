@@ -30,18 +30,12 @@ class ItemEmbeddedOptionsFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if ('mongo' === $options['doctrine_builder']) {
-            $addShared = function (FilterBuilderExecuterInterface $qbe) {
-                $qbe->addOnce('options', 'options', null);
+        $addShared = function (FilterBuilderExecuterInterface $qbe) {
+            $joinClosure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, ORMExpr $expr) {
+                $filterBuilder->leftJoin($alias . '.options', $joinAlias);
             };
-        } else {
-            $addShared = function (FilterBuilderExecuterInterface $qbe) {
-                $joinClosure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, ORMExpr $expr) {
-                    $filterBuilder->leftJoin($alias . '.options', $joinAlias);
-                };
-                $qbe->addOnce($qbe->getAlias() . '.options', 'opt', $joinClosure);
-            };
-        }
+            $qbe->addOnce($qbe->getAlias() . '.options', 'opt', $joinClosure);
+        };
 
         $builder->add('name', TextFilterType::class);
         $builder->add('position', NumberFilterType::class);
