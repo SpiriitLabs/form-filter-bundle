@@ -128,7 +128,23 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
         $form = $this->formFactory->create(ItemFilterType::class, null, ['with_selector' => true]);
 
         $doctrineQueryBuilder = $this->createDoctrineQueryBuilder();
-        $form->submit(['name' => ['text' => 'blabla', 'condition_pattern' => FilterOperands::STRING_ENDS], 'position' => ['text' => 2, 'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN_EQUAL], 'createdAt' => ['year' => $year, 'month' => 9, 'day' => 27]]);
+        $form->submit(
+            [
+                'name' => [
+                    'text' => 'blabla',
+                    'condition_pattern' => FilterOperands::STRING_ENDS
+                ],
+                'position' => [
+                    'text' => 2,
+                    'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN_EQUAL
+                ],
+                'createdAt' => [
+                    'year' => $year,
+                    'month' => 9,
+                    'day' => 27
+                ]
+            ]
+        );
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[5], $doctrineQueryBuilder->{$method}());
@@ -254,7 +270,25 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
         $filterQueryBuilder = $this->initQueryBuilderUpdater();
 
         $doctrineQueryBuilder = $this->createDoctrineQueryBuilder();
-        $form->submit(['updatedAt' => ['left_datetime' => ['date' => '2012-05-12', 'time' => '14:55'], 'right_datetime' => ['date' => ['year' => '2012', 'month' => '6', 'day' => '10'], 'time' => ['hour' => 22, 'minute' => 12]]]]);
+        $form->submit([
+            'updatedAt' => [
+                'left_datetime' => [
+                    'date' => '2012-05-12',
+                    'time' => '14:55'
+                ],
+                'right_datetime' => [
+                    'date' => [
+                        'year' => '2012',
+                        'month' => '6',
+                        'day' => '10'
+                    ],
+                    'time' => [
+                        'hour' => 22,
+                        'minute' => 12
+                    ]
+                ]
+            ]
+        ]);
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[0], $doctrineQueryBuilder->{$method}());
