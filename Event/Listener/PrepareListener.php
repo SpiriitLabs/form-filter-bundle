@@ -12,11 +12,9 @@
 namespace Spiriit\Bundle\FormFilterBundle\Event\Listener;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ORM\QueryBuilder;
 use Spiriit\Bundle\FormFilterBundle\Event\PrepareEvent;
 use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\DBALQuery;
-use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\MongodbQuery;
 use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 
 /**
@@ -93,7 +91,7 @@ class PrepareListener
     {
         $qb = $event->getQueryBuilder();
 
-        $queryClasses = [QueryBuilder::class => ORMQuery::class, \Doctrine\DBAL\Query\QueryBuilder::class => DBALQuery::class, Builder::class => MongodbQuery::class];
+        $queryClasses = [QueryBuilder::class => ORMQuery::class, \Doctrine\DBAL\Query\QueryBuilder::class => DBALQuery::class];
 
         foreach ($queryClasses as $builderClass => $queryClass) {
             if (class_exists($builderClass) && $qb instanceof $builderClass) {

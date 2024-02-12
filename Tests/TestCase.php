@@ -82,7 +82,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $mappingDriver = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($reader, [__DIR__ . '/Fixtures/Entity']);
 
-        $config = ORMSetup::createAnnotationMetadataConfiguration([]);
+        $config = ORMSetup::createAttributeMetadataConfiguration([]);
 
         $config->setMetadataDriverImpl($mappingDriver);
         $config->setMetadataCache($arrayAdapter);
