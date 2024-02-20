@@ -11,16 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Rector\CodeQuality\Rector\ClassMethod\ReturnTypeFromStrictScalarReturnExprRector;
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
-use Rector\PHPUnit\Rector\Class_\AddSeeTestAnnotationRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Symfony\Set\SymfonyLevelSetList;
 use Rector\Symfony\Set\SymfonySetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictNativeCallRector;
-use Rector\Renaming\Rector\Name\RenameClassRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
@@ -32,7 +29,6 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
     $rectorConfig->rules([
         ReturnTypeFromStrictNativeCallRector::class,
-        ReturnTypeFromStrictScalarReturnExprRector::class,
      ]);
 
     $rectorConfig->phpVersion(PhpVersion::PHP_71);
@@ -50,7 +46,6 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/vendor',
 
         // Rules
-        AddSeeTestAnnotationRector::class,
         JsonThrowOnErrorRector::class,
     ]);
 };
