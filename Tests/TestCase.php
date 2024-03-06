@@ -19,6 +19,8 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
+use Doctrine\ORM\Mapping\Driver\AttributeReader;
 use Doctrine\ORM\ORMSetup;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\Compiler\FormDataExtractorPass;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtension;
@@ -78,11 +80,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $arrayAdapter = new ArrayAdapter();
         $cache = new ArrayAdapter();
 
-        $reader = new AnnotationReader(new DocParser());
+        $mappingDriver = new AttributeDriver([__DIR__ . '/Fixtures/Entity']);
 
-        $mappingDriver = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($reader, [__DIR__ . '/Fixtures/Entity']);
-
-        $config = ORMSetup::createAnnotationMetadataConfiguration([]);
+        $config = ORMSetup::createAttributeMetadataConfiguration([]);
 
         $config->setMetadataDriverImpl($mappingDriver);
         $config->setMetadataCache($arrayAdapter);

@@ -14,81 +14,47 @@ namespace Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- *
  * @author Cédric Girard <c.girard@lexik.fr>
  */
+#[ORM\Entity]
 class Options
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    protected int $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $label;
+    #[ORM\Column()]
+    protected string $label;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $rank;
+    #[ORM\Column(type: 'integer')]
+    protected int $rank;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Item", inversedBy="options")
-     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
-     */
-    private $item;
+    #[ORM\ManyToOne(targetEntity: Item::class, inversedBy: 'options')]
+    #[ORM\JoinColumn()]
+    private Item $item;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set label
-     *
-     * @param string $label
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-    }
-
-    /**
-     * Get label
-     *
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * Get rank
-     *
-     * @return int
-     */
-    public function getRank()
+    public function setLabel(string $label): void
+    {
+        $this->label = $label;
+    }
+
+    public function getRank(): int
     {
         return $this->rank;
     }
 
-    /**
-     * Set rank
-     *
-     * @param int $rank
-     */
-    public function setRank($rank)
+    public function setRank(int $rank): void
     {
         $this->rank = $rank;
     }

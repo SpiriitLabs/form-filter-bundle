@@ -59,7 +59,7 @@ class Configuration implements ConfigurationInterface
 
                 ->booleanNode('force_case_insensitivity')
                     ->info('Whether to do case insensitive LIKE comparisons.')
-                    ->defaultNull()
+                    ->defaultFalse()
                 ->end()
 
                 ->scalarNode('encoding')
