@@ -41,7 +41,7 @@ class Item
     protected ?\DateTime $updatedAt = null;
 
     #[ORM\OneToMany(targetEntity: Options::class, mappedBy: 'item')]
-    private Collection $options;
+    private array $options;
 
     public function getId(): int
     {
@@ -98,12 +98,12 @@ class Item
         $this->updatedAt = $updatedAt;
     }
 
-    public function getOptions(): Collection
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    public function setOptions(Collection $options): void
+    public function setOptions(array $options): void
     {
         $this->options = $options;
     }
