@@ -34,6 +34,7 @@ class DoctrineDBALSubscriber extends AbstractDoctrineSubscriber implements Event
             'spiriit_form_filter.apply.dbal.filter_date_range' => ['filterDateRange'],
             'spiriit_form_filter.apply.dbal.filter_datetime' => ['filterDateTime'],
             'spiriit_form_filter.apply.dbal.filter_datetime_range' => ['filterDateTimeRange'],
+            'spiriit_form_filter.apply.orm.filter_enum' => ['filterEnum'],
             'spiriit_form_filter.apply.dbal.filter_number' => ['filterNumber'],
             'spiriit_form_filter.apply.dbal.filter_number_range' => ['filterNumberRange'],
             'spiriit_form_filter.apply.dbal.filter_text' => ['filterText'],
