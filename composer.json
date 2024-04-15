@@ -7,17 +7,18 @@
     "license": "MIT",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4",
-        "doctrine/orm": "^2.10",
-        "symfony/form": "^5.3|^6.0|^7.0",
-        "symfony/framework-bundle": "^5.3|^6.0|^7.0"
+        "php": "^8.1",
+        "doctrine/orm": "^3.0",
+        "doctrine/dbal": "^3.0",
+        "symfony/form": "^5.4|^6.4|^7.0",
+        "symfony/framework-bundle": "^5.4|^6.4|^7.0"
     },
     "require-dev": {
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^1.8 || ^2.0",
         "rector/rector": "^0.17.1",
-        "symfony/phpunit-bridge": "^5.3|^6.0|^7.0",
-        "symfony/var-dumper": "^5.3|^6.0|^7.0",
+        "symfony/phpunit-bridge": "^5.4|^6.4|^7.0",
+        "symfony/var-dumper": "^5.4|^6.4|^7.0",
         "symplify/easy-coding-standard": "^11.3"
     },
     "autoload":     {

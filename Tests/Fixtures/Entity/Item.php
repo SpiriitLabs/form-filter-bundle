@@ -11,175 +11,100 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- *
  * @author Cédric Girard <c.girard@lexik.fr>
  */
+#[ORM\Entity]
 class Item
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    protected int $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $name;
+    #[ORM\Column()]
+    protected string $name;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $position;
+    #[ORM\Column(type: 'integer')]
+    protected int $position;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $enabled;
+    #[ORM\Column(type: 'boolean')]
+    protected bool $enabled;
 
-    /**
-     * @ORM\Column(type="datetime", name="created_at", nullable=true)
-     */
-    protected $createdAt;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    protected ?\DateTime $createdAt = null;
 
-    /**
-     * @ORM\Column(type="datetime", name="updated_at", nullable=true)
-     */
-    protected $updatedAt;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    protected ?\DateTime $updatedAt = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Options", mappedBy="item")
-     */
-    private $options;
+    #[ORM\OneToMany(targetEntity: Options::class, mappedBy: 'item')]
+    private array $options;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get position
-     *
-     * @return int
-     */
-    public function getPosition()
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getPosition(): int
     {
         return $this->position;
     }
 
-    /**
-     * Set position
-     *
-     * @param int $position
-     */
-    public function setPosition($position)
+    public function setPosition(int $position): void
     {
         $this->position = $position;
     }
 
-    /**
-     * Get enabled
-     *
-     * @return boolean
-     */
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * Set enabled
-     *
-     * @param boolean $enabled
-     */
-    public function setEnabled($enabled)
+    public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
     }
 
-    /**
-     * Set createdAt
-     *
-     * @param datetime $createdAt
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return datetime $createdAt
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
+    public function setCreatedAt(?\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(?\DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * @param mixed $options
-     */
-    public function setOptions($options)
-    {
-        $this->options = $options;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
+    }
+
+    public function setOptions(array $options): void
+    {
+        $this->options = $options;
     }
 }

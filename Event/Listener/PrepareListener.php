@@ -11,77 +11,34 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Event\Listener;
 
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ORM\QueryBuilder;
 use Spiriit\Bundle\FormFilterBundle\Event\PrepareEvent;
 use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\DBALQuery;
-use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\MongodbQuery;
 use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 
-/**
- * Prepare listener event
- */
 class PrepareListener
 {
-    /**
-     * @var boolean
-     */
-    protected $forceCaseInsensitivity = null;
+    protected bool $forceCaseInsensitivity = false;
+    protected ?string $encoding = null;
 
-    /**
-     * @var string|null
-     */
-    protected $encoding;
-
-    public function setForceCaseInsensitivity($value)
+    public function getForceCaseInsensitivity(): bool
     {
-        if (!is_bool($value)) {
-            throw new \InvalidArgumentException("Expected a boolean");
-        }
-
-        $this->forceCaseInsensitivity = $value;
-
-        return $this;
+        return $this->forceCaseInsensitivity;
     }
 
-    /**
-     * @param $qb
-     * @return boolean
-     */
-    public function getForceCaseInsensitivity($qb)
+    public function setForceCaseInsensitivity(bool $forceCaseInsensitivity): void
     {
-        if (isset($this->forceCaseInsensitivity)) {
-            return $this->forceCaseInsensitivity;
-        }
-
-        if (class_exists('\\' . QueryBuilder::class) && $qb instanceof QueryBuilder) {
-            return ($qb->getEntityManager()->getConnection()->getDatabasePlatform() instanceof PostgreSqlPlatform);
-        }
-
-        if (class_exists('\\' . \Doctrine\DBAL\Query\QueryBuilder::class) && $qb instanceof \Doctrine\DBAL\Query\QueryBuilder) {
-            return ($qb->getConnection()->getDatabasePlatform() instanceof PostgreSqlPlatform);
-        }
+        $this->forceCaseInsensitivity = $forceCaseInsensitivity;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getEncoding()
+    public function getEncoding(): ?string
     {
         return $this->encoding;
     }
 
-    /**
-     * @param null|string $encoding
-     *
-     * @return PrepareListener
-     */
-    public function setEncoding($encoding)
+    public function setEncoding(?string $encoding): void
     {
         $this->encoding = $encoding;
-
-        return $this;
     }
 
     /**
@@ -93,11 +50,11 @@ class PrepareListener
     {
         $qb = $event->getQueryBuilder();
 
-        $queryClasses = [QueryBuilder::class => ORMQuery::class, \Doctrine\DBAL\Query\QueryBuilder::class => DBALQuery::class, Builder::class => MongodbQuery::class];
+        $queryClasses = [QueryBuilder::class => ORMQuery::class, \Doctrine\DBAL\Query\QueryBuilder::class => DBALQuery::class];
 
         foreach ($queryClasses as $builderClass => $queryClass) {
             if (class_exists($builderClass) && $qb instanceof $builderClass) {
-                $query = new $queryClass($qb, $this->getForceCaseInsensitivity($qb), $this->encoding);
+                $query = new $queryClass($qb, $this->getForceCaseInsensitivity(), $this->encoding);
 
                 $event->setFilterQuery($query);
                 $event->stopPropagation();
