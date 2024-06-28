@@ -21,7 +21,14 @@ The idea is:
 (*): In fact you can use any type, but if you want to apply a filter by not using a XxxFilterType::class type you will 
 have to create a custom listener class to apply the filter for this type.
 
+## Installation
+================
 
+The bundle can be installed using Composer or the [Symfony binary](https://symfony.com/download):
+
+```
+composer require spiriitlabs/form-filter-bundle
+```
 
 Documentation
 =============

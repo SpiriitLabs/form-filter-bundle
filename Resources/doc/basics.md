@@ -80,35 +80,42 @@ Then in an action, create a form object from the ItemFilterType. Let's say we fi
 // DefaultController.php
 namespace Project\Bundle\SuperBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\FormFactoryInterface;
 use Project\Bundle\SuperBundle\Filter\ItemFilterType;
+use Project\Bundle\SuperBundle\Entity\MyEntity;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
-    public function testFilterAction(Request $request)
+    public function __invoke(
+    Request $request, 
+    FormFactoryInterface $formFactory,
+    EntityManagerInterface $em,
+    FilterBuilderUpdater $filterBuilderUpdater
+    ): Response
     {
-        $form = $this->get('form.factory')->create(ItemFilterType::class);
+        $form = $formFactory->create(ItemFilterType::class);
 
-        if ($request->query->has($form->getName())) {
-            // manually bind values from the request
-            $form->submit($request->query->get($form->getName()));
+        // manually bind values from the request
+        $form->submit($request->query->get($form->getName()));
 
-            // initialize a query builder
-            $filterBuilder = $this->get('doctrine.orm.entity_manager')
-                ->getRepository('ProjectSuperBundle:MyEntity')
-                ->createQueryBuilder('e');
+        // initialize a query builder
+        $filterBuilder = $em
+            ->getRepository(MyEntity::class)
+            ->createQueryBuilder('e');
 
-            // build the query from the given form object
-            $this->get('spiriit_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+        // build the query from the given form object
+        $filterBuilderUpdater->addFilterConditions($form, $filterBuilder);
 
-            // now look at the DQL =)
-            var_dump($filterBuilder->getDql());
-        }
+        // now look at the DQL =)
+        dump($filterBuilder->getDql());
 
-        return $this->render('ProjectSuperBundle:Default:testFilter.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render('testFilter.html.twig', [
+            'form' => $form,
+        ]);
     }
 }
 ```
@@ -126,9 +133,13 @@ Basic template
 ii. Inner workings
 ------------------
 
-Filters are applied by using events. Basically the `spiriit_form_filter.query_builder_updater` service will trigger a default event named according to the form type to get the condition for a given filter.
-Then once all conditions have been gotten another event will be triggered to add these conditions to the (doctrine) query builder according to the operators defined by the condition builder.
-We provide a event/listener that supports Doctrine ORM, DBAL and MongoDB.
+Filters are applied by using events. Basically the `FilterBuilderUpdater::class` service will trigger a default event named
+according to the form type to get the condition for a given filter.
+
+Then once all conditions have been gotten another event will be triggered to add these conditions to the (doctrine) query 
+builder according to the operators defined by the condition builder.
+
+We provide an event/listener that supports Doctrine ORM, DBAL.
 
 The default event name pattern is `spiriit_form_filter.apply.<query_builder_type>.<form_type_name>`.
 
