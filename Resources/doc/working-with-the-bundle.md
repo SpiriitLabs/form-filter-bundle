@@ -4,11 +4,11 @@
 i. Customize condition operator
 -------------------------------
 
-By default the `spiriit_form_filter.query_builder_updater` service will add conditions by using `AND`.
-But you can customize the operator (and/or) to use between each conditions when its added to the (doctrine) query builder.
+By default, the `FilterBuilderUpdater::class` service will add conditions by using `AND`.
+But you can customize the operator (and/or) to use between each condition when it's added to the (doctrine) query builder.
 To do so you will have to use the `filter_condition_builder` option in your main type class.
 
-Here a simple example, the main type `ItemFilterType` is composed of 2 simple fields and a sub type (RelatedOptionsType).
+Here a simple example, the main type `ItemFilterType` is composed of 2 simple fields and a subtype (RelatedOptionsType).
 The `filter_condition_builder` option is expected to be a closure that will be used to set operators to use between conditions.
 
 ```php
@@ -26,11 +26,6 @@ class RelatedOptionsType extends AbstractType
     {
         $builder->add('label', Filters\TextFilterType::class);
         $builder->add('rank', Filters\NumberFilterType::class);
-    }
-
-    public function getBlockPrefix()
-    {
-        return 'related_options';
     }
 }
 ```
@@ -73,17 +68,12 @@ class ItemFilterType extends AbstractType
             }
         ));
     }
-
-    public function getBlockPrefix()
-    {
-        return 'item_filter';
-    }
 }
 ```
 
 With the above condition builder the complete where clause pattern will be: `WHERE <options.label> OR <date> OR (<options.rank> AND <name>)`.
 
-Here another example of condition builder:
+Here is another example of condition builder:
 
 ```php
 $resolver->setDefaults(array(
@@ -144,68 +134,24 @@ class ItemFilterType extends AbstractType
 
                 $paramName = sprintf('p_%s', str_replace('.', '_', $field));
 
-                // expression that represent the condition
+                // expression that represents the condition
                 $expression = $filterQuery->getExpr()->eq($field, ':'.$paramName);
 
                 // expression parameters
-                $parameters = array($paramName => $values['value']); // [ name => value ]
+                $parameters = [$paramName => $values['value']]; // [ name => value ]
                 // or if you need to define the parameter's type
-                // $parameters = array($paramName => array($values['value'], \PDO::PARAM_STR)); // [ name => [value, type] ]
+                // $parameters = [$paramName => [$values['value'], \PDO::PARAM_STR]]; // [ name => [value, type] ]
 
                 return $filterQuery->createCondition($expression, $parameters);
             },
         ));
     }
-
-    public function getBlockPrefix()
-    {
-        return 'item_filter';
-    }
 }
 ```
 
-**Doctrine MongoDB:**
+#### B. By listening to an event
 
-```php
-<?php
-// ItemFilterType.php
-namespace Project\Bundle\SuperBundle\Filter;
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
-use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
-use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
-
-class ItemFilterType extends AbstractType
-{
-    public function buildForm(FormBuilder $builder, array $options)
-    {
-        $builder->add('name', Filters\TextFilterType::class, array(
-            'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
-                if (empty($values['value'])) {
-                    return null;
-                }
-
-                // expression that represent the condition
-                $expression = $filterQuery->getExpr()
-                    ->field($field)
-                    ->equals($values['value']);
-
-                return $filterQuery->createCondition($expression);
-            },
-        ));
-    }
-
-    public function getBlockPrefix()
-    {
-        return 'item_filter';
-    }
-}
-```
-
-#### B. By listening an event
-
-Another way to override the default way to apply the filter is to listen a custom event name.
+Another way to override the default way to apply the filter is to listen to a custom event name.
 This event name is composed of the form type name plus the form type's parent names, so the custom event name is like:
 
 `spiriit_form_filter.apply.<query_builder_type>.<parents_field_name>.<field_name>`
@@ -227,11 +173,6 @@ class ItemFilterType extends AbstractType
     {
         $builder->add('position', Filters\NumberFilterType::class);
     }
-
-    public function getBlockPrefix()
-    {
-        return 'item_filter';
-    }
 }
 ```
 
@@ -239,7 +180,7 @@ The custom event name will be:
 
 `spiriit_form_filter.apply.orm.item_filter.position`
 
-The corresponding listener could looks like:
+The corresponding listener could look like:
 
 **Doctrine ORM/DBAL:**
 
@@ -269,30 +210,6 @@ class ItemPositionFilterConditionListener
 }
 ```
 
-**Doctrine MongoDB:**
-
-```php
-namespace MyBundle\EventListener;
-
-use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
-
-class ItemPositionFilterConditionListener
-{
-    public function onGetFilterCondition(GetFilterConditionEvent $event)
-    {
-        $expr   = $event->getFilterQuery()->getExpr();
-        $values = $event->getValues();
-
-        if (!empty($values['value'])) {
-            // Set the condition on the given event
-            $event->setCondition(
-                $expr->field($event->getField())->equals($values['value'])
-            );
-        }
-    }
-}
-```
-
 ```xml
 <service id="my_bundle.listener.get_item_position_filter" class="MyBundle\EventListener\ItemPositionFilterConditionListener">
     <tag name="kernel.event_listener" event="spiriit_form_filter.apply.orm.item_filter.position" method="onGetFilterCondition" />
@@ -303,7 +220,7 @@ Note that before triggering the default event name, the `spiriit_form_filter.que
 
 #### C. Disable filtering for one field
 
-If you want to skip a field for any reason you can set the `apply_filter` option to `false`.
+If you want to skip a field for any reason, you can set the `apply_filter` option to `false`.
 This will make the bundle skip the field, so no condition will be added for this field.
 
 ```php
@@ -319,14 +236,9 @@ class ItemFilterType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('name', Filters\TextFilterType::class, array(
+        $builder->add('name', Filters\TextFilterType::class, [
             'apply_filter' => false, // disable filter
-        ));
-    }
-
-    public function getBlockPrefix()
-    {
-        return 'item_filter';
+        ]);
     }
 }
 ```
@@ -337,14 +249,14 @@ iii. Working with entity associations and embeddeding filters
 You can embed a filter inside another one. It could be a way to filter elements associated to the "root" one.
 
 In the two following sections (A and B), I suppose we have 2 entities Item and Options.
-And Item has a collection of Option and and Option has one Item.
+And Item has a collection of Options and Option has one Item.
 
 #### A. Collection
 
-Let's say the entity we filter with the `ItemFilterType` filter is related to a collection of options, and an option has 2 fields: label and color.
+Let's say the entity we filter with the `ItemFilterType` filter is related to a collection of options, and an option has two fields: label and color.
 We can filter entities by their option's label and color by creating and using a `OptionsFilterType` inside `ItemFilterType`:
 
-The `OptionsFilterType` class is a standard form, and would looks like:
+The `OptionsFilterType` class is a standard form, and would look like:
 
 ```php
 <?php
@@ -365,16 +277,12 @@ class OptionsFilterType extends AbstractType
         $builder->add('label', Filters\TextFilterType::class);
         $builder->add('color', Filters\TextFilterType::class);
     }
-
-    public function getBlockPrefix()
-    {
-        return 'options_filter';
-    }
 }
 ```
 
 Then we can use it in our `ItemFilterType` type. But we will embed it by using a `CollectionAdapterFilterType` type.
-This type will allow us to use the `add_shared` option to add joins (or other stuff) we needed to apply conditions on fields from the embedded type (`OptionsFilterType` here).
+This type will allow us to use the `add_shared` option to add joins (or other stuff) we needed to apply conditions on fields 
+from the embedded type (`OptionsFilterType` here).
 
 **Doctrine ORM/DBAL:**
 
@@ -397,68 +305,20 @@ class ItemFilterType extends AbstractType
         $builder->add('name', Filters\TextFilterType::class);
         $builder->add('rank', Filters\NumberFilterType::class);
 
-        $builder->add('options', Filters\CollectionAdapterFilterType::class, array(
+        $builder->add('options', Filters\CollectionAdapterFilterType::class, [
             'entry_type' => new OptionsFilterType(),
             'add_shared' => function (FilterBuilderExecuterInterface $qbe)  {
                 $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
                     // add the join clause to the doctrine query builder
-                    // the where clause for the label and color fields will be added automatically with the right alias later by the Spiriit\Filter\QueryBuilderUpdater
+                    // the where clause for the label and color fields will be added automatically with the right alias
+                    // later by the Spiriit\Filter\QueryBuilderUpdater
                     $filterBuilder->leftJoin($alias . '.options', $joinAlias);
                 };
 
                 // then use the query builder executor to define the join and its alias.
                 $qbe->addOnce($qbe->getAlias().'.options', 'opt', $closure);
             },
-        ));
-    }
-
-    public function getBlockPrefix()
-    {
-        return 'item_filter';
-    }
-}
-```
-
-**Doctrine MongoDB:**
-
-```php
-<?php
-
-namespace Project\Bundle\SuperBundle\Filter;
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
-use Doctrine\ODM\MongoDB\Query\Expr;
-use Doctrine\ODM\MongoDB\Query\Builder;
-use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
-use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
-
-class ItemFilterType extends AbstractType
-{
-    public function buildForm(FormBuilder $builder, array $options)
-    {
-        $builder->add('name', Filters\TextFilterType::class);
-        $builder->add('rank', Filters\NumberFilterType::class);
-
-        $builder->add('options', Filters\CollectionAdapterFilterType::class, array(
-            'entry_type' => new OptionsFilterType(),
-            'add_shared' => function (FilterBuilderExecuterInterface $qbe)  {
-                $closure = function (Builder $filterBuilder, $alias, $joinAlias, Expr $expr) {
-                    // Here you can manipulate the MongoDB query builder if needed.
-                    // Documents don't manage joins as in SQL so maybe you won't need to do specific things here.
-                    // ...
-                };
-
-                $qbe->addOnce('options', 'options', $closure);
-                // OR just add the alias
-                $qbe->addOnce('options', 'options');
-            },
-        ));
-    }
-
-    public function getBlockPrefix()
-    {
-        return 'item_filter';
+        ]);
     }
 }
 ```
@@ -466,10 +326,11 @@ class ItemFilterType extends AbstractType
 #### B. Single object
 
 So let's say we need to filter some Option by their related Item's name.
-We can create a `OptionsFilterType` type and add the item field which will be a `ItemFilterType` and not a `EntityFilterType` as we need to filter on field that belong to Item.
+We can create a `OptionsFilterType` type and add the item field which will be a `ItemFilterType` and not a `EntityFilterType` 
+as we need to filter on field that belong to Item.
 
 Let's start with the `ItemFilterType`, the only thing we have to do is to change the default parent type of our by using the `getParent()` method.
-This will allow us to use the `add_shared` option as in the `CollectionAdapterFilterType` type (by default this option is not available on a type).
+This will allow us to use the `add_shared` option as in the `CollectionAdapterFilterType` type (by default, this option is not available on a type).
 
 ```php
 namespace Project\Bundle\SuperBundle\Filter;
@@ -487,12 +348,7 @@ class ItemFilterType extends AbstractType
 
     public function getParent()
     {
-        return Filters\SharedableFilterType::class; // this allow us to use the "add_shared" option
-    }
-
-    public function getBlockPrefix()
-    {
-        return 'filter_item';
+        return Filters\SharedableFilterType::class; // this allows us to use the "add_shared" option
     }
 }
 ```
@@ -524,26 +380,19 @@ class OptionsFilterType extends AbstractType
             }
         ));
     }
-
-    public function getBlockPrefix()
-    {
-        return 'filter_options';
-    }
 }
 ```
 #### C. Use existing join alias defined on the query builder (ORM).
 
-So as explained above you can add some joins dynamically.
-But in case you've already set some joins on the query builder and you want to use them, you can use the `setParts()` method from the `spiriit_form_filter.query_builder_updater` service.
-This method allow you to pre-set aliases to use for each relation (join).
+So as explained above, you can add some joins dynamically.
+But in case you've already set some joins on the query builder, and you want to use them, you can use the `setParts()` 
+method from the `spiriit_form_filter.query_builder_updater` service. This method allows you to pre-set aliases to use for each relation (join).
 
 ```php
 $form = /* your form filter instance */;
 
-$queryBuilder = $container
-    ->getDoctrine()
-    ->getManager()
-    ->getRepository('Entity\Namespace')
+$queryBuilder = $em
+    ->getRepository(MyEntity::class)
     ->createQueryBuilder('e');
 
 $queryBuilder
@@ -551,7 +400,7 @@ $queryBuilder
     ->leftJoin('e.user', 'u')
     ->innerJoin('u.addresses', 'a');
 
-$qbUpdater = $container->get('spiriit_form_filter.query_builder_updater');
+$queryBuilderUpdater = // inject FilterBuilderUpdater::class
 
 // set the joins
 $qbUpdater->setParts(array(
@@ -561,14 +410,14 @@ $qbUpdater->setParts(array(
 ));
 
 // then add filter conditions
-$qbUpdater->addFilterConditions($form, $queryBuilder);
+$queryBuilderUpdater->addFilterConditions($form, $queryBuilder);
 ```
 
-iv. Doctrine embeddables ORM
+iv. Doctrine embeddable ORM
 ------------------------------
 
-Here an example about how to create embedded filter types with Doctrine2 embeddables objects.
-In the following code we suppose we use entities defined in the [doctrine tutorial](http://doctrine-orm.readthedocs.org/en/latest/tutorials/embeddables.html).
+Here is an example about how to create embedded filter types with Doctrine2 embeddable objects.
+In the following code, we suppose we use entities defined in the [doctrine tutorial](http://doctrine-orm.readthedocs.org/en/latest/tutorials/embeddables.html).
 
 The `UserFilterType` is a standard type and simply embeds the `AddressFilterType`.
 
@@ -589,7 +438,8 @@ class UserFilterType extends AbstractType
 }
 ```
 Then in the `AddressFilterType` we will have to implement the `EmbeddedFilterTypeInterface`.
-This interface does not define any methods, it's just used by the `spiriit_form_filter.query_builder_updater` service to differentiate it from an embedded type with relations.
+This interface does not define any methods, it's just used by the `FilterBuilderUpdater::class` service to 
+differentiate it from an embedded type with relations.
 
 ```php
 namespace Project\Bundle\SuperBundle\Filter;
@@ -615,8 +465,10 @@ v. Create your own filter type
 
 Let's see that through a simple example, we suppose I want to create a `LocaleFilterType` class to filter fields which contain a locale as value.
 
-A filter type is basicaly a standard form type and Symfony provide a LocaleType that display a combox of locales.
-So we can start by creating a form type, with the `locale` type as parent. We will also define a default value for the `data_extraction_method`, this options will define how the `spiriit_form_filter.query_builder_updater` service will get infos from the form before the filter is applied.
+A filter type is basically a standard form type, and Symfony provides a LocaleType that displays a combos of locales.
+So we can start by creating a form type, with the `locale` type as parent. We will also define a default value for 
+the `data_extraction_method`, this options will define how the `FilterBuilderUpdater::class` service will
+get infos from the form before the filter is applied.
 
 So the `LocaleFilterType` class would look like:
 
@@ -629,38 +481,24 @@ use Symfony\Component\Form\Extension\Core\Type\LocaleType;
 
 class LocaleFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'data_extraction_method' => 'default',
-            ))
-            ->setAllowedValues('data_extraction_method', array('default'))
+            ])
+            ->setAllowedValues('data_extraction_method', ['default'])
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent()
     {
         return LocaleType::class;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'filter_locale';
-    }
 }
 ```
 
-Then defined the `LocaleFilterType` as a service and don't forget to add the `form.type` tag:
+Then defined the `LocaleFilterType` as a service and remember to add the `form.type` tag:
 
 ```xml
 <service id="something.type.filter_locale" class="Super\Namespace\Type\LocaleFilterType">
@@ -681,15 +519,15 @@ class FilterSubscriber implements EventSubscriberInterface
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
-        return array(
+        return [
             // if a Doctrine\ORM\QueryBuilder is passed to the spiriit_form_filter.query_builder_updater service
-            'spiriit_form_filter.apply.orm.filter_locale' => array('filterLocale'),
+            'spiriit_form_filter.apply.orm.filter_locale' => ['filterLocale'],
 
             // if a Doctrine\DBAL\Query\QueryBuilder is passed to the spiriit_form_filter.query_builder_updater service
-            'spiriit_form_filter.apply.dbal.filter_locale' => array('filterLocale'),
-        );
+            'spiriit_form_filter.apply.dbal.filter_locale' => ['filterLocale'],
+        ];
     }
 
     /**
@@ -697,7 +535,7 @@ class FilterSubscriber implements EventSubscriberInterface
      *
      * This method should work with both ORM and DBAL query builder.
      */
-    public function filterLocale(GetFilterConditionEvent $event)
+    public function filterLocale(GetFilterConditionEvent $event): void
     {
         $expr   = $event->getFilterQuery()->getExpr();
         $values = $event->getValues();
@@ -707,14 +545,14 @@ class FilterSubscriber implements EventSubscriberInterface
 
             $event->setCondition(
                 $expr->eq($event->getField(), ':'.$paramName),
-                array($paramName => $values['value'])
+                [$paramName => $values['value']]
             );
         }
     }
 }
 ```
 
-Don't forget to defined the subscriber as a service.
+Remember to define the subscriber as a service.
 
 ```xml
 <service id="spiriit_form_filter.doctrine_subscriber" class="Super\Namespace\Listener\FilterSubscriber">
@@ -722,9 +560,11 @@ Don't forget to defined the subscriber as a service.
 </service>
 ```
 
-Now the `spiriit_form_filter.query_builder_updater` service is able to add filter condition for a locale field.
+Now the `FilterBuilderUpdater::class` service is able to add filter condition for a locale field.
 
-__Tip__: As you can see the `LocaleFilterType` class is very simple, we use the `default` data extraction method and we don't add any additional field to the form builder, we only use the parent form. In this case we could only create the listener and listen to `spiriit_form_filter.apply.xxx.locale` instead of `spiriit_form_filter.apply.xxx.filter_locale` and use the provided `locale` type:
+__Tip__: As you can see the `LocaleFilterType` class is very simple, we use the `default` data extraction method, and 
+we don't add any additional field to the form builder, we only use the parent form. In this case we could only create the listener 
+and listen to `spiriit_form_filter.apply.xxx.locale` instead of `spiriit_form_filter.apply.xxx.filter_locale` and use the provided `locale` type:
 
 ```php
 [...]
@@ -735,10 +575,10 @@ class FilterSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            'spiriit_form_filter.apply.orm.locale' => array('filterLocale'),
-            'spiriit_form_filter.apply.dbal.locale' => array('filterLocale'),
-        );
+        return [
+            'spiriit_form_filter.apply.orm.locale' => ['filterLocale'],
+            'spiriit_form_filter.apply.dbal.locale' => ['filterLocale'],
+        ];
     }
     [...]
 }
@@ -747,21 +587,24 @@ class FilterSubscriber implements EventSubscriberInterface
 vi. Enable FilterType form validation
 -------------------------------------
 
-By default most `FilterForms` are submitted using `GET`, and are defined in class instead of via a formBuilder in the controller. When you injected the data in the `FilterForm` yourself via the `$form->submit($data)` method, all was fine. In order to let the `validator` service function properly, we need to tell the form it does use the `GET` method:
+By default, most `FilterForms` are submitted using `GET`, and are defined in class instead of via a formBuilder in the controller.
+When you injected the data in the `FilterForm` yourself via the `$form->submit($data)` method, all was fine.
+To let the `validator` service function properly, we need to tell the form it does use the `GET` method:
 
 ```php
 public function configureOptions(OptionsResolver $resolver)
 {
-    $resolver->setDefaults(array(
-        'error_bubbling' 	=> true,
-		'csrf_protection'   => false,
-		'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
+    $resolver->setDefaults([
+        'error_bubbling'    => true,
+        'csrf_protection'   => false,
+        'validation_groups' => ['filtering'], // avoid NotBlank() constraint-related message
         'method'            => 'get',
-    ));
+    ]);
 }
 ```
 
-In order to automatically validate your requests, you have to make use of Symfony its built-in `$form->handleRequest()` function. In your controller, you can create your forms in a different way:
+To automatically validate your requests, you have to make use of Symfony its built-in `$form->handleRequest()` function. 
+In your controller, you can create your forms in a different way:
 
 ```php
 // Handle the filtering
@@ -770,7 +613,7 @@ $filterForm = $this->createForm(new OrderFilterType());
 $filterForm->handleRequest($request);
 
 if ($filterForm->isValid()) {
-	$filterBuilder = $this->get('spiriit_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+	$filterBuilder = $queryBuilderUpdater->addFilterConditions($filterForm, $filterBuilder);
 }
 ```
 Now the Symfony `requestHandler` will take over and won't `addFilterConditions` to the builder in case the form isn't valid.

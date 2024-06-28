@@ -4,10 +4,10 @@
 Twig
 ----
 
-You only need to add the following lines in your `app/config/config.yml`. This file contains the template blocks for the filter types.
+You only need to add the following lines in your `config/packages/twig.yaml`. This file contains the template blocks for the filter types.
 
 ```yaml
-# app/config/config.yml
+# config/packages/twig.yaml
 twig:
     form_themes:
         - '@SpiriitFormFilter/Form/form_div_layout.html.twig'
@@ -21,8 +21,10 @@ Bundle's options
 The bundle provides some listener to apply conditions on Doctrine ORM, DBAL and MongoDB query builders.
 By default only Doctrine ORM listeners are enabled.
 
+You can create a file `spiriit_form_filter.yaml`
+
 ```yaml
-# app/config/config.yml
+# config/packages/spiriit_form_filter.yaml
 spiriit_form_filter:
     listeners:
         doctrine_orm: true
@@ -35,7 +37,7 @@ If your RDBMS is Postgres, case insensitivity will be forced for LIKE comparison
 If you want to avoid that, there is a configuration option:
 
 ```yaml
-# app/config/config.yml
+# config/packages/spiriit_form_filter.yaml
 spiriit_form_filter:
     force_case_insensitivity: false
     encoding: ~ # Encoding for case insensitive LIKE comparisons. For example: UTF-8
@@ -53,7 +55,7 @@ If you set it to `null` or `or`, the bundle will use the `where()` or `orWhere()
 And so if the value is `null` it will override the existing where clause (in case of you initialized one on the query builder).
 
 ```yaml
-# app/config/config.yml
+# config/packages/spiriit_form_filter.yaml
 spiriit_form_filter:
     where_method: ~  # null | and | or
 ```
@@ -63,7 +65,7 @@ spiriit_form_filter:
 This option allow you to define the default text pattern the `TextFilterType` will use.
 
 ```yaml
-# app/config/config.yml
+# config/packages/spiriit_form_filter.yaml
 spiriit_form_filter:
     condition_pattern: text.starts
 ```
