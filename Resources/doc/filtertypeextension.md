@@ -1,11 +1,13 @@
 [5] The FilterTypeExtension
 ===========================
 
-The bundle loads a custom type extension to add the `apply_filter`,  `data_extraction_method`, and `filter_condition_builder` options to **all form types**. These options are used when a filter condition is applied to the query builder.
+The bundle loads a custom type extension to add the `apply_filter`,`data_extraction_method`, and `filter_condition_builder` options to **all form types**.
+These options are used when a filter condition is applied to the query builder.
 
 ##### The `apply_filter` option:
 
-This option is set to `null` by default and aims to override the default way to apply the filter on the query builder. So you can use it if the default way to apply a filter does match to your needs.
+This option is set to `null` by default and aims to override the default way to apply the filter on the query builder.
+So you can use it if the default way to apply a filter does match to your needs.
 
 You can pass a Closure or a valid callback to this option, here is a simple example:
 
@@ -21,27 +23,28 @@ class CallbackFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('my_text_field', Filters\TextFilterType::class, array(
-            'apply_filter' => array($this, 'textFieldCallback'),
-        ));
-
-        $builder->add('my_number_field', Filters\NumberFilterType::class, array(
+        $builder->add('my_text_field', Filters\TextFilterType::class, [
+            'apply_filter' => [$this, 'textFieldCallback'],
+        ]);
+    
+        $builder->add('my_number_field', Filters\NumberFilterType::class, [
             'apply_filter' => function(QueryInterface $filterQuery, $field, $values) {
                 if (empty($values['value'])) {
                     return null;
                 }
-
+    
                 $expr = $filterQuery->getExpr();
-
+    
                 $paramName = sprintf('p_%s', str_replace('.', '_', $field));
-
+    
                 return $filterQuery->createCondition(
-                    $expr->eq($field, ':'.$paramName),    // expression
-                    array($paramName => $values['value']) // parameters [ name => value ]
+                    $expr->eq($field, ':' . $paramName),    // expression
+                    [$paramName => $values['value']] // parameters [ name => value ]
                 );
             },
-        ));
+        ]);
     }
+
 
     public function getBlockPrefix()
     {
@@ -60,7 +63,7 @@ class CallbackFilterType extends AbstractType
 
         return $filterQuery->createCondition(
             $expr->eq($field, ':'.$paramName),    // expression
-            array($paramName => array($values['value'], \PDO::PARAM_STR) // parameters [ name => [value, type] ]
+            [$paramName => [$values['value'], \PDO::PARAM_STR]] // parameters [ name => [value, type] ]
         );
     }
 }
@@ -70,9 +73,9 @@ class CallbackFilterType extends AbstractType
 
 This option replaces the `translaformer_id` option. This option defines the way we extract some data from the form before the filter is applied.
 
-Available extration methods:
+Available extraction methods:
 
-* default: simply get the form data.
+* default: get the form data.
 * text: used with `TextFilterType` and `NumberFilterType` types if you choose to display the combo box of available patterns/operator, it has the data from the combo box and the text field.
 * value_keys: used with `NumberRangeFilterType`, `DateTimeRangeFilterType` and `DateRangeFilterType` types to get values form each form child.
 
@@ -88,22 +91,16 @@ use Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\DataExtractionMe
 
 class RainbowExtractionMethod implements DataExtractionMethodInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'rainbow';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function extract(FormInterface $form)
     {
-        $values = array(
-            'value' => $form->getData(), // The value used to filter, most of time the form value.
-        );
+        $values = [
+            'value' => $form->getData(), // The value used to filter, most time the form value.
+        ];
 
         // add other stuff into $values
 
@@ -135,7 +132,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 ##### The `filter_condition_builder` option:
 
-This option is used to defined the operator (and/or) to use between each condition.
+This option is used to define the operator (and/or) to use between each condition.
 This option is expected to be closure and recieve one parameter which is an instance of `Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface`.
 
 See [4.iii section](working-with-the-bundle.md#iii-customize-condition-operator) for examples.

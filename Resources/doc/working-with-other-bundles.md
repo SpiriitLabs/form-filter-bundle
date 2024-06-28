@@ -64,19 +64,22 @@ ii. PagerFanta example
 // DefaultController.php
 namespace Project\Bundle\SuperBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Project\Bundle\SuperBundle\Filter\ItemFilterType;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
-    public function __construct(private FilterBuilderUpdaterInterface $filterBuilderUpdater)
+    public function __construct(
+        private FilterBuilderUpdaterInterface $filterBuilderUpdater,
+        private FormFactoryInterface $formFactory
+    )
     {
     }
     
-    public function testFilterAction(Request $request)
+    public function __invoke(Request $request)
     {
         $form = $this->formFactory->create(new ItemFilterType());
 
@@ -108,18 +111,4 @@ class DefaultController extends Controller
         ));
     }
 }
-
-// A helper class
-class ListOptions extends AbstractOptions
-{
-    protected function getDefaultsOptions(): array
-    {
-        return [
-            'page' => 1,
-            'limit' => 100,
-            'sorting' => [],
-        ];
-    }
-}
-
 ```
