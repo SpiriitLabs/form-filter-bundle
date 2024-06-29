@@ -47,7 +47,7 @@ class FormDataExtractor implements FormDataExtractorInterface
     public function extractData(FormInterface $form, $methodName)
     {
         if (!isset($this->methods[$methodName])) {
-            throw new \RuntimeException(sprintf('Unknown extration method maned "%s".', $methodName));
+            throw new \RuntimeException(sprintf('Unknown extraction method maned "%s".', $methodName));
         }
 
         return $this->methods[$methodName]->extract($form);
