@@ -12,6 +12,7 @@
 namespace Spiriit\Bundle\FormFilterBundle\Event\Subscriber;
 
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
@@ -86,7 +87,7 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
 
             if ($dqlFrom = $event->getQueryBuilder()->getDQLPart('from')) {
                 $rootPart = reset($dqlFrom);
-                $fieldName = ltrim($event->getField(), $rootPart->getAlias() . '.');
+                $fieldName = \str_replace(\sprintf('%s.', $rootPart->getAlias()), null, $event->getField());
                 $metadata = $queryBuilder->getEntityManager()->getClassMetadata($rootPart->getFrom());
 
                 if (isset($metadata->associationMappings[$fieldName]) && (!$metadata->associationMappings[$fieldName]['isOwningSide'] || $metadata->associationMappings[$fieldName]['type'] === ClassMetadataInfo::MANY_TO_MANY)) {
@@ -108,13 +109,15 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
                 if (count($ids) > 0) {
                     $event->setCondition(
                         $expr->in($filterField, ':' . $paramName),
-                        [$paramName => [$ids, Connection::PARAM_INT_ARRAY]]
+                        [$paramName => [$ids, \is_int($ids[0]) ? ArrayParameterType::INTEGER : ArrayParameterType::STRING]]
                     );
                 }
             } else {
+                $id = $this->getEntityIdentifier($values['value'], $queryBuilder->getEntityManager());
+
                 $event->setCondition(
                     $expr->eq($filterField, ':' . $paramName),
-                    [$paramName => [$this->getEntityIdentifier($values['value'], $queryBuilder->getEntityManager()), Types::INTEGER]]
+                    [$paramName => [$id, \is_int($id) ? Types::INTEGER : Types::STRING]]
                 );
             }
         }
