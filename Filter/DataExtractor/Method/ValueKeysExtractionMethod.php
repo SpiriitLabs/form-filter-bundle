@@ -53,9 +53,6 @@ class ValueKeysExtractionMethod implements DataExtractionMethodInterface
                         $values['value'][$key][$k] = $v;
                     }
                 }
-            } else {
-                dump($keys, $data);
-                throw new \InvalidArgumentException(sprintf('No value found for key "%s" in form data.', $key));
             }
         }
 
