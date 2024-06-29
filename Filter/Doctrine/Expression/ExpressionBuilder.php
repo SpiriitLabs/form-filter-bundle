@@ -101,9 +101,9 @@ abstract class ExpressionBuilder
      * Returns lte expression if max is null
      * Returns gte expression if min is null
      *
-     * @param string        $field field name
-     * @param null|\DateTime $min   start date
-     * @param null|\DateTime $max   end date
+     * @param string $field field name
+     * @param null|\DateTimeInterface $min start date
+     * @param null|\DateTimeInterface $max end date
      *
      * @return Comparison|string
      */
@@ -136,9 +136,9 @@ abstract class ExpressionBuilder
      * Returns lte expression if max is null
      * Returns gte expression if min is null
      *
-     * @param  string|\DateTime $value alias.fieldName or mysql date string format or DateTime
-     * @param  string|\DateTime $min alias.fieldName or mysql date string format or DateTime
-     * @param  string|\DateTime $max alias.fieldName or mysql date string format or DateTime
+     * @param string|\DateTimeInterface $value alias.fieldName or mysql date string format or DateTime
+     * @param string|\DateTimeInterface $min alias.fieldName or mysql date string format or DateTime
+     * @param string|\DateTimeInterface $max alias.fieldName or mysql date string format or DateTime
      * @return Comparison|string
      */
     public function dateTimeInRange($value, $min = null, $max = null)
@@ -172,9 +172,9 @@ abstract class ExpressionBuilder
     /**
      * Get string like expression
      *
-     * @param  string $field field name
-     * @param  string $value string value
-     * @param  int    $type one of FilterOperands::STRING_* constant
+     * @param string $field field name
+     * @param string $value string value
+     * @param int $type one of FilterOperands::STRING_* constant
      *
      * @return Comparison|string
      */
@@ -191,14 +191,14 @@ abstract class ExpressionBuilder
     /**
      * Normalize DateTime boundary
      *
-     * @param  \DateTime $date
-     * @param  bool     $isMax
+     * @param \DateTimeInterface $date
+     * @param bool $isMax
      *
      * @return Literal|string
      */
     protected function convertToSqlDate($date, $isMax = false)
     {
-        if (!$date instanceof \DateTime) {
+        if (!$date instanceof \DateTimeInterface) {
             return;
         }
 
@@ -214,12 +214,12 @@ abstract class ExpressionBuilder
     /**
      * Normalize date time boundary
      *
-     * @param \DateTime|string $date
+     * @param \DateTimeInterface|string $date
      * @return Literal
      */
     protected function convertToSqlDateTime($date)
     {
-        if ($date instanceof \DateTime) {
+        if ($date instanceof \DateTimeInterface) {
             $date = $this->expr()->literal($date->format(self::SQL_DATE_TIME));
         }
 
@@ -230,7 +230,7 @@ abstract class ExpressionBuilder
      * Prepare value for like operation
      *
      * @param string $value
-     * @param int    $type one of FilterOperands::STRING_*
+     * @param int $type one of FilterOperands::STRING_*
      *
      * @return string
      *
