@@ -18,6 +18,7 @@
         <parameter key="spiriit_form_filter.type.filter_datetime_range.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeRangeFilterType</parameter>
         <parameter key="spiriit_form_filter.type.filter_collection_adapter.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType</parameter>
         <parameter key="spiriit_form_filter.type.filter_sharedable.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType</parameter>
+        <parameter key="spiriit_form_filter.type.filter_enum.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\EnumFilterType</parameter>
 
         <!-- Type extension -->
         <parameter key="spiriit_form_filter.type_extension.filter_extension.class">Spiriit\Bundle\FormFilterBundle\Filter\Form\FilterTypeExtension</parameter>
@@ -71,6 +72,10 @@
         </service>
 
         <service id="spiriit_form_filter.type.filter_sharedable" class="%spiriit_form_filter.type.filter_sharedable.class%">
+            <tag name="form.type" />
+        </service>
+
+        <service id="spiriit_form_filter.type.filter_enum" class="%spiriit_form_filter.type.filter_enum.class%">
             <tag name="form.type" />
         </service>
 

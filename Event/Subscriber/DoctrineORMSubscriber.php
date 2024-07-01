@@ -42,6 +42,7 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
             'spiriit_form_filter.apply.orm.filter_datetime' => ['filterDateTime'],
             'spiriit_form_filter.apply.orm.filter_datetime_range' => ['filterDateTimeRange'],
             'spiriit_form_filter.apply.orm.filter_entity' => ['filterEntity'],
+            'spiriit_form_filter.apply.orm.filter_enum' => ['filterEnum'],
             'spiriit_form_filter.apply.orm.filter_number' => ['filterNumber'],
             'spiriit_form_filter.apply.orm.filter_number_range' => ['filterNumberRange'],
             'spiriit_form_filter.apply.orm.filter_text' => ['filterText'],
