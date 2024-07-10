@@ -30,6 +30,61 @@ The bundle can be installed using Composer or the [Symfony binary](https://symfo
 composer require spiriitlabs/form-filter-bundle
 ```
 
+## Use it in two steps
+
+### create a form
+
+```php
+<?php
+namespace Project\Form\Filter;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+
+class RankFilterType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('name', Filters\TextFilterType::class);
+        $builder->add('rank', Filters\NumberFilterType::class);
+    }
+}
+```
+
+### use it in your controller
+
+```php
+class DefaultController extends AbstractController
+{
+    public function __invoke(
+    Request $request, 
+    FormFactoryInterface $formFactory,
+    EntityManagerInterface $em,
+    FilterBuilderUpdater $filterBuilderUpdater
+    ): Response
+    {
+        $form = $formFactory->create(RankFilterType::class);
+
+        $form->handleRequest($request);
+
+        $filterBuilder = $em
+            ->getRepository(MyEntity::class)
+            ->createQueryBuilder('e');
+
+        $filterBuilderUpdater->addFilterConditions($form, $filterBuilder);
+
+        // now look at the DQL =)
+        dump($filterBuilder->getDql());
+
+        return $this->render('testFilter.html.twig', [
+            'form' => $form,
+        ]);
+    }
+}
+```
+
 Documentation
 =============
 
