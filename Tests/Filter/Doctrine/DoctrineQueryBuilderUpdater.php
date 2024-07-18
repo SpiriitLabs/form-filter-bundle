@@ -85,6 +85,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[0], $doctrineQueryBuilder->{$method}());
+        $this->assertEquals([], $this->getQueryBuilderParameters($doctrineQueryBuilder));
 
         // bind a request to the form - 1 params
         $doctrineQueryBuilder = $this->createDoctrineQueryBuilder();
@@ -92,6 +93,8 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[1], $doctrineQueryBuilder->{$method}());
+        $this->assertEquals(['p_i_name' => 'blabla'], $this->getQueryBuilderParameters($doctrineQueryBuilder));
+
 
         // bind a request to the form - 2 params
         $form = $this->formFactory->create(ItemFilterType::class);
@@ -101,7 +104,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[2], $doctrineQueryBuilder->{$method}());
-        $this->assertEquals(['p_i_position' => 2], $this->getQueryBuilderParameters($doctrineQueryBuilder));
+        $this->assertEquals(['p_i_name' => 'blabla', 'p_i_position' => 2.0], $this->getQueryBuilderParameters($doctrineQueryBuilder));
 
         // bind a request to the form - 3 params
         $form = $this->formFactory->create(ItemFilterType::class);
@@ -111,7 +114,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[3], $doctrineQueryBuilder->{$method}());
-        $this->assertEquals(['p_i_position' => 2, 'p_i_enabled' => true], $this->getQueryBuilderParameters($doctrineQueryBuilder));
+        $this->assertEquals(['p_i_name' => 'blabla', 'p_i_position' => 2.0, 'p_i_enabled' => 1], $this->getQueryBuilderParameters($doctrineQueryBuilder));
 
         // bind a request to the form - 3 params (use checkbox for enabled field)
         $form = $this->formFactory->create(ItemFilterType::class, null, ['checkbox' => true]);
@@ -121,7 +124,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[4], $doctrineQueryBuilder->{$method}());
-        $this->assertEquals(['p_i_position' => 2, 'p_i_enabled' => 1], $this->getQueryBuilderParameters($doctrineQueryBuilder));
+        $this->assertEquals(['p_i_name' => 'blabla', 'p_i_position' => 2, 'p_i_enabled' => 1], $this->getQueryBuilderParameters($doctrineQueryBuilder));
 
         // bind a request to the form - date + pattern selector
         $year = \date('Y');
@@ -148,7 +151,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[5], $doctrineQueryBuilder->{$method}());
-        $this->assertEquals(['p_i_position' => 2, 'p_i_createdAt' => new \DateTime("{$year}-09-27")], $this->getQueryBuilderParameters($doctrineQueryBuilder));
+        $this->assertEquals(['p_i_name' => '%blabla', 'p_i_position' => 2.0, 'p_i_createdAt' => new \DateTime("{$year}-09-27")], $this->getQueryBuilderParameters($doctrineQueryBuilder));
 
         // bind a request to the form - datetime + pattern selector
         $form = $this->formFactory->create(ItemFilterType::class, null, ['with_selector' => true, 'datetime' => true]);
@@ -158,7 +161,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[6], $doctrineQueryBuilder->{$method}());
-        $this->assertEquals(['p_i_position' => 2, 'p_i_createdAt' => new \DateTime("{$year}-09-27 13:21:00")], $this->getQueryBuilderParameters($doctrineQueryBuilder));
+        $this->assertEquals(['p_i_name' => '%blabla', 'p_i_position' => 2.0, 'p_i_createdAt' => new \DateTime("{$year}-09-27 13:21:00")], $this->getQueryBuilderParameters($doctrineQueryBuilder));
     }
 
     protected function createDisabledFieldTest($method, array $dqls)
@@ -304,5 +307,6 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[0], $doctrineQueryBuilder->{$method}());
+        $this->assertEquals(['p_i_name' => 'hey dude'], $this->getQueryBuilderParameters($doctrineQueryBuilder));
     }
 }
