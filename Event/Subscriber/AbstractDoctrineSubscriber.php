@@ -232,15 +232,20 @@ abstract class AbstractDoctrineSubscriber
      */
     public function filterText(GetFilterConditionEvent $event)
     {
-        $expr = $event->getFilterQuery()->getExpressionBuilder();
+        $expr = $event->getFilterQuery()->getExpr();
+        $expression = $expr->andX();
         $values = $event->getValues();
 
         if ('' !== $values['value'] && null !== $values['value']) {
+            $paramName = sprintf('p_%s', str_replace('.', '_', $event->getField()));
+
             if (isset($values['condition_pattern'])) {
-                $event->setCondition($expr->stringLike($event->getField(), $values['value'], $values['condition_pattern']));
+                $expression->add($expr->like($event->getField(), ':' . $paramName, $values['condition_pattern']));
             } else {
-                $event->setCondition($expr->stringLike($event->getField(), $values['value']));
+                $expression->add($expr->like($event->getField(), ':' . $paramName));
             }
+
+            $event->setCondition($expression, [$paramName => $values['value']]);
         }
     }
 
