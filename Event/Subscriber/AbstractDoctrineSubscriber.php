@@ -233,19 +233,22 @@ abstract class AbstractDoctrineSubscriber
     public function filterText(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpr();
+        $exprBuilder = $event->getFilterQuery()->getExpressionBuilder();
         $expression = $expr->andX();
         $values = $event->getValues();
 
         if ('' !== $values['value'] && null !== $values['value']) {
-            $paramName = sprintf('p_%s', str_replace('.', '_', $event->getField()));
+            $paramName = $this->generateParameterName($event->getField());
 
             if (isset($values['condition_pattern'])) {
                 $expression->add($expr->like($event->getField(), ':' . $paramName, $values['condition_pattern']));
+                $value = $exprBuilder->convertTypeToMask($values['value'], $values['condition_pattern']);
             } else {
                 $expression->add($expr->like($event->getField(), ':' . $paramName));
+                $value = $values['value'];
             }
 
-            $event->setCondition($expression, [$paramName => $values['value']]);
+            $event->setCondition($expression, [$paramName => $value]);
         }
     }
 
