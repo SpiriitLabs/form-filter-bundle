@@ -9,6 +9,8 @@ The code remains unchanged; only the name and organization have changed on GitHu
 This Symfony bundle aims to provide classes to build some form types dedicated to filter an entity.
 Once you created your form type you will be able to update a doctrine query builder conditions from a form type.
 
+[![PHP Version](https://img.shields.io/packagist/php-v/spiriitlabs/form-filter-bundle)](https://packagist.org/packages/spiriitlabs/form-filter-bundle)
+![Packagist Downloads](https://img.shields.io/packagist/dm/spiriitlabs/form-filter-bundle?style=flat-square&label=Downloads%20Monthly)
 [![Latest Stable Version](https://poser.pugx.org/spiriitlabs/form-filter-bundle/v/stable.svg)](https://packagist.org/packages/spiriitlabs/form-filter-bundle)
 [![CI Tests](https://github.com/SpiriitLabs/form-filter-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/SpiriitLabs/form-filter-bundle/actions/workflows/ci.yml)
 
