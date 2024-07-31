@@ -16,7 +16,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -91,7 +91,7 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
                 $fieldName = \str_replace(\sprintf('%s.', $rootPart->getAlias()), null, $event->getField());
                 $metadata = $queryBuilder->getEntityManager()->getClassMetadata($rootPart->getFrom());
 
-                if (isset($metadata->associationMappings[$fieldName]) && (!$metadata->associationMappings[$fieldName]['isOwningSide'] || $metadata->associationMappings[$fieldName]['type'] === ClassMetadataInfo::MANY_TO_MANY)) {
+                if (isset($metadata->associationMappings[$fieldName]) && (!$metadata->associationMappings[$fieldName]['isOwningSide'] || $metadata->associationMappings[$fieldName]['type'] === ClassMetadata::MANY_TO_MANY)) {
                     if (!$event->getFilterQuery()->hasJoinAlias($fieldName)) {
                         $queryBuilder->leftJoin($event->getField(), $fieldName);
                     }
