@@ -236,7 +236,7 @@ abstract class ExpressionBuilder
      *
      * @throws \InvalidArgumentException
      */
-    protected function convertTypeToMask($value, $type)
+    public function convertTypeToMask($value, $type)
     {
         if ($this->forceCaseInsensitivity) {
             $value = $this->encoding ? mb_strtolower($value, $this->encoding) : mb_strtolower($value);
