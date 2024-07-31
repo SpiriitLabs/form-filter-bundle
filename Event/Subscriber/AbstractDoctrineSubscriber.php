@@ -11,9 +11,11 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Event\Subscriber;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
 
@@ -241,6 +243,45 @@ abstract class AbstractDoctrineSubscriber
             } else {
                 $event->setCondition($expr->stringLike($event->getField(), $values['value']));
             }
+        }
+    }
+
+    /**
+     * @param GetFilterConditionEvent $event
+     */
+    public function filterEnum(GetFilterConditionEvent $event)
+    {
+        /** @var ORMQuery $ormQuery */
+        $ormQuery = $event->getFilterQuery();
+        $expr = $ormQuery->getExpr();
+
+        $values = $event->getValues();
+        $value = $values['value'];
+
+        if ('' !== $value && null !== $value && [] !== $value) {
+            $paramName = $this->generateParameterName($event->getField());
+
+            if (\is_array($value)) {
+                $enumsValues = \array_map(static function (\UnitEnum $enum): string {
+                    if (!\is_a($enum, \BackedEnum::class)) {
+                        return $enum->name;
+                    }
+
+                    return $enum->value;
+                }, $value);
+
+                $event->setCondition(
+                    $expr->in($event->getField(), ':' . $paramName),
+                    [$paramName => [$enumsValues, ArrayParameterType::STRING]]
+                );
+
+                return;
+            }
+
+            $event->setCondition(
+                (string) $expr->eq($event->getField(), \sprintf(':%s', $paramName)),
+                [$paramName => [!\is_a($value, \BackedEnum::class) ? $value->name : $value->value, Types::STRING]]
+            );
         }
     }
 
