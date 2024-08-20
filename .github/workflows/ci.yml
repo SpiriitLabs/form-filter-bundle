@@ -12,7 +12,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: PHP v${{ matrix.php }}, Symfony v${{ matrix.symfony }}}
+    name: PHP v${{ matrix.php }}, Symfony v${{ matrix.symfony }}
     strategy:
       fail-fast: false
       matrix:
