@@ -306,7 +306,7 @@ class ItemFilterType extends AbstractType
         $builder->add('rank', Filters\NumberFilterType::class);
 
         $builder->add('options', Filters\CollectionAdapterFilterType::class, [
-            'entry_type' => new OptionsFilterType(),
+            'entry_type' => OptionsFilterType::class,
             'add_shared' => function (FilterBuilderExecuterInterface $qbe)  {
                 $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
                     // add the join clause to the doctrine query builder
