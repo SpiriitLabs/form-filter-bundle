@@ -26,10 +26,10 @@ class Item
     protected int $id;
 
     #[ORM\Column()]
-    protected string $name;
+    protected string $name = '';
 
     #[ORM\Column(type: 'integer')]
-    protected int $position;
+    protected ?int $position = null;
 
     #[ORM\Column(type: 'boolean')]
     protected bool $enabled;
@@ -41,7 +41,7 @@ class Item
     protected ?\DateTime $updatedAt = null;
 
     #[ORM\OneToMany(targetEntity: Options::class, mappedBy: 'item')]
-    private array $options;
+    private array $options = [];
 
     public function getId(): int
     {
@@ -58,12 +58,12 @@ class Item
         $this->name = $name;
     }
 
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    public function setPosition(int $position): void
+    public function setPosition(?int $position): void
     {
         $this->position = $position;
     }
