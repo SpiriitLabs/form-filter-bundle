@@ -32,7 +32,7 @@ class Item
     protected ?int $position = null;
 
     #[ORM\Column(type: 'boolean')]
-    protected bool $enabled;
+    protected bool $enabled = false;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?\DateTime $createdAt = null;
