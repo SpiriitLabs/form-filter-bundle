@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    bootstrap="vendor/autoload.php"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+>
 
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         bootstrap="vendor/autoload.php"
-    >
+  <testsuites>
+    <testsuite name="SpiriitFormFilterBundle Test Suite">
+      <directory>./Tests/</directory>
+    </testsuite>
+  </testsuites>
+  <coverage>
+    <include>
+      <directory>./</directory>
+    </include>
+    <exclude>
+      <directory>./Resources</directory>
+      <directory>./Tests</directory>
+      <directory>./vendor</directory>
+    </exclude>
+  </coverage>
 
-    <testsuites>
-        <testsuite name="SpiriitFormFilterBundle Test Suite">
-            <directory>./Tests/</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-
-        <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-
-    <php>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"></env>
-    </php>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-    </listeners>
+  <php>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+  </php>
+  <listeners>
+    <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+  </listeners>
 </phpunit>
