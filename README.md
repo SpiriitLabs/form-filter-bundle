@@ -121,8 +121,8 @@ Please consider [opening a question on StackOverflow](http://stackoverflow.com/q
   
 Github Issues are dedicated to bug reports and feature requests.
 
-Symfony 2.8 and 3.4
--------------------
+For compatibility with Symfony 2.8 and 3.4
+------------------------------------------
 
 Please use last tag v5.*
 

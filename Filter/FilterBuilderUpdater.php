@@ -161,7 +161,11 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
             } elseif ($formType instanceof EmbeddedFilterTypeInterface) {
                 $this->addFilters($child, $filterQuery, $child->getConfig()->getAttribute('filter_field_name') ?? ($alias . '.' . $child->getName()));
 
-            // default case
+                // inherit_data set to true
+            } elseif ($child->getConfig()->getInheritData()) {
+                $this->addFilters($child, $filterQuery, $alias);
+
+                // default case
             } else {
                 $condition = $this->getFilterCondition($child, $formType, $filterQuery, $alias);
 
@@ -194,7 +198,11 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
         $parentForm = $form;
         do {
             $parentForm = $parentForm->getParent();
-            if (!is_numeric($parentForm->getName()) && $parentForm->getConfig()->getMapped()) { // skip collection numeric index and not mapped fields
+            if (
+                !is_numeric($parentForm->getName())
+                && $parentForm->getConfig()->getMapped()
+                && !$parentForm->getConfig()->getInheritData()
+            ) { // skip collection numeric index and not mapped fields and inherited data
                 $completeName = $parentForm->getName() . '.' . $completeName;
             }
         } while (!$parentForm->isRoot());
@@ -294,6 +302,11 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
                     $isCollection ? $child->get(0) : $child,
                     $root->andX(),
                     $name
+                );
+            } elseif ($child->getConfig()->getInheritData()) {
+                $this->buildDefaultConditionNode(
+                    $child,
+                    $root
                 );
             } else {
                 $root->field($name);

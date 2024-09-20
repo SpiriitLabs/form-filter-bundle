@@ -25,37 +25,47 @@ class Options
     protected int $id;
 
     #[ORM\Column()]
-    protected string $label;
+    protected ?string $label = null;
 
     #[ORM\Column(type: 'integer')]
-    protected int $rank;
+    protected ?int $rank = null;
 
     #[ORM\ManyToOne(targetEntity: Item::class, inversedBy: 'options')]
     #[ORM\JoinColumn()]
-    private Item $item;
+    private ?Item $item = null;
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    public function setLabel(string $label): void
+    public function setLabel(?string $label): void
     {
         $this->label = $label;
     }
 
-    public function getRank(): int
+    public function getRank(): ?int
     {
         return $this->rank;
     }
 
-    public function setRank(int $rank): void
+    public function setRank(?int $rank): void
     {
         $this->rank = $rank;
+    }
+
+    public function getItem(): ?Item
+    {
+        return $this->item;
+    }
+
+    public function setItem(?Item $item): void
+    {
+        $this->item = $item;
     }
 }
