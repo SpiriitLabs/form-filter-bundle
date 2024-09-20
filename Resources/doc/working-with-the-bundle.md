@@ -432,7 +432,7 @@ class UserFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // ...
-        $builder->add('address', new AddressFilterType());
+        $builder->add('address', AddressFilterType::class);
         // ...
     }
 }
