@@ -498,14 +498,6 @@ class LocaleFilterType extends AbstractType
 }
 ```
 
-Then defined the `LocaleFilterType` as a service and remember to add the `form.type` tag:
-
-```xml
-<service id="something.type.filter_locale" class="Super\Namespace\Type\LocaleFilterType">
-    <tag name="form.type" />
-</service>
-```
-
 Now we can use the `LocaleFilterType` type, but no filter will be applied. To apply a filter we need to listen some event, so let's create a subscriber:
 
 ```php
