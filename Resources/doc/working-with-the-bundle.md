@@ -523,10 +523,12 @@ class FilterSubscriber implements EventSubscriberInterface
     {
         return [
             // if a Doctrine\ORM\QueryBuilder is passed to the spiriit_form_filter.query_builder_updater service
-            'spiriit_form_filter.apply.orm.filter_locale' => ['filterLocale'],
+	    // "locale_filter" is the block prefix of the LocaleFilterType
+            'spiriit_form_filter.apply.orm.locale_filter' => ['filterLocale'],
 
             // if a Doctrine\DBAL\Query\QueryBuilder is passed to the spiriit_form_filter.query_builder_updater service
-            'spiriit_form_filter.apply.dbal.filter_locale' => ['filterLocale'],
+            // "locale_filter" is the block prefix of the LocaleFilterType
+            'spiriit_form_filter.apply.dbal.locale_filter' => ['filterLocale'],
         ];
     }
 
