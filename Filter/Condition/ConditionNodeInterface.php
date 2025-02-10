@@ -36,7 +36,7 @@ interface ConditionNodeInterface
     /**
      * Returns the parent node.
      *
-     * @return ConditionNode
+     * @return ConditionNode|null
      */
     public function end();
 
