@@ -48,7 +48,16 @@ class BooleanFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefaults(['required' => false, 'choices' => ['boolean.yes' => self::VALUE_YES, 'boolean.no' => self::VALUE_NO], 'placeholder' => 'boolean.yes_or_no', 'translation_domain' => 'SpiriitFormFilterBundle', 'data_extraction_method' => 'default'])
+            ->setDefaults([
+                'required' => false,
+                'choices' => [
+                    'boolean.yes_or_no' => '',
+                    'boolean.yes' => self::VALUE_YES,
+                    'boolean.no' => self::VALUE_NO,
+                ],
+                'choice_translation_domain' => 'SpiriitFormFilterBundle',
+                'data_extraction_method' => 'default',
+            ])
             ->setAllowedValues('data_extraction_method', ['default'])
         ;
 
