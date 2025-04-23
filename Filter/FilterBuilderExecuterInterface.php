@@ -25,7 +25,7 @@ interface FilterBuilderExecuterInterface
      * @param string   $alias
      * @param \Closure $callback
      */
-    public function addOnce($join, $alias, \Closure $callback = null);
+    public function addOnce($join, $alias, ?\Closure $callback = null);
 
     /**
      * @return string

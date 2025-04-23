@@ -42,7 +42,7 @@ class ConditionNode implements ConditionNodeInterface
      * @param string                 $operator
      * @param ConditionNodeInterface $parent
      */
-    public function __construct($operator, ConditionNodeInterface $parent = null)
+    public function __construct($operator, ?ConditionNodeInterface $parent = null)
     {
         $this->operator = $operator;
         $this->parent = $parent;

@@ -74,7 +74,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * {@inheritdoc}
      */
-    public function addOnce($join, $alias, \Closure $callback = null)
+    public function addOnce($join, $alias, ?\Closure $callback = null)
     {
         if ($this->parts->has($join)) {
             return null;
