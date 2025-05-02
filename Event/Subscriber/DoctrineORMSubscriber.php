@@ -88,7 +88,7 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
 
             if ($dqlFrom = $event->getQueryBuilder()->getDQLPart('from')) {
                 $rootPart = reset($dqlFrom);
-                $fieldName = \str_replace(\sprintf('%s.', $rootPart->getAlias()), null, $event->getField());
+                $fieldName = \str_replace(\sprintf('%s.', $rootPart->getAlias()), '', $event->getField());
                 $metadata = $queryBuilder->getEntityManager()->getClassMetadata($rootPart->getFrom());
 
                 if (isset($metadata->associationMappings[$fieldName]) && (!$metadata->associationMappings[$fieldName]['isOwningSide'] || $metadata->associationMappings[$fieldName]['type'] === ClassMetadata::MANY_TO_MANY)) {

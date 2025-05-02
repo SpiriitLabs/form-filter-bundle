@@ -13,6 +13,8 @@ namespace Spiriit\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
 
 use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
 use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Options;
+use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\InheritDataFilterType;
 use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemEmbeddedOptionsFilterType;
 
 /**
@@ -177,10 +179,34 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $this->assertEquals(['p_opt_rank' => 6], $this->getQueryBuilderParameters($doctrineQueryBuilder));
     }
 
-    protected function createDoctrineQueryBuilder()
+    public function testWithInheritDataFormOption()
     {
+        // doctrine query builder without any joins + a data_class
+        $form = $this->formFactory->create(InheritDataFilterType::class, null, ['data_class' => Options::class]);
+        $filterQueryBuilder = $this->initQueryBuilderUpdater();
+
+        $doctrineQueryBuilder = $this->createDoctrineQueryBuilder(Options::class, 'o');
+
+        $form->submit(['option' => ['label' => 'dude', 'rank' => 1], 'item' => ['name' => 'blabla', 'position' => 2, 'enabled' => 'y']]);
+
+        $expectedDql = 'SELECT o FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Options o LEFT JOIN o.item item';
+        $expectedDql .= ' WHERE o.label LIKE \'dude\' AND o.rank = :p_o_rank AND (item.name LIKE \'blabla\' AND item.position > :p_item_position AND item.enabled = :p_item_enabled)';
+        $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
+
+        $this->assertEquals($expectedDql, $doctrineQueryBuilder->getDql());
+        $this->assertEquals([
+            'p_o_rank' => 1.0,
+            'p_item_position' =>  2.0,
+            'p_item_enabled' => true,
+        ], $this->getQueryBuilderParameters($doctrineQueryBuilder));
+    }
+
+    protected function createDoctrineQueryBuilder(
+        string $entityClassName = Item::class,
+        string $alias = 'i'
+    ) {
         return $this->em
-                     ->getRepository(Item::class)
-                     ->createQueryBuilder('i');
+                     ->getRepository($entityClassName)
+                     ->createQueryBuilder($alias);
     }
 }

@@ -306,7 +306,7 @@ class ItemFilterType extends AbstractType
         $builder->add('rank', Filters\NumberFilterType::class);
 
         $builder->add('options', Filters\CollectionAdapterFilterType::class, [
-            'entry_type' => new OptionsFilterType(),
+            'entry_type' => OptionsFilterType::class,
             'add_shared' => function (FilterBuilderExecuterInterface $qbe)  {
                 $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
                     // add the join clause to the doctrine query builder
@@ -432,7 +432,7 @@ class UserFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // ...
-        $builder->add('address', new AddressFilterType());
+        $builder->add('address', AddressFilterType::class);
         // ...
     }
 }
@@ -498,14 +498,6 @@ class LocaleFilterType extends AbstractType
 }
 ```
 
-Then defined the `LocaleFilterType` as a service and remember to add the `form.type` tag:
-
-```xml
-<service id="something.type.filter_locale" class="Super\Namespace\Type\LocaleFilterType">
-    <tag name="form.type" />
-</service>
-```
-
 Now we can use the `LocaleFilterType` type, but no filter will be applied. To apply a filter we need to listen some event, so let's create a subscriber:
 
 ```php
@@ -523,10 +515,12 @@ class FilterSubscriber implements EventSubscriberInterface
     {
         return [
             // if a Doctrine\ORM\QueryBuilder is passed to the spiriit_form_filter.query_builder_updater service
-            'spiriit_form_filter.apply.orm.filter_locale' => ['filterLocale'],
+	    // "locale_filter" is the block prefix of the LocaleFilterType
+            'spiriit_form_filter.apply.orm.locale_filter' => ['filterLocale'],
 
             // if a Doctrine\DBAL\Query\QueryBuilder is passed to the spiriit_form_filter.query_builder_updater service
-            'spiriit_form_filter.apply.dbal.filter_locale' => ['filterLocale'],
+            // "locale_filter" is the block prefix of the LocaleFilterType
+            'spiriit_form_filter.apply.dbal.locale_filter' => ['filterLocale'],
         ];
     }
 

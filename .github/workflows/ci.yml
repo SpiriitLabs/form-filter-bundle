@@ -12,7 +12,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: PHP v${{ matrix.php }}, Symfony v${{ matrix.symfony }}}
+    name: PHP v${{ matrix.php }}, Symfony v${{ matrix.symfony }}
     strategy:
       fail-fast: false
       matrix:
@@ -36,21 +36,17 @@ jobs:
       - name: Show PHP version
         run: php -v && composer -V
 
-      - name: Download Composer cache dependencies from cache
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
+      - name: "Cache Composer packages"
+        uses: "actions/cache@v4"
+        with:
+          path: "~/.composer/cache"
+          key: "php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-composer-${{ hashFiles('composer.json') }}-flags-${{ matrix.composer-flags }}"
+          restore-keys: "php-"
+        
       - name: "Require symfony/messenger"
         run: "composer require --dev symfony/doctrine-messenger --no-update"
         if: "${{ startsWith(matrix.symfony, '5.4') }}"
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ matrix.os }}-composer-
-
+          
       - name: Install dependencies
         run: |
           perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json

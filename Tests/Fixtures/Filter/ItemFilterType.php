@@ -17,6 +17,7 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CheckboxFilterType;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateFilterType;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeFilterType;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -48,5 +49,10 @@ class ItemFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['with_selector' => false, 'checkbox' => false, 'datetime' => false, 'disabled_name' => false]);
+    }
+
+    public function getParent(): string
+    {
+        return SharedableFilterType::class; // this allows us to use the "add_shared" option
     }
 }
