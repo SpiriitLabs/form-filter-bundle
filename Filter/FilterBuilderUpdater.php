@@ -254,7 +254,7 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
         $values = $this->dataExtractor->extractData($form, $config->getOption('data_extraction_method', 'default'));
 
         if ($config->hasAttribute('filter_options')) {
-            $values = array_merge($values, $config->getAttribute('filter_options'));
+            return array_merge($values, $config->getAttribute('filter_options'));
         }
 
         return $values;

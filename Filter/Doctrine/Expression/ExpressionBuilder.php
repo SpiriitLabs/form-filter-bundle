@@ -69,11 +69,12 @@ abstract class ExpressionBuilder
         if (!$min && !$max) {
             return;
         }
-
         if (null === $min) {
             // $max exists
             return $this->expr()->lte($field, (float) $max);
-        } elseif (null === $max) {
+        }
+
+        if (null === $max) {
             // $min exists
             return $this->expr()->gte($field, (float) $min);
         }
@@ -115,11 +116,12 @@ abstract class ExpressionBuilder
 
         $min = $this->convertToSqlDate($min);
         $max = $this->convertToSqlDate($max, true);
-
         if (null === $min) {
             // $max exists
             return $this->expr()->lte($field, $max);
-        } elseif (null === $max) {
+        }
+
+        if (null === $max) {
             // $min exists
             return $this->expr()->gte($field, $min);
         }
@@ -220,7 +222,7 @@ abstract class ExpressionBuilder
     protected function convertToSqlDateTime($date)
     {
         if ($date instanceof \DateTime) {
-            $date = $this->expr()->literal($date->format(self::SQL_DATE_TIME));
+            return $this->expr()->literal($date->format(self::SQL_DATE_TIME));
         }
 
         return $date;
