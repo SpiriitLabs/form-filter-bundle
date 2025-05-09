@@ -37,10 +37,7 @@ class ApplyFilterConditionEvent extends Event
         $this->conditionBuilder = $conditionBuilder;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getConditionBuilder()
+    public function getConditionBuilder(): ConditionBuilderInterface
     {
         return $this->conditionBuilder;
     }

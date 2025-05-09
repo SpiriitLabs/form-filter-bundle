@@ -54,7 +54,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * {@inheritdoc}
      */
-    public function getParts()
+    public function getParts(): RelationsAliasBag
     {
         return $this->parts;
     }
@@ -62,7 +62,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * {@inheritdoc}
      */
-    public function getFilterQuery()
+    public function getFilterQuery(): QueryInterface
     {
         return $this->filterQuery;
     }
@@ -70,7 +70,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * {@inheritdoc}
      */
-    public function addOnce($join, $alias, Closure $callback = null)
+    public function addOnce($join, $alias, ?Closure $callback = null)
     {
         if ($this->parts->has($join)) {
             return null;

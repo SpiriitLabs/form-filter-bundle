@@ -51,7 +51,7 @@ class DBALQuery implements QueryInterface
     /**
      * {@inheritDoc}
      */
-    public function getQueryBuilder()
+    public function getQueryBuilder(): QueryBuilder
     {
         return $this->queryBuilder;
     }
@@ -107,7 +107,7 @@ class DBALQuery implements QueryInterface
      *
      * @return \Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression\ExpressionBuilder
      */
-    public function getExpressionBuilder()
+    public function getExpressionBuilder(): DBALExpressionBuilder
     {
         return $this->expressionBuilder;
     }

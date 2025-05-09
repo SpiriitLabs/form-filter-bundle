@@ -54,7 +54,7 @@ class ORMQuery implements QueryInterface
     /**
      * {@inheritDoc}
      */
-    public function getQueryBuilder()
+    public function getQueryBuilder(): QueryBuilder
     {
         return $this->queryBuilder;
     }
@@ -109,7 +109,7 @@ class ORMQuery implements QueryInterface
      *
      * @return ExpressionBuilder
      */
-    public function getExpressionBuilder()
+    public function getExpressionBuilder(): ORMExpressionBuilder
     {
         return $this->expressionBuilder;
     }

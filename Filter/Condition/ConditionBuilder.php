@@ -25,7 +25,7 @@ class ConditionBuilder implements ConditionBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function root($operator)
+    public function root($operator): ConditionNode
     {
         $operator = strtolower($operator);
 
@@ -51,7 +51,7 @@ class ConditionBuilder implements ConditionBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getRoot()
+    public function getRoot(): ?ConditionNode
     {
         return $this->root;
     }

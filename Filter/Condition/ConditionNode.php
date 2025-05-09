@@ -32,7 +32,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * @param string                 $operator
      */
-    public function __construct($operator, ConditionNodeInterface $parent = null)
+    public function __construct($operator, ?ConditionNodeInterface $parent = null)
     {
         $this->operator = $operator;
         $this->parent = $parent;
@@ -67,7 +67,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function end()
+    public function end(): ?ConditionNodeInterface
     {
         return $this->parent;
     }
@@ -93,7 +93,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }
@@ -101,7 +101,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->children;
     }

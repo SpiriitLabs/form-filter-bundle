@@ -48,10 +48,7 @@ class GetFilterConditionEvent extends Event
         $this->values = $values;
     }
 
-    /**
-     * @return QueryInterface
-     */
-    public function getFilterQuery()
+    public function getFilterQuery(): QueryInterface
     {
         return $this->filterQuery;
     }
@@ -91,7 +88,7 @@ class GetFilterConditionEvent extends Event
     /**
      * @return ConditionInterface
      */
-    public function getCondition()
+    public function getCondition(): ?Condition
     {
         return $this->condition;
     }

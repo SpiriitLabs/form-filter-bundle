@@ -66,7 +66,7 @@ abstract class ExpressionBuilder
      *
      * @return Comparison|string
      */
-    public function inRange($field, $min, $max)
+    public function inRange(string $field, $min, $max)
     {
         if (!$min && !$max) {
             return;

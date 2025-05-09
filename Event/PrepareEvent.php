@@ -61,7 +61,7 @@ class PrepareEvent extends Event
      *
      * @return QueryInterface
      */
-    public function getFilterQuery()
+    public function getFilterQuery(): ?QueryInterface
     {
         return $this->filterQuery;
     }
