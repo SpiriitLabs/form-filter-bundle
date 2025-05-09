@@ -26,10 +26,7 @@ class ApplyFilterConditionEvent extends Event
      */
     private $queryBuilder;
 
-    /**
-     * @var ConditionBuilderInterface
-     */
-    private $conditionBuilder;
+    private ConditionBuilderInterface $conditionBuilder;
 
     /**
      * @param mixed                     $queryBuilder

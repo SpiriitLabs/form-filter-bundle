@@ -11,6 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
+use Closure;
 use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 /**
@@ -24,7 +25,7 @@ interface FilterBuilderExecuterInterface
      * @param string   $join
      * @param string   $alias
      */
-    public function addOnce($join, $alias, \Closure $callback = null);
+    public function addOnce($join, $alias, Closure $callback = null);
 
     /**
      * @return string

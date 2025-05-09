@@ -44,7 +44,7 @@ class PrepareListener
     /**
      * Filter builder prepare event
      */
-    public function onFilterBuilderPrepare(PrepareEvent $event)
+    public function onFilterBuilderPrepare(PrepareEvent $event): void
     {
         $qb = $event->getQueryBuilder();
 

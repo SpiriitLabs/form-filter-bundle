@@ -11,6 +11,8 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Event\Subscriber;
 
+use RuntimeException;
+use Exception;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
@@ -68,9 +70,9 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function filterEntity(GetFilterConditionEvent $event)
+    public function filterEntity(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpr();
         $values = $event->getValues();
@@ -121,23 +123,22 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
     }
 
     /**
-     * @param object $value
      * @return integer
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
-    protected function getEntityIdentifier($value, EntityManagerInterface $em)
+    protected function getEntityIdentifier(object $value, EntityManagerInterface $em): mixed
     {
         $class = get_class($value);
         $metadata = $em->getClassMetadata($class);
 
         if ($metadata->isIdentifierComposite) {
-            throw new \RuntimeException(sprintf('Composite identifier is not supported by FilterEntityType.', $class));
+            throw new RuntimeException(sprintf('Composite identifier is not supported by FilterEntityType.', $class));
         }
 
         $identifierValues = $metadata->getIdentifierValues($value);
 
         if (empty($identifierValues)) {
-            throw new \RuntimeException(sprintf('Can\'t get identifier value for class "%s".', $class));
+            throw new RuntimeException(sprintf('Can\'t get identifier value for class "%s".', $class));
         }
 
         return array_shift($identifierValues);

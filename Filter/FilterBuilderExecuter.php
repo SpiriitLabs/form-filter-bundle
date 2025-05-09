@@ -11,6 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
+use Closure;
 use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 /**
@@ -18,10 +19,7 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
  */
 class FilterBuilderExecuter implements FilterBuilderExecuterInterface
 {
-    /**
-     * @var QueryInterface
-     */
-    protected $filterQuery;
+    protected QueryInterface $filterQuery;
 
     /**
      * @var string
@@ -31,7 +29,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * @var array
      */
-    protected $parts;
+    protected RelationsAliasBag $parts;
 
     /**
      * Construct.
@@ -72,7 +70,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * {@inheritdoc}
      */
-    public function addOnce($join, $alias, \Closure $callback = null)
+    public function addOnce($join, $alias, Closure $callback = null)
     {
         if ($this->parts->has($join)) {
             return null;
@@ -80,7 +78,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
 
         $this->parts->add($join, $alias);
 
-        if (!$callback instanceof \Closure) {
+        if (!$callback instanceof Closure) {
             return;
         }
 

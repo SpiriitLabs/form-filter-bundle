@@ -46,7 +46,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected $formFactory;
 
-    private static $container;
+    private static ?ContainerBuilder $container = null;
 
     public function setUp(): void
     {
@@ -116,7 +116,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return $container->get('spiriit_form_filter.query_builder_updater');
     }
 
-    private static function createContainerBuilder(array $configs = [])
+    private static function createContainerBuilder(array $configs = []): ContainerBuilder
     {
         $container = new ContainerBuilder(new ParameterBag([
             'kernel.bundles' => [

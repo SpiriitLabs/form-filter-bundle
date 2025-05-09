@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class AutowiringTest extends TestCase
 {
-    private static $container;
+    private static ?ContainerBuilder $container = null;
 
     public function testAutowiring(): void
     {
@@ -50,7 +50,7 @@ class AutowiringTest extends TestCase
         $this->assertInstanceOf(FilterBuilderUpdater::class, $autowired->getFilterBuilderUpdater());
     }
 
-    private static function createContainerBuilder(array $configs = [])
+    private static function createContainerBuilder(array $configs = []): ContainerBuilder
     {
         $container = new ContainerBuilder(
             new ParameterBag([

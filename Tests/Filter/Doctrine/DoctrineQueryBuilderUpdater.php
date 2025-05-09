@@ -11,6 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
 
+use DateTime;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
@@ -148,7 +149,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[5], $doctrineQueryBuilder->{$method}());
-        $this->assertEquals(['p_i_position' => 2, 'p_i_createdAt' => new \DateTime("{$year}-09-27")], $this->getQueryBuilderParameters($doctrineQueryBuilder));
+        $this->assertEquals(['p_i_position' => 2, 'p_i_createdAt' => new DateTime("{$year}-09-27")], $this->getQueryBuilderParameters($doctrineQueryBuilder));
 
         // bind a request to the form - datetime + pattern selector
         $form = $this->formFactory->create(ItemFilterType::class, null, ['with_selector' => true, 'datetime' => true]);
@@ -158,7 +159,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
 
         $filterQueryBuilder->addFilterConditions($form, $doctrineQueryBuilder);
         $this->assertEquals($dqls[6], $doctrineQueryBuilder->{$method}());
-        $this->assertEquals(['p_i_position' => 2, 'p_i_createdAt' => new \DateTime("{$year}-09-27 13:21:00")], $this->getQueryBuilderParameters($doctrineQueryBuilder));
+        $this->assertEquals(['p_i_position' => 2, 'p_i_createdAt' => new DateTime("{$year}-09-27 13:21:00")], $this->getQueryBuilderParameters($doctrineQueryBuilder));
     }
 
     protected function createDisabledFieldTest($method, array $dqls)
@@ -263,7 +264,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
         $this->assertEquals($dqls[1], $doctrineQueryBuilder->{$method}());
     }
 
-    public function createDateTimeRangeTest($method, array $dqls)
+    public function createDateTimeRangeTest($method, array $dqls): void
     {
         // use filter type options
         $form = $this->formFactory->create(RangeFilterType::class);
@@ -294,7 +295,7 @@ abstract class DoctrineQueryBuilderUpdater extends TestCase
         $this->assertEquals($dqls[0], $doctrineQueryBuilder->{$method}());
     }
 
-    public function createFilterStandardTypeTest($method, array $dqls)
+    public function createFilterStandardTypeTest($method, array $dqls): void
     {
         $form = $this->formFactory->create(FormType::class);
         $filterQueryBuilder = $this->initQueryBuilderUpdater();

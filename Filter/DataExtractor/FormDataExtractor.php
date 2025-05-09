@@ -11,6 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor;
 
+use RuntimeException;
 use Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\DataExtractionMethodInterface;
 use Symfony\Component\Form\FormInterface;
 
@@ -20,10 +21,7 @@ use Symfony\Component\Form\FormInterface;
  */
 class FormDataExtractor implements FormDataExtractorInterface
 {
-    /**
-     * @var array
-     */
-    private $methods;
+    private array $methods;
 
     /**
      * Constructor.
@@ -36,7 +34,7 @@ class FormDataExtractor implements FormDataExtractorInterface
     /**
      * {@inheritdoc}
      */
-    public function addMethod(DataExtractionMethodInterface $method)
+    public function addMethod(DataExtractionMethodInterface $method): void
     {
         $this->methods[$method->getName()] = $method;
     }
@@ -47,7 +45,7 @@ class FormDataExtractor implements FormDataExtractorInterface
     public function extractData(FormInterface $form, $methodName)
     {
         if (!isset($this->methods[$methodName])) {
-            throw new \RuntimeException(sprintf('Unknown extraction method maned "%s".', $methodName));
+            throw new RuntimeException(sprintf('Unknown extraction method maned "%s".', $methodName));
         }
 
         return $this->methods[$methodName]->extract($form);

@@ -23,20 +23,11 @@ class ConditionNode implements ConditionNodeInterface
      */
     private $operator;
 
-    /**
-     * @var ConditionNodeInterface
-     */
-    private $parent;
+    private ?ConditionNodeInterface $parent;
 
-    /**
-     * @var array
-     */
-    private $children;
+    private array $children;
 
-    /**
-     * @var array
-     */
-    private $fields;
+    private array $fields;
 
     /**
      * @param string                 $operator
@@ -52,7 +43,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function orX()
+    public function orX(): static
     {
         $node = new static(self::EXPR_OR, $this);
 
@@ -64,7 +55,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function andX()
+    public function andX(): static
     {
         $node = new static(self::EXPR_AND, $this);
 
@@ -84,7 +75,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function field($name)
+    public function field($name): static
     {
         $this->fields[$name] = null;
 

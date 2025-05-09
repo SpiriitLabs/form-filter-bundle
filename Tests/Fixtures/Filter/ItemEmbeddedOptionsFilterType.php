@@ -30,8 +30,8 @@ class ItemEmbeddedOptionsFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $addShared = function (FilterBuilderExecuterInterface $qbe) {
-            $joinClosure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, ORMExpr $expr) {
+        $addShared = function (FilterBuilderExecuterInterface $qbe): void {
+            $joinClosure = function (QueryBuilder $filterBuilder, string $alias, $joinAlias, ORMExpr $expr): void {
                 $filterBuilder->leftJoin($alias . '.options', $joinAlias);
             };
             $qbe->addOnce($qbe->getAlias() . '.options', 'opt', $joinClosure);

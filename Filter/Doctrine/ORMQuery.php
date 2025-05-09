@@ -23,15 +23,9 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
  */
 class ORMQuery implements QueryInterface
 {
-    /**
-     * @var QueryBuilder $queryBuilder
-     */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
-    /**
-     * @var ORMExpressionBuilder $expr
-     */
-    private $expressionBuilder;
+    private ORMExpressionBuilder $expressionBuilder;
 
     /**
      * Constructor.
@@ -68,17 +62,15 @@ class ORMQuery implements QueryInterface
     /**
      * {@inheritDoc}
      */
-    public function createCondition($expression, array $parameters = [])
+    public function createCondition($expression, array $parameters = []): Condition
     {
         return new Condition($expression, $parameters);
     }
 
     /**
      * Get QueryBuilder expr.
-     *
-     * @return Expr
      */
-    public function getExpr()
+    public function getExpr(): Expr
     {
         return $this->queryBuilder->expr();
     }

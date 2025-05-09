@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DBALQueryTest extends TestCase
 {
-    public function testHasJoinAlias()
+    public function testHasJoinAlias(): void
     {
         self::assertTrue(true);
 

@@ -11,6 +11,8 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression;
 
+use DateTime;
+use InvalidArgumentException;
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\Query\Expr\Literal;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
@@ -92,7 +94,7 @@ abstract class ExpressionBuilder
      *
      * @return string
      */
-    public function between($field, $min, $max)
+    public function between(string $field, $min, $max)
     {
         return $field . ' BETWEEN ' . $min . ' AND ' . $max;
     }
@@ -103,8 +105,8 @@ abstract class ExpressionBuilder
      * Returns gte expression if min is null
      *
      * @param string        $field field name
-     * @param null|\DateTime $min   start date
-     * @param null|\DateTime $max   end date
+     * @param null|DateTime $min start date
+     * @param null|DateTime $max end date
      *
      * @return Comparison|string
      */
@@ -138,9 +140,9 @@ abstract class ExpressionBuilder
      * Returns lte expression if max is null
      * Returns gte expression if min is null
      *
-     * @param  string|\DateTime $value alias.fieldName or mysql date string format or DateTime
-     * @param  string|\DateTime $min alias.fieldName or mysql date string format or DateTime
-     * @param  string|\DateTime $max alias.fieldName or mysql date string format or DateTime
+     * @param string|DateTime $value alias.fieldName or mysql date string format or DateTime
+     * @param string|DateTime $min alias.fieldName or mysql date string format or DateTime
+     * @param string|DateTime $max alias.fieldName or mysql date string format or DateTime
      * @return Comparison|string
      */
     public function dateTimeInRange($value, $min = null, $max = null)
@@ -193,14 +195,14 @@ abstract class ExpressionBuilder
     /**
      * Normalize DateTime boundary
      *
-     * @param  \DateTime $date
+     * @param DateTime $date
      * @param  bool     $isMax
      *
      * @return Literal|string
      */
     protected function convertToSqlDate($date, $isMax = false)
     {
-        if (!$date instanceof \DateTime) {
+        if (!$date instanceof DateTime) {
             return;
         }
 
@@ -216,12 +218,12 @@ abstract class ExpressionBuilder
     /**
      * Normalize date time boundary
      *
-     * @param \DateTime|string $date
+     * @param DateTime|string $date
      * @return Literal
      */
     protected function convertToSqlDateTime($date)
     {
-        if ($date instanceof \DateTime) {
+        if ($date instanceof DateTime) {
             return $this->expr()->literal($date->format(self::SQL_DATE_TIME));
         }
 
@@ -236,7 +238,7 @@ abstract class ExpressionBuilder
      *
      * @return string
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function convertTypeToMask($value, $type)
     {
@@ -261,7 +263,7 @@ abstract class ExpressionBuilder
                 break;
 
             default:
-                throw new \InvalidArgumentException('Wrong type constant in string like expression mapper');
+                throw new InvalidArgumentException('Wrong type constant in string like expression mapper');
         }
 
         return $value;

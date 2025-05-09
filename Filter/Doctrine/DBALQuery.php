@@ -22,15 +22,9 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
  */
 class DBALQuery implements QueryInterface
 {
-    /**
-     * @var QueryBuilder $queryBuilder
-     */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
-    /**
-     * @var DBALExpressionBuilder $expr
-     */
-    private $expressionBuilder;
+    private DBALExpressionBuilder $expressionBuilder;
 
     /**
      * Constructor.
@@ -65,7 +59,7 @@ class DBALQuery implements QueryInterface
     /**
      * {@inheritDoc}
      */
-    public function createCondition($expression, array $parameters = [])
+    public function createCondition($expression, array $parameters = []): Condition
     {
         return new Condition($expression, $parameters);
     }

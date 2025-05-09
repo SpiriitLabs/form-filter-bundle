@@ -26,10 +26,7 @@ class PrepareEvent extends Event
      */
     private $queryBuilder;
 
-    /**
-     * @var object $filterQuery
-     */
-    private $filterQuery;
+    private ?QueryInterface $filterQuery = null;
 
     /**
      * Construct
@@ -54,7 +51,7 @@ class PrepareEvent extends Event
     /**
      * Set filter query
      */
-    public function setFilterQuery(QueryInterface $filterQuery)
+    public function setFilterQuery(QueryInterface $filterQuery): void
     {
         $this->filterQuery = $filterQuery;
     }

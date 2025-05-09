@@ -11,6 +11,9 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Event\Subscriber;
 
+use DateTime;
+use UnitEnum;
+use BackedEnum;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
@@ -27,7 +30,7 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
  */
 abstract class AbstractDoctrineSubscriber
 {
-    public function filterValue(GetFilterConditionEvent $event)
+    public function filterValue(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpr();
         $values = $event->getValues();
@@ -49,7 +52,7 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterBoolean(GetFilterConditionEvent $event)
+    public function filterBoolean(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpr();
         $values = $event->getValues();
@@ -66,7 +69,7 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterCheckbox(GetFilterConditionEvent $event)
+    public function filterCheckbox(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpr();
         $values = $event->getValues();
@@ -81,12 +84,12 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterDate(GetFilterConditionEvent $event)
+    public function filterDate(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpr();
         $values = $event->getValues();
 
-        if ($values['value'] instanceof \DateTime) {
+        if ($values['value'] instanceof DateTime) {
             $paramName = $this->generateParameterName($event->getField());
 
             $event->setCondition(
@@ -96,7 +99,7 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterDateRange(GetFilterConditionEvent $event)
+    public function filterDateRange(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpressionBuilder();
         $values = $event->getValues();
@@ -107,12 +110,12 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterDateTime(GetFilterConditionEvent $event)
+    public function filterDateTime(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpr();
         $values = $event->getValues();
 
-        if ($values['value'] instanceof \DateTime) {
+        if ($values['value'] instanceof DateTime) {
             $paramName = $this->generateParameterName($event->getField());
 
             $event->setCondition(
@@ -122,7 +125,7 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterDateTimeRange(GetFilterConditionEvent $event)
+    public function filterDateTimeRange(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpressionBuilder();
         $values = $event->getValues();
@@ -133,7 +136,7 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterNumber(GetFilterConditionEvent $event)
+    public function filterNumber(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpr();
         $values = $event->getValues();
@@ -150,7 +153,7 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterNumberRange(GetFilterConditionEvent $event)
+    public function filterNumberRange(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpr();
         $values = $event->getValues();
@@ -202,7 +205,7 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterText(GetFilterConditionEvent $event)
+    public function filterText(GetFilterConditionEvent $event): void
     {
         $expr = $event->getFilterQuery()->getExpressionBuilder();
         $values = $event->getValues();
@@ -216,7 +219,7 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    public function filterEnum(GetFilterConditionEvent $event)
+    public function filterEnum(GetFilterConditionEvent $event): void
     {
         /** @var ORMQuery $ormQuery */
         $ormQuery = $event->getFilterQuery();
@@ -229,8 +232,8 @@ abstract class AbstractDoctrineSubscriber
             $paramName = $this->generateParameterName($event->getField());
 
             if (\is_array($value)) {
-                $enumsValues = \array_map(static function (\UnitEnum $enum): string {
-                    if (!\is_a($enum, \BackedEnum::class)) {
+                $enumsValues = \array_map(static function (UnitEnum $enum): string {
+                    if (!\is_a($enum, BackedEnum::class)) {
                         return $enum->name;
                     }
 
@@ -247,7 +250,7 @@ abstract class AbstractDoctrineSubscriber
 
             $event->setCondition(
                 (string) $expr->eq($event->getField(), \sprintf(':%s', $paramName)),
-                [$paramName => [!\is_a($value, \BackedEnum::class) ? $value->name : $value->value, Types::STRING]]
+                [$paramName => [!\is_a($value, BackedEnum::class) ? $value->name : $value->value, Types::STRING]]
             );
         }
     }
