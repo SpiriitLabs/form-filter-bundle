@@ -27,9 +27,6 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
  */
 abstract class AbstractDoctrineSubscriber
 {
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterValue(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpr();
@@ -52,9 +49,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterBoolean(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpr();
@@ -63,7 +57,7 @@ abstract class AbstractDoctrineSubscriber
         if (!empty($values['value'])) {
             $paramName = $this->generateParameterName($event->getField());
 
-            $value = (bool) (BooleanFilterType::VALUE_YES == $values['value']);
+            $value = BooleanFilterType::VALUE_YES == $values['value'];
 
             $event->setCondition(
                 $expr->eq($event->getField(), ':' . $paramName),
@@ -72,9 +66,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterCheckbox(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpr();
@@ -90,9 +81,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterDate(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpr();
@@ -108,9 +96,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterDateRange(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpressionBuilder();
@@ -122,9 +107,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterDateTime(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpr();
@@ -140,9 +122,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterDateTimeRange(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpressionBuilder();
@@ -154,9 +133,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterNumber(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpr();
@@ -174,9 +150,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterNumberRange(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpr();
@@ -229,9 +202,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterText(GetFilterConditionEvent $event)
     {
         $expr = $event->getFilterQuery()->getExpressionBuilder();
@@ -246,9 +216,6 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param GetFilterConditionEvent $event
-     */
     public function filterEnum(GetFilterConditionEvent $event)
     {
         /** @var ORMQuery $ormQuery */

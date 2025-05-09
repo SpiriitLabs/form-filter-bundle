@@ -40,7 +40,6 @@ class Condition implements ConditionInterface
 
     /**
      * @param string $expression
-     * @param array  $parameters
      */
     public function __construct($expression, array $parameters = [])
     {

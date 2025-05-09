@@ -43,9 +43,6 @@ class DoctrineApplyFilterListener
         $this->whereMethod = empty($whereMethod) ? 'where' : sprintf('%sWhere', strtolower($whereMethod));
     }
 
-    /**
-     * @param ApplyFilterConditionEvent $event
-     */
     public function onApplyFilterCondition(ApplyFilterConditionEvent $event)
     {
         $qbAdapter = new DoctrineQueryBuilderAdapter($event->getQueryBuilder());
@@ -69,8 +66,6 @@ class DoctrineApplyFilterListener
     }
 
     /**
-     * @param DoctrineQueryBuilderAdapter $queryBuilder
-     * @param ConditionNodeInterface      $node
      * @return Composite|CompositeExpression|null
      */
     protected function computeExpression(DoctrineQueryBuilderAdapter $queryBuilder, ConditionNodeInterface $node)

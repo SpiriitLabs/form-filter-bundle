@@ -31,7 +31,6 @@ interface DataExtractionMethodInterface
     /**
      * Extract data from a form.
      *
-     * @param FormInterface $form
      *
      * @return array
      */

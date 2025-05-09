@@ -45,9 +45,6 @@ class InheritDataFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'inherit_filter';

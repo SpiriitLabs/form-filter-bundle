@@ -34,7 +34,6 @@ interface QueryInterface
 
     /**
      * @param string $expression
-     * @param array  $parameters
      * @return ConditionInterface
      */
     public function createCondition($expression, array $parameters = []);

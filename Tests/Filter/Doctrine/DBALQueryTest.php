@@ -25,7 +25,6 @@ class DBALQueryTest extends TestCase
     public function testHasJoinAlias()
     {
         self::assertTrue(true);
-        return;
 
         $exprMock = $this
             ->getMockBuilder(ExpressionBuilder::class)

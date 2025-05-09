@@ -28,9 +28,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -71,7 +68,6 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
     }
 
     /**
-     * @param GetFilterConditionEvent $event
      * @throws \Exception
      */
     public function filterEntity(GetFilterConditionEvent $event)

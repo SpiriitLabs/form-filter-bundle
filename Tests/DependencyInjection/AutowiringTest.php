@@ -71,6 +71,10 @@ class AutowiringTest extends TestCase
                 'env(base64:default::SYMFONY_DECRYPTION_SECRET)' => 'dummy',
                 'kernel.build_dir' => __DIR__,
                 'debug.file_link_format' => null,
+                'env(bool:default::SYMFONY_TRUST_X_SENDFILE_TYPE_HEADER)' => true,
+                'env(default::SYMFONY_TRUSTED_HOSTS)' => [],
+                'env(default::SYMFONY_TRUSTED_PROXIES)' => [],
+                'env(default::SYMFONY_TRUSTED_HEADERS)' => [],
             ]),
         );
 

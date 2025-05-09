@@ -22,15 +22,12 @@ interface FormDataExtractorInterface
 {
     /**
      * Add an extration method.
-     *
-     * @param DataExtractionMethodInterface $method
      */
     public function addMethod(DataExtractionMethodInterface $method);
 
     /**
      * Extract form data by using the given method.
      *
-     * @param FormInterface $form
      * @param string        $methodName
      * @return array
      */

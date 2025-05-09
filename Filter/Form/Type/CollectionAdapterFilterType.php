@@ -67,17 +67,11 @@ class CollectionAdapterFilterType extends AbstractType
         $resolver->setRequired(['entry_type']);
     }
 
-    /**
-     * @return ?string
-     */
     public function getParent(): ?string
     {
         return SharedableFilterType::class;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_collection_adapter';

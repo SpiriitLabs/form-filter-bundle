@@ -33,7 +33,6 @@ class ApplyFilterConditionEvent extends Event
 
     /**
      * @param mixed                     $queryBuilder
-     * @param ConditionBuilderInterface $conditionBuilder
      */
     public function __construct($queryBuilder, ConditionBuilderInterface $conditionBuilder)
     {

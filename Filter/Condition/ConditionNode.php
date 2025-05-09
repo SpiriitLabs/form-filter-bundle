@@ -40,7 +40,6 @@ class ConditionNode implements ConditionNodeInterface
 
     /**
      * @param string                 $operator
-     * @param ConditionNodeInterface $parent
      */
     public function __construct($operator, ConditionNodeInterface $parent = null)
     {
@@ -120,7 +119,6 @@ class ConditionNode implements ConditionNodeInterface
      * Set the condition for the given field name.
      *
      * @param string             $name
-     * @param ConditionInterface $condition
      * @return bool
      */
     public function setCondition($name, ConditionInterface $condition)

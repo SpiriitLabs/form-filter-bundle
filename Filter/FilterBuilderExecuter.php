@@ -36,9 +36,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * Construct.
      *
-     * @param QueryInterface    $filterQuery
      * @param string            $alias
-     * @param RelationsAliasBag $parts
      */
     public function __construct(QueryInterface $filterQuery, $alias, RelationsAliasBag $parts)
     {

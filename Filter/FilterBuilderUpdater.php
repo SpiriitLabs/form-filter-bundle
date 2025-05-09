@@ -58,9 +58,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
 
     /**
      * Constructor
-     *
-     * @param FormDataExtractorInterface $dataExtractor
-     * @param EventDispatcherInterface   $dispatcher
      */
     public function __construct(FormDataExtractorInterface $dataExtractor, EventDispatcherInterface $dispatcher)
     {
@@ -71,8 +68,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
 
     /**
      * Set joins aliases.
-     *
-     * @param array $parts
      */
     public function setParts(array $parts)
     {
@@ -82,12 +77,10 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Build a filter query.
      *
-     * @param  FormInterface $form
      * @param  object        $queryBuilder
      * @param  string|null   $alias
      *
      * @return object filter builder
-     *
      * @throws \RuntimeException
      */
     public function addFilterConditions(FormInterface $form, $queryBuilder, $alias = null)
@@ -124,8 +117,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Add filter conditions on the condition node instance.
      *
-     * @param FormInterface  $form
-     * @param QueryInterface $filterQuery
      * @param string         $alias
      *
      * @throws \RuntimeException
@@ -179,9 +170,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Get the condition through event dispatcher.
      *
-     * @param FormInterface  $form
-     * @param AbstractType   $formType
-     * @param QueryInterface $filterQuery
      * @param string         $alias
      * @return ConditionInterface|null
      */
@@ -245,7 +233,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Prepare all values needed to apply the filter
      *
-     * @param  FormInterface $form
      * @return array
      */
     protected function prepareFilterValues(FormInterface $form)
@@ -263,7 +250,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Get the conditon builder object for the given form.
      *
-     * @param Form $form
      * @return ConditionBuilderInterface
      */
     protected function getConditionBuilder(Form $form)
@@ -284,8 +270,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Create a default node hierarchy by using AND operator.
      *
-     * @param Form                   $form
-     * @param ConditionNodeInterface $root
      * @param string                 $parentName
      */
     protected function buildDefaultConditionNode(Form $form, ConditionNodeInterface $root, $parentName = '')

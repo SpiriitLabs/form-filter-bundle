@@ -21,9 +21,6 @@ class RelationsAliasBag
      */
     private $aliases;
 
-    /**
-     * @param array $aliases
-     */
     public function __construct(array $aliases = [])
     {
         $this->aliases = $aliases;
@@ -56,9 +53,6 @@ class RelationsAliasBag
         return isset($this->aliases[$relation]);
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         return count($this->aliases);

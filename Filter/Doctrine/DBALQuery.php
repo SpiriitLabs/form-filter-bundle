@@ -35,7 +35,6 @@ class DBALQuery implements QueryInterface
     /**
      * Constructor.
      *
-     * @param QueryBuilder $queryBuilder
      * @param boolean      $forceCaseInsensitivity
      */
     public function __construct(QueryBuilder $queryBuilder, $forceCaseInsensitivity = false)
@@ -98,7 +97,7 @@ class DBALQuery implements QueryInterface
     {
         $joinParts = $this->queryBuilder->getQueryPart('join');
 
-        foreach ($joinParts as $rootAlias => $joins) {
+        foreach ($joinParts as $joins) {
             foreach ($joins as $join) {
                 if ($join['joinAlias'] === $joinAlias) {
                     return true;

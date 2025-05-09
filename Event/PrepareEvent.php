@@ -53,8 +53,6 @@ class PrepareEvent extends Event
 
     /**
      * Set filter query
-     *
-     * @param QueryInterface $filterQuery
      */
     public function setFilterQuery(QueryInterface $filterQuery)
     {

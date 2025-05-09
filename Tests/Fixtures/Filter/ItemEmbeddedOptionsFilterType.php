@@ -47,9 +47,6 @@ class ItemEmbeddedOptionsFilterType extends AbstractType
         $resolver->setDefaults(['doctrine_builder' => null]);
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'item_filter';

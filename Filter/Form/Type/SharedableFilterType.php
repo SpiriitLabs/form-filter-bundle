@@ -41,9 +41,6 @@ class SharedableFilterType extends AbstractType
         }]);
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_sharedable';

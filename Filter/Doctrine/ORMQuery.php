@@ -36,7 +36,6 @@ class ORMQuery implements QueryInterface
     /**
      * Constructor.
      *
-     * @param QueryBuilder $queryBuilder
      * @param boolean      $forceCaseInsensitivity
      * @param string|null  $encoding
      */
@@ -102,7 +101,7 @@ class ORMQuery implements QueryInterface
         $joinParts = $this->queryBuilder->getDQLPart('join');
 
         /* @var \Doctrine\ORM\Query\Expr\Join $join */
-        foreach ($joinParts as $rootAlias => $joins) {
+        foreach ($joinParts as $joins) {
             foreach ($joins as $join) {
                 if ($join->getAlias() === $joinAlias) {
                     return true;

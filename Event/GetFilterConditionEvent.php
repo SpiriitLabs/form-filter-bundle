@@ -44,7 +44,6 @@ class GetFilterConditionEvent extends Event
     /**
      * Construct.
      *
-     * @param QueryInterface $filterQuery
      * @param string         $field
      * @param array          $values
      */
@@ -89,7 +88,6 @@ class GetFilterConditionEvent extends Event
 
     /**
      * @param string $expression
-     * @param array  $parameters
      */
     public function setCondition($expression, array $parameters = [])
     {

@@ -18,7 +18,6 @@ interface FilterBuilderUpdaterInterface
     /**
      * Build a filter query.
      *
-     * @param  FormInterface $form
      * @param  object $filterBuilder
      * @param  string|null $alias
      */

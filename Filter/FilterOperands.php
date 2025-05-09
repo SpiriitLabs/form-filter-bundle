@@ -72,8 +72,6 @@ final class FilterOperands
 
     /**
      * Retruns an array of available conditions operator for numbers.
-     *
-     * @return array
      */
     public static function getNumberOperandsChoices(): array
     {
@@ -91,8 +89,6 @@ final class FilterOperands
 
     /**
      * Retruns an array of available conditions patterns for string.
-     *
-     * @return array
      */
     public static function getStringOperandsChoices(): array
     {
