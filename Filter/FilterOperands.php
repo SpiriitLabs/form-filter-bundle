@@ -11,6 +11,8 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
+use ReflectionClass;
+
 /**
  * This class aim to regroup constants used in form filter types and in expression classes.
  *
@@ -40,9 +42,8 @@ final class FilterOperands
      * Returns all available number operands.
      *
      * @param boolean $includeSelector
-     * @return array
      */
-    public static function getNumberOperands($includeSelector = false)
+    public static function getNumberOperands($includeSelector = false): array
     {
         $values = [self::OPERATOR_EQUAL, self::OPERATOR_GREATER_THAN, self::OPERATOR_GREATER_THAN_EQUAL, self::OPERATOR_LOWER_THAN, self::OPERATOR_LOWER_THAN_EQUAL];
 
@@ -57,9 +58,8 @@ final class FilterOperands
      * Returns all available string operands.
      *
      * @param boolean $includeSelector
-     * @return array
      */
-    public static function getStringOperands($includeSelector = false)
+    public static function getStringOperands($includeSelector = false): array
     {
         $values = [self::STRING_STARTS, self::STRING_ENDS, self::STRING_EQUALS, self::STRING_CONTAINS];
 
@@ -72,14 +72,12 @@ final class FilterOperands
 
     /**
      * Retruns an array of available conditions operator for numbers.
-     *
-     * @return array
      */
     public static function getNumberOperandsChoices(): array
     {
         $choices = [];
 
-        $reflection = new \ReflectionClass(self::class);
+        $reflection = new ReflectionClass(self::class);
         foreach ($reflection->getConstants() as $name => $value) {
             if ('OPERATOR_' === substr($name, 0, 9)) {
                 $choices[$value] = strtolower(str_replace('OPERATOR_', 'number.', $name));
@@ -91,14 +89,12 @@ final class FilterOperands
 
     /**
      * Retruns an array of available conditions patterns for string.
-     *
-     * @return array
      */
     public static function getStringOperandsChoices(): array
     {
         $choices = [];
 
-        $reflection = new \ReflectionClass(self::class);
+        $reflection = new ReflectionClass(self::class);
         foreach ($reflection->getConstants() as $name => $value) {
             if ('STRING_' === substr($name, 0, 7)) {
                 $choices[$value] = strtolower(str_replace('STRING_', 'text.', $name));
@@ -121,7 +117,7 @@ final class FilterOperands
         }
 
         $name = strtoupper(str_replace('text.', 'STRING_', $operand));
-        $reflection = new \ReflectionClass(self::class);
+        $reflection = new ReflectionClass(self::class);
 
         return $reflection->getConstant($name);
     }

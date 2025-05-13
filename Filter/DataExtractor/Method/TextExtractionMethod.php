@@ -31,8 +31,9 @@ class TextExtractionMethod implements DataExtractionMethodInterface
 
     /**
      * {@inheritdoc}
+     * @return mixed[]
      */
-    public function extract(FormInterface $form)
+    public function extract(FormInterface $form): array
     {
         $data = $form->getData();
         $values = ['value' => []];

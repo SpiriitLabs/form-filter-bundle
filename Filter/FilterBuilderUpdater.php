@@ -11,6 +11,8 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
+use RuntimeException;
+use Closure;
 use Spiriit\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
 use Spiriit\Bundle\FormFilterBundle\Event\FilterEvents;
 use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
@@ -36,20 +38,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
 {
-    /**
-     * @var FormDataExtractorInterface
-     */
-    protected $dataExtractor;
+    protected FormDataExtractorInterface $dataExtractor;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $dispatcher;
+    protected EventDispatcherInterface $dispatcher;
 
     /**
      * @var array
      */
-    protected $parts;
+    protected RelationsAliasBag $parts;
 
     /**
      * @var ConditionBuilder
@@ -58,9 +54,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
 
     /**
      * Constructor
-     *
-     * @param FormDataExtractorInterface $dataExtractor
-     * @param EventDispatcherInterface   $dispatcher
      */
     public function __construct(FormDataExtractorInterface $dataExtractor, EventDispatcherInterface $dispatcher)
     {
@@ -71,10 +64,8 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
 
     /**
      * Set joins aliases.
-     *
-     * @param array $parts
      */
-    public function setParts(array $parts)
+    public function setParts(array $parts): void
     {
         $this->parts = new RelationsAliasBag($parts);
     }
@@ -82,13 +73,11 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Build a filter query.
      *
-     * @param  FormInterface $form
      * @param  object        $queryBuilder
      * @param  string|null   $alias
      *
      * @return object filter builder
-     *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function addFilterConditions(FormInterface $form, $queryBuilder, $alias = null)
     {
@@ -98,7 +87,7 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
         $this->dispatcher->dispatch($event, FilterEvents::PREPARE);
 
         if (!$event->getFilterQuery() instanceof QueryInterface) {
-            throw new \RuntimeException("Couldn't find any filter query object.");
+            throw new RuntimeException("Couldn't find any filter query object.");
         }
 
         $alias = $alias ?? $event->getFilterQuery()->getRootAlias();
@@ -124,11 +113,9 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Add filter conditions on the condition node instance.
      *
-     * @param FormInterface  $form
-     * @param QueryInterface $filterQuery
      * @param string         $alias
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function addFilters(FormInterface $form, QueryInterface $filterQuery, $alias = null)
     {
@@ -142,15 +129,15 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
 
                 $addSharedClosure = $child->getConfig()->getAttribute('add_shared');
 
-                if (!$addSharedClosure instanceof \Closure) {
-                    throw new \RuntimeException('Please provide a closure to the "add_shared" option.');
+                if (!$addSharedClosure instanceof Closure) {
+                    throw new RuntimeException('Please provide a closure to the "add_shared" option.');
                 }
 
                 $qbe = new FilterBuilderExecuter($filterQuery, $alias, $this->parts);
                 $addSharedClosure($qbe);
 
                 if (!$this->parts->has($join)) {
-                    throw new \RuntimeException(sprintf('No alias found for relation "%s".', $join));
+                    throw new RuntimeException(sprintf('No alias found for relation "%s".', $join));
                 }
 
                 $isCollection = ($formType instanceof CollectionAdapterFilterType);
@@ -179,9 +166,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Get the condition through event dispatcher.
      *
-     * @param FormInterface  $form
-     * @param AbstractType   $formType
-     * @param QueryInterface $filterQuery
      * @param string         $alias
      * @return ConditionInterface|null
      */
@@ -214,7 +198,7 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
             return null;
         }
 
-        if ($callable instanceof \Closure) {
+        if ($callable instanceof Closure) {
             $condition = $callable($filterQuery, $field, $values);
         } elseif (is_callable($callable)) {
             $condition = call_user_func($callable, $filterQuery, $field, $values);
@@ -245,7 +229,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Prepare all values needed to apply the filter
      *
-     * @param  FormInterface $form
      * @return array
      */
     protected function prepareFilterValues(FormInterface $form)
@@ -254,7 +237,7 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
         $values = $this->dataExtractor->extractData($form, $config->getOption('data_extraction_method', 'default'));
 
         if ($config->hasAttribute('filter_options')) {
-            $values = array_merge($values, $config->getAttribute('filter_options'));
+            return array_merge($values, $config->getAttribute('filter_options'));
         }
 
         return $values;
@@ -263,16 +246,15 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Get the conditon builder object for the given form.
      *
-     * @param Form $form
      * @return ConditionBuilderInterface
      */
-    protected function getConditionBuilder(Form $form)
+    protected function getConditionBuilder(Form $form): ConditionBuilder
     {
         $builderClosure = $form->getConfig()->getAttribute('filter_condition_builder');
 
         $builder = new ConditionBuilder();
 
-        if ($builderClosure instanceof \Closure) {
+        if ($builderClosure instanceof Closure) {
             $builderClosure($builder);
         } else {
             $this->buildDefaultConditionNode($form, $builder->root('AND'));
@@ -284,8 +266,6 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
     /**
      * Create a default node hierarchy by using AND operator.
      *
-     * @param Form                   $form
-     * @param ConditionNodeInterface $root
      * @param string                 $parentName
      */
     protected function buildDefaultConditionNode(Form $form, ConditionNodeInterface $root, $parentName = '')

@@ -11,6 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
+use Closure;
 use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 /**
@@ -18,10 +19,7 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
  */
 class FilterBuilderExecuter implements FilterBuilderExecuterInterface
 {
-    /**
-     * @var QueryInterface
-     */
-    protected $filterQuery;
+    protected QueryInterface $filterQuery;
 
     /**
      * @var string
@@ -31,14 +29,12 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * @var array
      */
-    protected $parts;
+    protected RelationsAliasBag $parts;
 
     /**
      * Construct.
      *
-     * @param QueryInterface    $filterQuery
      * @param string            $alias
-     * @param RelationsAliasBag $parts
      */
     public function __construct(QueryInterface $filterQuery, $alias, RelationsAliasBag $parts)
     {
@@ -58,7 +54,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * {@inheritdoc}
      */
-    public function getParts()
+    public function getParts(): RelationsAliasBag
     {
         return $this->parts;
     }
@@ -66,7 +62,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * {@inheritdoc}
      */
-    public function getFilterQuery()
+    public function getFilterQuery(): QueryInterface
     {
         return $this->filterQuery;
     }
@@ -74,7 +70,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
     /**
      * {@inheritdoc}
      */
-    public function addOnce($join, $alias, \Closure $callback = null)
+    public function addOnce($join, $alias, ?Closure $callback = null)
     {
         if ($this->parts->has($join)) {
             return null;
@@ -82,7 +78,7 @@ class FilterBuilderExecuter implements FilterBuilderExecuterInterface
 
         $this->parts->add($join, $alias);
 
-        if (!$callback instanceof \Closure) {
+        if (!$callback instanceof Closure) {
             return;
         }
 

@@ -48,9 +48,9 @@ class NumberFilterType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $defaults = ['required' => false, 'condition_operator' => FilterOperands::OPERATOR_EQUAL, 'compound' => function (Options $options) {
+        $defaults = ['required' => false, 'condition_operator' => FilterOperands::OPERATOR_EQUAL, 'compound' => function (Options $options): bool {
             return $options['condition_operator'] == FilterOperands::OPERAND_SELECTOR;
-        }, 'number_options' => ['required' => false], 'choice_options' => ['choices' => FilterOperands::getNumberOperandsChoices(), 'required' => false, 'translation_domain' => 'SpiriitFormFilterBundle'], 'data_extraction_method' => function (Options $options) {
+        }, 'number_options' => ['required' => false], 'choice_options' => ['choices' => FilterOperands::getNumberOperandsChoices(), 'required' => false, 'translation_domain' => 'SpiriitFormFilterBundle'], 'data_extraction_method' => function (Options $options): string {
             return $options['compound'] ? 'text' : 'default';
         }];
 
@@ -65,17 +65,11 @@ class NumberFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @return ?string
-     */
     public function getParent(): ?string
     {
         return NumberType::class;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_number';

@@ -23,20 +23,13 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
  */
 class ORMQuery implements QueryInterface
 {
-    /**
-     * @var QueryBuilder $queryBuilder
-     */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
-    /**
-     * @var ORMExpressionBuilder $expr
-     */
-    private $expressionBuilder;
+    private ORMExpressionBuilder $expressionBuilder;
 
     /**
      * Constructor.
      *
-     * @param QueryBuilder $queryBuilder
      * @param boolean      $forceCaseInsensitivity
      * @param string|null  $encoding
      */
@@ -61,7 +54,7 @@ class ORMQuery implements QueryInterface
     /**
      * {@inheritDoc}
      */
-    public function getQueryBuilder()
+    public function getQueryBuilder(): QueryBuilder
     {
         return $this->queryBuilder;
     }
@@ -69,17 +62,15 @@ class ORMQuery implements QueryInterface
     /**
      * {@inheritDoc}
      */
-    public function createCondition($expression, array $parameters = [])
+    public function createCondition($expression, array $parameters = []): Condition
     {
         return new Condition($expression, $parameters);
     }
 
     /**
      * Get QueryBuilder expr.
-     *
-     * @return Expr
      */
-    public function getExpr()
+    public function getExpr(): Expr
     {
         return $this->queryBuilder->expr();
     }
@@ -102,7 +93,7 @@ class ORMQuery implements QueryInterface
         $joinParts = $this->queryBuilder->getDQLPart('join');
 
         /* @var \Doctrine\ORM\Query\Expr\Join $join */
-        foreach ($joinParts as $rootAlias => $joins) {
+        foreach ($joinParts as $joins) {
             foreach ($joins as $join) {
                 if ($join->getAlias() === $joinAlias) {
                     return true;
@@ -118,7 +109,7 @@ class ORMQuery implements QueryInterface
      *
      * @return ExpressionBuilder
      */
-    public function getExpressionBuilder()
+    public function getExpressionBuilder(): ORMExpressionBuilder
     {
         return $this->expressionBuilder;
     }

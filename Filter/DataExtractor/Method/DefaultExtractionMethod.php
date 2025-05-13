@@ -32,7 +32,7 @@ class DefaultExtractionMethod implements DataExtractionMethodInterface
     /**
      * {@inheritdoc}
      */
-    public function extract(FormInterface $form)
+    public function extract(FormInterface $form): array
     {
         return ['value' => $form->getData()];
     }

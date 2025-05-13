@@ -37,13 +37,10 @@ class SharedableFilterType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['add_shared' => function (FilterBuilderExecuterInterface $qbe) {
+        $resolver->setDefaults(['add_shared' => function (FilterBuilderExecuterInterface $qbe): void {
         }]);
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_sharedable';

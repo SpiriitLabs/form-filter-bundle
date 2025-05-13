@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ORMQueryTest extends TestCase
 {
-    public function testHasJoinAlias()
+    public function testHasJoinAlias(): void
     {
         $emMock = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalConstructor()

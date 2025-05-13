@@ -36,11 +36,10 @@ class Condition implements ConditionInterface
      *     'param_nema_2  => array($value, $type),
      * )
      */
-    private $parameters;
+    private array $parameters;
 
     /**
      * @param string $expression
-     * @param array  $parameters
      */
     public function __construct($expression, array $parameters = [])
     {
@@ -51,7 +50,7 @@ class Condition implements ConditionInterface
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
@@ -67,7 +66,7 @@ class Condition implements ConditionInterface
     /**
      * {@inheritdoc}
      */
-    public function setExpression($expression)
+    public function setExpression($expression): void
     {
         $this->expression = $expression;
     }
@@ -83,7 +82,7 @@ class Condition implements ConditionInterface
     /**
      * {@inheritdoc}
      */
-    public function setParameters(array $parameters)
+    public function setParameters(array $parameters): void
     {
         $this->parameters = $parameters;
     }
@@ -91,7 +90,7 @@ class Condition implements ConditionInterface
     /**
      * {@inheritdoc}
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }

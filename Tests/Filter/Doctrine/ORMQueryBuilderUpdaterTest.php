@@ -11,6 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Tests\Filter\Doctrine;
 
+use Doctrine\ORM\QueryBuilder;
 use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
 use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item;
 use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Options;
@@ -24,57 +25,57 @@ use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemEmbeddedOptionsFil
  */
 class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
 {
-    public function testBuildQuery()
+    public function testBuildQuery(): void
     {
         parent::createBuildQueryTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\'', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\' AND i.position > :p_i_position', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\' AND i.position > :p_i_position AND i.enabled = :p_i_enabled', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'blabla\' AND i.position > :p_i_position AND i.enabled = :p_i_enabled', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'%blabla\' AND i.position <= :p_i_position AND i.createdAt = :p_i_createdAt', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'%blabla\' AND i.position <= :p_i_position AND i.createdAt = :p_i_createdAt']);
     }
 
-    public function testDisabledFieldQuery()
+    public function testDisabledFieldQuery(): void
     {
         parent::createDisabledFieldTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.position > :p_i_position']);
     }
 
-    public function testApplyFilterOption()
+    public function testApplyFilterOption(): void
     {
         parent::createApplyFilterOptionTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name <> \'blabla\' AND i.position <> 2']);
     }
 
-    public function testNumberRange()
+    public function testNumberRange(): void
     {
         parent::createNumberRangeTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.position > :p_i_position_left AND i.position < :p_i_position_right']);
     }
 
-    public function testNumberRangeWithSelector()
+    public function testNumberRangeWithSelector(): void
     {
         parent::createNumberRangeCompoundTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.position_selector > :p_i_position_selector_left AND i.position_selector <= :p_i_position_selector_right']);
     }
 
-    public function testNumberRangeDefaultValues()
+    public function testNumberRangeDefaultValues(): void
     {
         parent::createNumberRangeDefaultValuesTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.default_position >= :p_i_default_position_left AND i.default_position <= :p_i_default_position_right']);
     }
 
-    public function testDateRange()
+    public function testDateRange(): void
     {
         parent::createDateRangeTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.createdAt <= \'2012-05-22 23:59:59\' AND i.createdAt >= \'2012-05-12 00:00:00\'']);
     }
 
-    public function testDateRangeWithTimezone()
+    public function testDateRangeWithTimezone(): void
     {
         parent::createDateRangeWithTimezoneTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.startAt <= \'2015-10-20 18:59:59\' AND i.startAt >= \'2015-10-19 19:00:00\'', 'SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.startAt <= \'2015-10-16 18:59:59\' AND i.startAt >= \'2015-09-30 19:00:00\'']);
     }
 
-    public function testDateTimeRange()
+    public function testDateTimeRange(): void
     {
         parent::createDateTimeRangeTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.updatedAt <= \'2012-06-10 22:12:00\' AND i.updatedAt >= \'2012-05-12 14:55:00\'']);
     }
 
-    public function testFilterStandardType()
+    public function testFilterStandardType(): void
     {
         parent::createFilterStandardTypeTest('getDQL', ['SELECT i FROM Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item i WHERE i.name LIKE \'%hey dude%\' AND i.position = 99']);
     }
 
-    public function testEmbedFormFilter()
+    public function testEmbedFormFilter(): void
     {
         // doctrine query builder without any joins
         $form = $this->formFactory->create(ItemEmbeddedOptionsFilterType::class);
@@ -108,10 +109,10 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $this->assertEquals(['p_o_rank' => 5], $this->getQueryBuilderParameters($doctrineQueryBuilder));
     }
 
-    public function testCustomConditionBuilder()
+    public function testCustomConditionBuilder(): void
     {
         // doctrine query builder without any joins + custom condition builder
-        $form = $this->formFactory->create(ItemEmbeddedOptionsFilterType::class, null, ['filter_condition_builder' => function (ConditionBuilderInterface $builder) {
+        $form = $this->formFactory->create(ItemEmbeddedOptionsFilterType::class, null, ['filter_condition_builder' => function (ConditionBuilderInterface $builder): void {
             $builder
                 ->root('or')
                     ->field('options.label')
@@ -135,7 +136,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $this->assertEquals(['p_opt_rank' => 6], $this->getQueryBuilderParameters($doctrineQueryBuilder));
 
         // doctrine query builder without any joins + custom condition builder
-        $form = $this->formFactory->create(ItemEmbeddedOptionsFilterType::class, null, ['filter_condition_builder' => function (ConditionBuilderInterface $builder) {
+        $form = $this->formFactory->create(ItemEmbeddedOptionsFilterType::class, null, ['filter_condition_builder' => function (ConditionBuilderInterface $builder): void {
             $builder
                 ->root('and')
                     ->orX()
@@ -162,7 +163,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $this->assertEquals(['p_opt_rank' => 6, 'p_i_position' => 1], $this->getQueryBuilderParameters($doctrineQueryBuilder));
     }
 
-    public function testWithDataClass()
+    public function testWithDataClass(): void
     {
         // doctrine query builder without any joins + a data_class
         $form = $this->formFactory->create(ItemEmbeddedOptionsFilterType::class, null, ['data_class' => Item::class]);
@@ -179,7 +180,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $this->assertEquals(['p_opt_rank' => 6], $this->getQueryBuilderParameters($doctrineQueryBuilder));
     }
 
-    public function testWithInheritDataFormOption()
+    public function testWithInheritDataFormOption(): void
     {
         // doctrine query builder without any joins + a data_class
         $form = $this->formFactory->create(InheritDataFilterType::class, null, ['data_class' => Options::class]);
@@ -204,7 +205,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
     protected function createDoctrineQueryBuilder(
         string $entityClassName = Item::class,
         string $alias = 'i'
-    ) {
+    ): QueryBuilder {
         return $this->em
                      ->getRepository($entityClassName)
                      ->createQueryBuilder($alias);

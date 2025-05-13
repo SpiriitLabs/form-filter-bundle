@@ -11,6 +11,8 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Condition;
 
+use RuntimeException;
+
 /**
  * Used to build a condition nodes hierarchy to defined condition pattern.
  *
@@ -18,20 +20,17 @@ namespace Spiriit\Bundle\FormFilterBundle\Filter\Condition;
  */
 class ConditionBuilder implements ConditionBuilderInterface
 {
-    /**
-     * @var ConditionNodeInterface
-     */
-    private $root;
+    private ?ConditionNode $root = null;
 
     /**
      * {@inheritdoc}
      */
-    public function root($operator)
+    public function root($operator): ConditionNode
     {
         $operator = strtolower($operator);
 
         if (!in_array($operator, [ConditionNodeInterface::EXPR_AND, ConditionNodeInterface::EXPR_OR])) {
-            throw new \RuntimeException(sprintf('Invalid operator "%s", allowed values: and, or', $operator));
+            throw new RuntimeException(sprintf('Invalid operator "%s", allowed values: and, or', $operator));
         }
 
         $this->root = new ConditionNode($operator, null);
@@ -42,17 +41,17 @@ class ConditionBuilder implements ConditionBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function addCondition(ConditionInterface $condition)
+    public function addCondition(ConditionInterface $condition): void
     {
         if (false === $this->root->setCondition($condition->getName(), $condition)) {
-            throw new \RuntimeException(sprintf('Can\'t set condition object for: "%s"', $condition->getName()));
+            throw new RuntimeException(sprintf('Can\'t set condition object for: "%s"', $condition->getName()));
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getRoot()
+    public function getRoot(): ?ConditionNode
     {
         return $this->root;
     }

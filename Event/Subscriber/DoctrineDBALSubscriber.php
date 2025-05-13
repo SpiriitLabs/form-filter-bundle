@@ -20,9 +20,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class DoctrineDBALSubscriber extends AbstractDoctrineSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents(): array
     {
         return [

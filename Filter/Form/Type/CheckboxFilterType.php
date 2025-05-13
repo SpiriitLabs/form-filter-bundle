@@ -33,17 +33,11 @@ class CheckboxFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @return ?string
-     */
     public function getParent(): ?string
     {
         return CheckboxType::class;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_checkbox';
