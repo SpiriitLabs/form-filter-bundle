@@ -46,8 +46,6 @@ interface ConditionInterface
 
     /**
      * Set expression parameters.
-     *
-     * @param array $parameters
      */
     public function setParameters(array $parameters);
 

@@ -17,14 +17,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { php: 8.2, symfony: "6.4.*", composer-flags: '--prefer-stable' }
-          - { php: 8.2, symfony: "7.0.*", composer-flags: '--prefer-stable' }
-          - { php: 8.3, symfony: "6.4.*", composer-flags: '--prefer-stable' }
-          - { php: 8.3, symfony: "7.0.*", composer-flags: '--prefer-stable' }
+          - { php: 8.2, symfony: "6.4.*", composer-flags: '--prefer-dist' } # Lowest deps
+          - { php: 8.3, symfony: "6.4.*", composer-flags: '--prefer-dist' } # LTS with last stable PHP
+          - { php: 8.3, symfony: "7.1.*", composer-flags: '--prefer-dist' } # Stable Symfony branches
+          - { php: 8.4, symfony: "7.2.*", composer-flags: '--prefer-dist' } # Stable Symfony branches
 
     steps:
-      - uses: actions/checkout@v2
-      - name: "Installing php"
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        with:
+          fetch-depth: 2
+
+      - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -33,7 +37,7 @@ jobs:
           coverage: xdebug
           tools: "composer:v2,flex"
 
-      - name: Show PHP version
+      - name: "Show PHP version"
         run: php -v && composer -V
 
       - name: "Cache Composer packages"
@@ -47,7 +51,7 @@ jobs:
         run: "composer require --dev symfony/doctrine-messenger --no-update"
         if: "${{ startsWith(matrix.symfony, '5.4') }}"
           
-      - name: Install dependencies
+      - name: "Install dependencies"
         run: |
           perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json
           composer update ${{ matrix.composer-flags }} --prefer-dist

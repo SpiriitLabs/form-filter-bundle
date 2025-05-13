@@ -16,14 +16,8 @@ namespace Spiriit\Bundle\FormFilterBundle\Filter;
  */
 class RelationsAliasBag
 {
-    /**
-     * @var array
-     */
-    private $aliases;
+    private array $aliases;
 
-    /**
-     * @param array $aliases
-     */
     public function __construct(array $aliases = [])
     {
         $this->aliases = $aliases;
@@ -42,23 +36,19 @@ class RelationsAliasBag
      * @param string $relation
      * @param string $alias
      */
-    public function add($relation, $alias)
+    public function add($relation, $alias): void
     {
         $this->aliases[$relation] = $alias;
     }
 
     /**
      * @param string $relation
-     * @return bool
      */
-    public function has($relation)
+    public function has($relation): bool
     {
         return isset($this->aliases[$relation]);
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         return count($this->aliases);

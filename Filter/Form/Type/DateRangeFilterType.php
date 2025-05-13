@@ -44,9 +44,6 @@ class DateRangeFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_date_range';

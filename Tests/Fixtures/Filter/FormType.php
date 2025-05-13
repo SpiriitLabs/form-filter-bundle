@@ -43,9 +43,6 @@ class FormType extends AbstractType
         }]);
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'my_form';

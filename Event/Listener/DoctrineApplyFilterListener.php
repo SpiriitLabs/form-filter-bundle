@@ -25,15 +25,9 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\DoctrineQueryBuilderAdapter;
  */
 class DoctrineApplyFilterListener
 {
-    /**
-     * @var array
-     */
-    private $parameters;
+    private ?array $parameters = null;
 
-    /**
-     * @var string
-     */
-    private $whereMethod;
+    private string $whereMethod;
 
     /**
      * @param string $whereMethod
@@ -43,10 +37,7 @@ class DoctrineApplyFilterListener
         $this->whereMethod = empty($whereMethod) ? 'where' : sprintf('%sWhere', strtolower($whereMethod));
     }
 
-    /**
-     * @param ApplyFilterConditionEvent $event
-     */
-    public function onApplyFilterCondition(ApplyFilterConditionEvent $event)
+    public function onApplyFilterCondition(ApplyFilterConditionEvent $event): void
     {
         $qbAdapter = new DoctrineQueryBuilderAdapter($event->getQueryBuilder());
         $conditionBuilder = $event->getConditionBuilder();
@@ -69,8 +60,6 @@ class DoctrineApplyFilterListener
     }
 
     /**
-     * @param DoctrineQueryBuilderAdapter $queryBuilder
-     * @param ConditionNodeInterface      $node
      * @return Composite|CompositeExpression|null
      */
     protected function computeExpression(DoctrineQueryBuilderAdapter $queryBuilder, ConditionNodeInterface $node)

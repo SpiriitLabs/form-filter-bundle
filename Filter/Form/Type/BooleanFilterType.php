@@ -26,17 +26,11 @@ class BooleanFilterType extends AbstractType
     public const VALUE_YES = 'y';
     public const VALUE_NO = 'n';
 
-    /**
-     * @return ?string
-     */
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_boolean';

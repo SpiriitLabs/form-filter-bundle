@@ -22,20 +22,13 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
  */
 class DBALQuery implements QueryInterface
 {
-    /**
-     * @var QueryBuilder $queryBuilder
-     */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
-    /**
-     * @var DBALExpressionBuilder $expr
-     */
-    private $expressionBuilder;
+    private DBALExpressionBuilder $expressionBuilder;
 
     /**
      * Constructor.
      *
-     * @param QueryBuilder $queryBuilder
      * @param boolean      $forceCaseInsensitivity
      */
     public function __construct(QueryBuilder $queryBuilder, $forceCaseInsensitivity = false)
@@ -58,7 +51,7 @@ class DBALQuery implements QueryInterface
     /**
      * {@inheritDoc}
      */
-    public function getQueryBuilder()
+    public function getQueryBuilder(): QueryBuilder
     {
         return $this->queryBuilder;
     }
@@ -66,7 +59,7 @@ class DBALQuery implements QueryInterface
     /**
      * {@inheritDoc}
      */
-    public function createCondition($expression, array $parameters = [])
+    public function createCondition($expression, array $parameters = []): Condition
     {
         return new Condition($expression, $parameters);
     }
@@ -98,7 +91,7 @@ class DBALQuery implements QueryInterface
     {
         $joinParts = $this->queryBuilder->getQueryPart('join');
 
-        foreach ($joinParts as $rootAlias => $joins) {
+        foreach ($joinParts as $joins) {
             foreach ($joins as $join) {
                 if ($join['joinAlias'] === $joinAlias) {
                     return true;
@@ -114,7 +107,7 @@ class DBALQuery implements QueryInterface
      *
      * @return \Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression\ExpressionBuilder
      */
-    public function getExpressionBuilder()
+    public function getExpressionBuilder(): DBALExpressionBuilder
     {
         return $this->expressionBuilder;
     }

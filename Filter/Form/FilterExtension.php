@@ -33,9 +33,6 @@ use Symfony\Component\Form\AbstractExtension;
  */
 class FilterExtension extends AbstractExtension
 {
-    /**
-     * @return array
-     */
     protected function loadTypes(): array
     {
         return [new BooleanFilterType(), new CheckboxFilterType(), new ChoiceFilterType(), new DateFilterType(), new DateRangeFilterType(), new DateTimeFilterType(), new DateTimeRangeFilterType(), new NumberFilterType(), new NumberRangeFilterType(), new TextFilterType(), new CollectionAdapterFilterType(), new SharedableFilterType()];

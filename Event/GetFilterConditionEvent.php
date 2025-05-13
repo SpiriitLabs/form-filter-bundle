@@ -21,10 +21,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class GetFilterConditionEvent extends Event
 {
-    /**
-     * @var QueryInterface $filterQuery
-     */
-    private $filterQuery;
+    private QueryInterface $filterQuery;
 
     /**
      * @var string $field
@@ -36,15 +33,11 @@ class GetFilterConditionEvent extends Event
      */
     private $values;
 
-    /**
-     * @var ConditionInterface
-     */
-    private $condition;
+    private ?Condition $condition = null;
 
     /**
      * Construct.
      *
-     * @param QueryInterface $filterQuery
      * @param string         $field
      * @param array          $values
      */
@@ -55,10 +48,7 @@ class GetFilterConditionEvent extends Event
         $this->values = $values;
     }
 
-    /**
-     * @return QueryInterface
-     */
-    public function getFilterQuery()
+    public function getFilterQuery(): QueryInterface
     {
         return $this->filterQuery;
     }
@@ -89,9 +79,8 @@ class GetFilterConditionEvent extends Event
 
     /**
      * @param string $expression
-     * @param array  $parameters
      */
-    public function setCondition($expression, array $parameters = [])
+    public function setCondition($expression, array $parameters = []): void
     {
         $this->condition = new Condition($expression, $parameters);
     }
@@ -99,7 +88,7 @@ class GetFilterConditionEvent extends Event
     /**
      * @return ConditionInterface
      */
-    public function getCondition()
+    public function getCondition(): ?Condition
     {
         return $this->condition;
     }

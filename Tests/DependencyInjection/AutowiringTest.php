@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class AutowiringTest extends TestCase
 {
-    private static $container;
+    private static ?ContainerBuilder $container = null;
 
     public function testAutowiring(): void
     {
@@ -50,7 +50,7 @@ class AutowiringTest extends TestCase
         $this->assertInstanceOf(FilterBuilderUpdater::class, $autowired->getFilterBuilderUpdater());
     }
 
-    private static function createContainerBuilder(array $configs = [])
+    private static function createContainerBuilder(array $configs = []): ContainerBuilder
     {
         $container = new ContainerBuilder(
             new ParameterBag([
@@ -71,6 +71,10 @@ class AutowiringTest extends TestCase
                 'env(base64:default::SYMFONY_DECRYPTION_SECRET)' => 'dummy',
                 'kernel.build_dir' => __DIR__,
                 'debug.file_link_format' => null,
+                'env(bool:default::SYMFONY_TRUST_X_SENDFILE_TYPE_HEADER)' => true,
+                'env(default::SYMFONY_TRUSTED_HOSTS)' => [],
+                'env(default::SYMFONY_TRUSTED_PROXIES)' => [],
+                'env(default::SYMFONY_TRUSTED_HEADERS)' => [],
             ]),
         );
 

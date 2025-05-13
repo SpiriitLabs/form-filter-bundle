@@ -17,8 +17,6 @@ class DBALExpressionBuilder extends ExpressionBuilder
 {
     /**
      * Construct.
-     *
-     * @param Expr $expr
      */
     public function __construct(Expr $expr, $forceCaseInsensitivity, $encoding = null)
     {

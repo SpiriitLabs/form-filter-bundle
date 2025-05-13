@@ -47,17 +47,11 @@ class DocumentFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @return ?string
-     */
     public function getParent(): ?string
     {
         return DocumentType::class;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_document';

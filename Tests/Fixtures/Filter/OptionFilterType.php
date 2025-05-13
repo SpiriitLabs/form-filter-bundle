@@ -29,9 +29,6 @@ class OptionFilterType extends AbstractType
         $builder->add('rank', NumberFilterType::class);
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'options_filter';

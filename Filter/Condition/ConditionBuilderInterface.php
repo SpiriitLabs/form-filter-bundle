@@ -26,8 +26,6 @@ interface ConditionBuilderInterface
 
     /**
      * Add a condition to a node.
-     *
-     * @param ConditionInterface $condition
      */
     public function addCondition(ConditionInterface $condition);
 

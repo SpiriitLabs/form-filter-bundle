@@ -46,7 +46,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected $formFactory;
 
-    private static $container;
+    private static ?ContainerBuilder $container = null;
 
     public function setUp(): void
     {
@@ -64,9 +64,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $registery = new FormRegistry([new CoreExtension(), new FilterExtension()], $resolvedFormTypeFactory);
 
-        $formFactory = new FormFactory($registery, $resolvedFormTypeFactory);
-
-        return $formFactory;
+        return new FormFactory($registery, $resolvedFormTypeFactory);
     }
 
     /**
@@ -118,7 +116,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return $container->get('spiriit_form_filter.query_builder_updater');
     }
 
-    private static function createContainerBuilder(array $configs = [])
+    private static function createContainerBuilder(array $configs = []): ContainerBuilder
     {
         $container = new ContainerBuilder(new ParameterBag([
             'kernel.bundles' => [
@@ -128,6 +126,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             ],
             'kernel.bundles_metadata' => [],
             'kernel.cache_dir' => __DIR__,
+            'kernel.build_dir' => __DIR__,
             'kernel.debug' => false,
             'kernel.environment' => 'test',
             'kernel.name' => 'kernel',
@@ -137,6 +136,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             'kernel.charset' => 'utf8',
             'env(base64:default::SYMFONY_DECRYPTION_SECRET)' => 'dummy',
             'debug.file_link_format' => null,
+            'env(bool:default::SYMFONY_TRUST_X_SENDFILE_TYPE_HEADER)' => true,
+            'env(default::SYMFONY_TRUSTED_HOSTS)' => [],
+            'env(default::SYMFONY_TRUSTED_PROXIES)' => [],
+            'env(default::SYMFONY_TRUSTED_HEADERS)' => [],
         ]));
 
         $container->registerExtension(new FrameworkExtension());

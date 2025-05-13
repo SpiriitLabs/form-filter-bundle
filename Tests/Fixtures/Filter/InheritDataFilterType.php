@@ -29,8 +29,8 @@ class InheritDataFilterType extends AbstractType
     {
         $builder
             ->add('item', ItemFilterType::class, [
-                'add_shared' => function (FilterBuilderExecuterInterface $qbe) {
-                    $closure = function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
+                'add_shared' => function (FilterBuilderExecuterInterface $qbe): void {
+                    $closure = function (QueryBuilder $filterBuilder, string $alias, $joinAlias, Expr $expr): void {
                         $filterBuilder->leftJoin($alias . '.item', $joinAlias);
                     };
 
@@ -45,9 +45,6 @@ class InheritDataFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'inherit_filter';

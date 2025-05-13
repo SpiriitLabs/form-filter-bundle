@@ -11,6 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine;
 
+use RuntimeException;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder as DBALQueryBuilder;
 use Doctrine\ORM\Query\Expr\Andx;
@@ -22,19 +23,16 @@ use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
  */
 class DoctrineQueryBuilderAdapter
 {
-    /**
-     * @var mixed
-     */
-    private $qb;
+    private \Doctrine\ORM\QueryBuilder|DBALQueryBuilder $qb;
 
     /**
      * @param mixed $qb
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct($qb)
     {
         if (!($qb instanceof ORMQueryBuilder || $qb  instanceof DBALQueryBuilder)) {
-            throw new \RuntimeException('Invalid Doctrine query builder instance.');
+            throw new RuntimeException('Invalid Doctrine query builder instance.');
         }
 
         $this->qb = $qb;
@@ -59,7 +57,7 @@ class DoctrineQueryBuilderAdapter
     /**
      * @param mixed $where
      */
-    public function where($where)
+    public function where($where): void
     {
         $this->qb->where($where);
     }
@@ -67,7 +65,7 @@ class DoctrineQueryBuilderAdapter
     /**
      * @param mixed $where
      */
-    public function andWhere($where)
+    public function andWhere($where): void
     {
         $this->qb->andWhere($where);
     }
@@ -75,7 +73,7 @@ class DoctrineQueryBuilderAdapter
     /**
      * @param mixed $where
      */
-    public function orWhere($where)
+    public function orWhere($where): void
     {
         $this->qb->orWhere($where);
     }
@@ -85,7 +83,7 @@ class DoctrineQueryBuilderAdapter
      * @param mixed       $value
      * @param string|null $type
      */
-    public function setParameter($name, $value, $type = null)
+    public function setParameter($name, $value, $type = null): void
     {
         $this->qb->setParameter($name, $value, $type);
     }

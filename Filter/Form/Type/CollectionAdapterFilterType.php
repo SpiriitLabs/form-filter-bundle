@@ -11,6 +11,8 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Form\Type;
 
+use Traversable;
+use ArrayAccess;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,7 +33,7 @@ class CollectionAdapterFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // update collection to only get one element
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options): void {
             $form = $event->getForm();
             $data = $event->getData();
 
@@ -40,7 +42,7 @@ class CollectionAdapterFilterType extends AbstractType
                 $event->setData($data);
             }
 
-            if (!is_array($data) && !($data instanceof \Traversable && $data instanceof \ArrayAccess)) {
+            if (!is_array($data) && !($data instanceof Traversable && $data instanceof ArrayAccess)) {
                 throw new UnexpectedTypeException($data, 'array or (\Traversable and \ArrayAccess)');
             }
 
@@ -67,17 +69,11 @@ class CollectionAdapterFilterType extends AbstractType
         $resolver->setRequired(['entry_type']);
     }
 
-    /**
-     * @return ?string
-     */
     public function getParent(): ?string
     {
         return SharedableFilterType::class;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_collection_adapter';

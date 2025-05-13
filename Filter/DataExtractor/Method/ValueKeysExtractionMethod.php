@@ -31,8 +31,9 @@ class ValueKeysExtractionMethod implements DataExtractionMethodInterface
 
     /**
      * {@inheritdoc}
+     * @return non-empty-array[][]
      */
-    public function extract(FormInterface $form)
+    public function extract(FormInterface $form): array
     {
         $data = $form->getData() ?: [];
         $keys = [];

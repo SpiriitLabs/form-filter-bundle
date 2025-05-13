@@ -11,6 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Form;
 
+use Closure;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,7 +33,7 @@ class FilterTypeExtension extends AbstractTypeExtension
             $builder->setAttribute('apply_filter', $options['apply_filter']);
         }
 
-        if ($options['filter_condition_builder'] instanceof \Closure) {
+        if ($options['filter_condition_builder'] instanceof Closure) {
             $builder->setAttribute('filter_condition_builder', $options['filter_condition_builder']);
         }
 
@@ -56,14 +57,11 @@ class FilterTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public function getExtendedType(): string
     {
         return FormType::class;
     }
 
-    /**
-     * @return iterable
-     */
     public static function getExtendedTypes(): iterable
     {
         return [FormType::class];

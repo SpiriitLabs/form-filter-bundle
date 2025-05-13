@@ -33,17 +33,11 @@ class EntityFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @return ?string
-     */
     public function getParent(): ?string
     {
         return EntityType::class;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_entity';

@@ -12,40 +12,24 @@ declare(strict_types=1);
  */
 
 use Rector\Config\RectorConfig;
-use Rector\Core\ValueObject\PhpVersion;
-use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
-use Rector\Set\ValueObject\LevelSetList;
-use Rector\Symfony\Set\SymfonyLevelSetList;
-use Rector\Symfony\Set\SymfonySetList;
-use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictNativeCallRector;
+use Rector\Set\ValueObject\SetList;
+use Rector\ValueObject\PhpVersion;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_71,
-        SymfonyLevelSetList::UP_TO_SYMFONY_44,
-        SymfonyLevelSetList::UP_TO_SYMFONY_62,
-        SymfonySetList::SYMFONY_CODE_QUALITY,
-        SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
-    ]);
-    $rectorConfig->rules([
-        ReturnTypeFromStrictNativeCallRector::class,
-     ]);
-
-    $rectorConfig->phpVersion(PhpVersion::PHP_71);
-    $rectorConfig->importShortClasses(false);
-    $rectorConfig->importNames();
-    $rectorConfig->bootstrapFiles([
-          __DIR__ . '/vendor/autoload.php',
-      ]);
-    $rectorConfig->parallel();
-    $rectorConfig->paths([__DIR__]);
-    $rectorConfig->skip([
-        // Path
+return RectorConfig::configure()
+    ->withSkip([
         __DIR__ . '/.github',
         __DIR__ . '/DependencyInjection/Configuration.php',
         __DIR__ . '/vendor',
-
-        // Rules
-        JsonThrowOnErrorRector::class,
-    ]);
-};
+    ])
+    ->withPaths([
+        __DIR__
+    ])
+    ->withPhpVersion(PhpVersion::PHP_84)
+    ->withSets([SetList::PHP_84])
+    ->withImportNames()
+    ->withPreparedSets(
+        deadCode: true,
+        typeDeclarations: true,
+        privatization: true,
+        earlyReturn: true
+    );

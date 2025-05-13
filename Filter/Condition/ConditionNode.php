@@ -23,26 +23,16 @@ class ConditionNode implements ConditionNodeInterface
      */
     private $operator;
 
-    /**
-     * @var ConditionNodeInterface
-     */
-    private $parent;
+    private ?ConditionNodeInterface $parent;
 
-    /**
-     * @var array
-     */
-    private $children;
+    private array $children;
 
-    /**
-     * @var array
-     */
-    private $fields;
+    private array $fields;
 
     /**
      * @param string                 $operator
-     * @param ConditionNodeInterface $parent
      */
-    public function __construct($operator, ConditionNodeInterface $parent = null)
+    public function __construct($operator, ?ConditionNodeInterface $parent = null)
     {
         $this->operator = $operator;
         $this->parent = $parent;
@@ -53,7 +43,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function orX()
+    public function orX(): static
     {
         $node = new static(self::EXPR_OR, $this);
 
@@ -65,7 +55,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function andX()
+    public function andX(): static
     {
         $node = new static(self::EXPR_AND, $this);
 
@@ -77,7 +67,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function end()
+    public function end(): ?ConditionNodeInterface
     {
         return $this->parent;
     }
@@ -85,7 +75,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function field($name)
+    public function field($name): static
     {
         $this->fields[$name] = null;
 
@@ -103,7 +93,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }
@@ -111,7 +101,7 @@ class ConditionNode implements ConditionNodeInterface
     /**
      * {@inheritDoc}
      */
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -120,7 +110,6 @@ class ConditionNode implements ConditionNodeInterface
      * Set the condition for the given field name.
      *
      * @param string             $name
-     * @param ConditionInterface $condition
      * @return bool
      */
     public function setCondition($name, ConditionInterface $condition)

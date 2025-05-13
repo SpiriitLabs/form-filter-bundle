@@ -45,9 +45,6 @@ class NumberRangeFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_number_range';

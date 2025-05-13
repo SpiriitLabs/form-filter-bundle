@@ -11,6 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,10 +36,10 @@ class Item
     protected bool $enabled = false;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    protected ?\DateTime $createdAt = null;
+    protected ?DateTime $createdAt = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    protected ?\DateTime $updatedAt = null;
+    protected ?DateTime $updatedAt = null;
 
     #[ORM\OneToMany(targetEntity: Options::class, mappedBy: 'item')]
     private array $options = [];
@@ -78,22 +79,22 @@ class Item
         $this->enabled = $enabled;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt): void
+    public function setCreatedAt(?DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt): void
+    public function setUpdatedAt(?DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

@@ -58,9 +58,9 @@ class TextFilterType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $defaults = ['required' => false, 'condition_pattern' => $this->conditionPattern, 'compound' => function (Options $options) {
+        $defaults = ['required' => false, 'condition_pattern' => $this->conditionPattern, 'compound' => function (Options $options): bool {
             return $options['condition_pattern'] == FilterOperands::OPERAND_SELECTOR;
-        }, 'text_options' => ['required' => false, 'trim' => true], 'choice_options' => ['choices' => FilterOperands::getStringOperandsChoices(), 'required' => false, 'translation_domain' => 'SpiriitFormFilterBundle'], 'data_extraction_method' => function (Options $options) {
+        }, 'text_options' => ['required' => false, 'trim' => true], 'choice_options' => ['choices' => FilterOperands::getStringOperandsChoices(), 'required' => false, 'translation_domain' => 'SpiriitFormFilterBundle'], 'data_extraction_method' => function (Options $options): string {
             return $options['compound'] ? 'text' : 'default';
         }];
 
@@ -75,17 +75,11 @@ class TextFilterType extends AbstractType
         ;
     }
 
-    /**
-     * @return ?string
-     */
     public function getParent(): ?string
     {
         return TextType::class;
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'filter_text';

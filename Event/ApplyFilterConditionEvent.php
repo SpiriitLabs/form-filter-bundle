@@ -26,14 +26,10 @@ class ApplyFilterConditionEvent extends Event
      */
     private $queryBuilder;
 
-    /**
-     * @var ConditionBuilderInterface
-     */
-    private $conditionBuilder;
+    private ConditionBuilderInterface $conditionBuilder;
 
     /**
      * @param mixed                     $queryBuilder
-     * @param ConditionBuilderInterface $conditionBuilder
      */
     public function __construct($queryBuilder, ConditionBuilderInterface $conditionBuilder)
     {
@@ -41,10 +37,7 @@ class ApplyFilterConditionEvent extends Event
         $this->conditionBuilder = $conditionBuilder;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getConditionBuilder()
+    public function getConditionBuilder(): ConditionBuilderInterface
     {
         return $this->conditionBuilder;
     }
