@@ -34,6 +34,8 @@ class DBALQuery implements QueryInterface
      */
     public function __construct(QueryBuilder $queryBuilder, $forceCaseInsensitivity = false)
     {
+        trigger_deprecation('spiriitlabs/form-filter-bundle', '11.1.0', 'Using DBALQuery is deprecated, use ORMQuery instead.');
+
         $this->queryBuilder = $queryBuilder;
         $this->expressionBuilder = new DBALExpressionBuilder(
             $this->queryBuilder->expr(),
