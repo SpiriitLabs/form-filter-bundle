@@ -19,6 +19,7 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 /**
  * @author Jeremy Barthe <j.barthe@lexik.fr>
+ * @deprecated use ORMQuery instead
  */
 class DBALQuery implements QueryInterface
 {
