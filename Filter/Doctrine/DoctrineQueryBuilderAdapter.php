@@ -11,6 +11,8 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine;
 
+use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\ORM\Query\Expr\Andx;
 use Doctrine\ORM\Query\Expr\Orx;
@@ -24,11 +26,10 @@ class DoctrineQueryBuilderAdapter
 {
     public function __construct(private ORMQueryBuilder $qb)
     {
-        $this->qb = $qb;
     }
 
     /**
-     * @return CompositeExpression|Andx
+     * @return Andx
      */
     public function andX()
     {
@@ -36,7 +37,7 @@ class DoctrineQueryBuilderAdapter
     }
 
     /**
-     * @return CompositeExpression|Orx
+     * @return Orx
      */
     public function orX()
     {
@@ -68,9 +69,9 @@ class DoctrineQueryBuilderAdapter
     }
 
     /**
-     * @param string      $name
-     * @param mixed       $value
-     * @param string|null $type
+     * @param string|int                                       $name
+     * @param mixed                                            $value
+     * @param ParameterType|ArrayParameterType|string|int|null $type
      */
     public function setParameter($name, $value, $type = null): void
     {
