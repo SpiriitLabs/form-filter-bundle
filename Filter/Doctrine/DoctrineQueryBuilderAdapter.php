@@ -34,6 +34,9 @@ class DoctrineQueryBuilderAdapter
         if (!($qb instanceof ORMQueryBuilder || $qb  instanceof DBALQueryBuilder)) {
             throw new RuntimeException('Invalid Doctrine query builder instance.');
         }
+        if ($qb instanceof DBALQueryBuilder) {
+            trigger_deprecation('spiriitlabs/form-filter-bundle', '11.1.0', 'Using DBALQueryBuilder is deprecated, use ORMQueryBuilder instead.');
+        }
 
         $this->qb = $qb;
     }
