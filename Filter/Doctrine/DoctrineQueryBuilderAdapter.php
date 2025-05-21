@@ -11,25 +11,41 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine;
 
-use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\DBAL\ParameterType;
+use RuntimeException;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
+use Doctrine\DBAL\Query\QueryBuilder as DBALQueryBuilder;
 use Doctrine\ORM\Query\Expr\Andx;
 use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
-use RuntimeException;
 
 /**
  * @author Cédric Girard <c.girard@lexik.fr>
+ * @deprecated use ORMQueryBuilder directly instead
  */
 class DoctrineQueryBuilderAdapter
 {
-    public function __construct(private ORMQueryBuilder $qb)
+    private \Doctrine\ORM\QueryBuilder|DBALQueryBuilder $qb;
+
+    /**
+     * @param mixed $qb
+     * @throws RuntimeException
+     */
+    public function __construct($qb)
     {
+        trigger_deprecation('spiriitlabs/form-filter-bundle', '11.1.2', 'Using DoctrineQueryBuilderAdapter is deprecated, use ORMQueryBuilder directly instead.');
+
+        if (!($qb instanceof ORMQueryBuilder || $qb  instanceof DBALQueryBuilder)) {
+            throw new RuntimeException('Invalid Doctrine query builder instance.');
+        }
+        if ($qb instanceof DBALQueryBuilder) {
+            trigger_deprecation('spiriitlabs/form-filter-bundle', '11.1.0', 'Using DBALQueryBuilder is deprecated, use ORMQueryBuilder instead.');
+        }
+
+        $this->qb = $qb;
     }
 
     /**
-     * @return Andx
+     * @return CompositeExpression|Andx
      */
     public function andX()
     {
@@ -37,7 +53,7 @@ class DoctrineQueryBuilderAdapter
     }
 
     /**
-     * @return Orx
+     * @return CompositeExpression|Orx
      */
     public function orX()
     {
@@ -69,9 +85,9 @@ class DoctrineQueryBuilderAdapter
     }
 
     /**
-     * @param string|int                                       $name
-     * @param mixed                                            $value
-     * @param ParameterType|ArrayParameterType|string|int|null $type
+     * @param string      $name
+     * @param mixed       $value
+     * @param string|null $type
      */
     public function setParameter($name, $value, $type = null): void
     {
