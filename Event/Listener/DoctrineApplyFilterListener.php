@@ -13,7 +13,9 @@ namespace Spiriit\Bundle\FormFilterBundle\Event\Listener;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Expr\Andx;
 use Doctrine\ORM\Query\Expr\Composite;
+use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder;
 use Spiriit\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
 use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
@@ -61,18 +63,13 @@ final class DoctrineApplyFilterListener
         }
     }
 
-    /**
-     * @return Composite|CompositeExpression|null
-     */
-    private function computeExpression(QueryBuilder $queryBuilder, ConditionNodeInterface $node)
+    private function computeExpression(QueryBuilder $queryBuilder, ConditionNodeInterface $node): null|Andx|Orx
     {
         if (count($node->getFields()) == 0 && count($node->getChildren()) == 0) {
             return null;
         }
 
-        $method = ($node->getOperator() == ConditionNodeInterface::EXPR_AND) ? 'andX' : 'orX';
-
-        $expression = $queryBuilder->expr()->{$method}();
+        $expression = ($node->getOperator() == ConditionNodeInterface::EXPR_AND) ? $queryBuilder->expr()->andX() : $queryBuilder->expr()->orX();
 
         foreach ($node->getFields() as $condition) {
             if (null !== $condition) {
