@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('listeners')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('doctrine_dbal')->defaultFalse()->end()
+                        ->booleanNode('doctrine_dbal')->defaultFalse()->setDeprecated('spiriitlabs/form-filter-bundle', '11.1.1', 'The child node "%node%" at path "%path%" is deprecated. Use doctrine_orm instead.')->end()
                         ->booleanNode('doctrine_orm')->defaultTrue()->end()
                     ->end()
                 ->end()
