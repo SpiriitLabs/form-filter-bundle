@@ -34,7 +34,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('listeners')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('doctrine_dbal')->defaultFalse()->end()
                         ->booleanNode('doctrine_orm')->defaultTrue()->end()
                     ->end()
                 ->end()
