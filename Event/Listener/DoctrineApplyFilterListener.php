@@ -22,6 +22,7 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\DoctrineQueryBuilderAdapter;
  * Add filter conditions on a Doctrine ORM or DBAL query builder.
  *
  * @author Cédric Girard <c.girard@lexik.fr>
+ * @final since 11.1.2
  */
 class DoctrineApplyFilterListener
 {
