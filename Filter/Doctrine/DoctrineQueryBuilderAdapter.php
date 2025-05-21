@@ -11,11 +11,11 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine;
 
-use RuntimeException;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\ORM\Query\Expr\Andx;
 use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
+use RuntimeException;
 
 /**
  * @author Cédric Girard <c.girard@lexik.fr>

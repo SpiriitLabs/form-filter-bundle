@@ -19,7 +19,7 @@
         "rector/rector": "^2.0",
         "symfony/phpunit-bridge": "^5.4|^6.4|^7.0",
         "symfony/var-dumper": "^5.4|^6.4|^7.0",
-        "symplify/easy-coding-standard": "^11.3"
+        "symplify/easy-coding-standard": "^12.5"
     },
     "autoload":     {
         "psr-4": { "Spiriit\\Bundle\\FormFilterBundle\\": "" }

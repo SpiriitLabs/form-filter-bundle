@@ -35,7 +35,7 @@ class InheritDataFilterType extends AbstractType
                     };
 
 
-                    $qbe->addOnce($qbe->getAlias().'.item', 'item', $closure);
+                    $qbe->addOnce($qbe->getAlias() . '.item', 'item', $closure);
                 },
                 'data_class' => Item::class,
             ])

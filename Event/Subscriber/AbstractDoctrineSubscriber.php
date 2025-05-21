@@ -11,9 +11,8 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Event\Subscriber;
 
-use DateTime;
-use UnitEnum;
 use BackedEnum;
+use DateTime;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
@@ -21,6 +20,7 @@ use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
 use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
+use UnitEnum;
 
 /**
  * Provide Doctrine ORM and DBAL filters.

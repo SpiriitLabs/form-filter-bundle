@@ -59,8 +59,8 @@ class RangeFilterType extends AbstractType
                         'date_widget' => 'choice',
                         'time_widget' => 'choice',
                         'years' => range(
-                    2010,
-                    2020
+                            2010,
+                            2020
                         )
                     ]
                 ]
