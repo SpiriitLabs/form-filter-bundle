@@ -11,8 +11,8 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter;
 
-use RuntimeException;
 use Closure;
+use RuntimeException;
 use Spiriit\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
 use Spiriit\Bundle\FormFilterBundle\Event\FilterEvents;
 use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
@@ -144,7 +144,7 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
 
                 $this->addFilters($isCollection ? $child->get(0) : $child, $filterQuery, $this->parts->get($join));
 
-            // Doctrine2 embedded object case
+                // Doctrine2 embedded object case
             } elseif ($formType instanceof EmbeddedFilterTypeInterface) {
                 $this->addFilters($child, $filterQuery, $child->getConfig()->getAttribute('filter_field_name') ?? ($alias . '.' . $child->getName()));
 

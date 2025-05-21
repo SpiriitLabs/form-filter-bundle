@@ -12,9 +12,9 @@
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Expression;
 
 use DateTime;
-use InvalidArgumentException;
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\Query\Expr\Literal;
+use InvalidArgumentException;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 
 abstract class ExpressionBuilder

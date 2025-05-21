@@ -28,7 +28,6 @@ You can create a file `spiriit_form_filter.yaml`
 spiriit_form_filter:
     listeners:
         doctrine_orm: true
-        doctrine_dbal: false
 ```
 
 * Case insensitivity:

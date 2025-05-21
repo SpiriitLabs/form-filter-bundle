@@ -197,7 +197,7 @@ class ORMQueryBuilderUpdaterTest extends DoctrineQueryBuilderUpdater
         $this->assertEquals($expectedDql, $doctrineQueryBuilder->getDql());
         $this->assertEquals([
             'p_o_rank' => 1.0,
-            'p_item_position' =>  2.0,
+            'p_item_position' => 2.0,
             'p_item_enabled' => true,
         ], $this->getQueryBuilderParameters($doctrineQueryBuilder));
     }

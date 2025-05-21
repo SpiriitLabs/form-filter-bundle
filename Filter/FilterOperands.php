@@ -31,11 +31,6 @@ final class FilterOperands
     public const STRING_EQUALS = 3;
     public const STRING_CONTAINS = 4;
 
-    /**
-     * @deprecated use FilterOperands::STRING_CONTAINS
-     */
-    public const STRING_BOTH = 4;
-
     public const OPERAND_SELECTOR = 'selection';
 
     /**

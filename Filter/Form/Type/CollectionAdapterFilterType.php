@@ -11,7 +11,6 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Form\Type;
 
-use Traversable;
 use ArrayAccess;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
@@ -19,6 +18,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Traversable;
 
 /**
  * Filter to used to simulate a collection and get filter to apply on collection elements.
