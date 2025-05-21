@@ -12,19 +12,19 @@
 namespace Spiriit\Bundle\FormFilterBundle\Event\Listener;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Composite;
+use Doctrine\ORM\QueryBuilder;
 use Spiriit\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
 use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionNodeInterface;
-use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\DoctrineQueryBuilderAdapter;
 
 /**
  * Add filter conditions on a Doctrine ORM or DBAL query builder.
  *
  * @author Cédric Girard <c.girard@lexik.fr>
- * @final since 11.1.2
  */
-class DoctrineApplyFilterListener
+final class DoctrineApplyFilterListener
 {
     private ?array $parameters = null;
 
@@ -40,21 +40,22 @@ class DoctrineApplyFilterListener
 
     public function onApplyFilterCondition(ApplyFilterConditionEvent $event): void
     {
-        $qbAdapter = new DoctrineQueryBuilderAdapter($event->getQueryBuilder());
+        /** @var QueryBuilder $qb */
+        $qb = $event->getQueryBuilder();
         $conditionBuilder = $event->getConditionBuilder();
 
         $this->parameters = [];
-        $expression = $this->computeExpression($qbAdapter, $conditionBuilder->getRoot());
+        $expression = $this->computeExpression($qb, $conditionBuilder->getRoot());
 
         if (null !== $expression && $expression->count()) {
-            $qbAdapter->{$this->whereMethod}($expression);
+            $qb->{$this->whereMethod}($expression);
 
             foreach ($this->parameters as $name => $value) {
                 if (is_array($value)) {
                     [$value, $type] = $value;
-                    $qbAdapter->setParameter($name, $value, $type);
+                    $qb->setParameter($name, $value, $type);
                 } else {
-                    $qbAdapter->setParameter($name, $value);
+                    $qb->setParameter($name, $value);
                 }
             }
         }
@@ -63,7 +64,7 @@ class DoctrineApplyFilterListener
     /**
      * @return Composite|CompositeExpression|null
      */
-    protected function computeExpression(DoctrineQueryBuilderAdapter $queryBuilder, ConditionNodeInterface $node)
+    private function computeExpression(QueryBuilder $queryBuilder, ConditionNodeInterface $node)
     {
         if (count($node->getFields()) == 0 && count($node->getChildren()) == 0) {
             return null;
@@ -71,7 +72,7 @@ class DoctrineApplyFilterListener
 
         $method = ($node->getOperator() == ConditionNodeInterface::EXPR_AND) ? 'andX' : 'orX';
 
-        $expression = $queryBuilder->{$method}();
+        $expression = $queryBuilder->expr()->{$method}();
 
         foreach ($node->getFields() as $condition) {
             if (null !== $condition) {
