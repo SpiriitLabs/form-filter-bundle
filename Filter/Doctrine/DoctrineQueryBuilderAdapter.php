@@ -20,6 +20,7 @@ use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
 
 /**
  * @author Cédric Girard <c.girard@lexik.fr>
+ * @deprecated use ORMQueryBuilder directly instead
  */
 class DoctrineQueryBuilderAdapter
 {
@@ -31,6 +32,8 @@ class DoctrineQueryBuilderAdapter
      */
     public function __construct($qb)
     {
+        trigger_deprecation('spiriitlabs/form-filter-bundle', '11.1.2', 'Using DoctrineQueryBuilderAdapter is deprecated, use ORMQueryBuilder directly instead.');
+
         if (!($qb instanceof ORMQueryBuilder || $qb  instanceof DBALQueryBuilder)) {
             throw new RuntimeException('Invalid Doctrine query builder instance.');
         }
