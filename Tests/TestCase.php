@@ -108,7 +108,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             ],
             'spiriit_form_filter' => [
                 'listeners' => [
-                    'doctrine_orm' => true, 'doctrine_dbal' => true,
+                    'doctrine_orm' => true,
                 ]
             ],
         ]);
