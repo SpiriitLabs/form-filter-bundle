@@ -13,7 +13,6 @@ namespace Spiriit\Bundle\FormFilterBundle\Event\Listener;
 
 use Doctrine\ORM\QueryBuilder;
 use Spiriit\Bundle\FormFilterBundle\Event\PrepareEvent;
-use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\DBALQuery;
 use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 
 class PrepareListener
@@ -48,7 +47,7 @@ class PrepareListener
     {
         $qb = $event->getQueryBuilder();
 
-        $queryClasses = [QueryBuilder::class => ORMQuery::class, \Doctrine\DBAL\Query\QueryBuilder::class => DBALQuery::class];
+        $queryClasses = [QueryBuilder::class => ORMQuery::class];
 
         foreach ($queryClasses as $builderClass => $queryClass) {
             if (class_exists($builderClass) && $qb instanceof $builderClass) {
