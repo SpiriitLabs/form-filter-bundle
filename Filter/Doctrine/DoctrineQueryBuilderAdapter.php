@@ -13,7 +13,6 @@ namespace Spiriit\Bundle\FormFilterBundle\Filter\Doctrine;
 
 use RuntimeException;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
-use Doctrine\DBAL\Query\QueryBuilder as DBALQueryBuilder;
 use Doctrine\ORM\Query\Expr\Andx;
 use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
@@ -23,21 +22,8 @@ use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
  */
 class DoctrineQueryBuilderAdapter
 {
-    private \Doctrine\ORM\QueryBuilder|DBALQueryBuilder $qb;
-
-    /**
-     * @param mixed $qb
-     * @throws RuntimeException
-     */
-    public function __construct($qb)
+    public function __construct(private ORMQueryBuilder $qb)
     {
-        if (!($qb instanceof ORMQueryBuilder || $qb  instanceof DBALQueryBuilder)) {
-            throw new RuntimeException('Invalid Doctrine query builder instance.');
-        }
-        if ($qb instanceof DBALQueryBuilder) {
-            trigger_deprecation('spiriitlabs/form-filter-bundle', '11.1.0', 'Using DBALQueryBuilder is deprecated, use ORMQueryBuilder instead.');
-        }
-
         $this->qb = $qb;
     }
 
