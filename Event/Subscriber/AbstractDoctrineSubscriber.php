@@ -39,9 +39,10 @@ abstract class AbstractDoctrineSubscriber
             $paramName = $this->generateParameterName($event->getField());
 
             if (is_array($values['value']) && sizeof($values['value']) > 0) {
+                $parameterType = class_exists(ArrayParameterType::class) ? ArrayParameterType::STRING : Connection::PARAM_STR_ARRAY;
                 $event->setCondition(
                     $expr->in($event->getField(), ':' . $paramName),
-                    [$paramName => [$values['value'], Connection::PARAM_STR_ARRAY]]
+                    [$paramName => [$values['value'], $parameterType]]
                 );
             } elseif (!is_array($values['value'])) {
                 $event->setCondition(
