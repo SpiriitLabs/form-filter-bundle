@@ -15,7 +15,7 @@
     },
     "require-dev": {
         "doctrine/annotations": "^2.0",
-        "doctrine/doctrine-bundle": "^1.8 || ^2.0",
+        "doctrine/doctrine-bundle": "^1.8 || ^2.0 || ^3.0",
         "rector/rector": "^2.0",
         "symfony/phpunit-bridge": "^5.4|^6.4|^7.4|^8.0",
         "symfony/var-dumper": "^5.4|^6.4|^7.4|^8.0",
