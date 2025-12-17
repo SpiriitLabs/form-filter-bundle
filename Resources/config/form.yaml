@@ -1,0 +1,93 @@
+parameters:
+    # Filter Types
+    spiriit_form_filter.type.filter_text.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType
+    spiriit_form_filter.type.filter_number.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberFilterType
+    spiriit_form_filter.type.filter_number_range.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\NumberRangeFilterType
+    spiriit_form_filter.type.filter_checkbox.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CheckboxFilterType
+    spiriit_form_filter.type.filter_boolean.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType
+    spiriit_form_filter.type.filter_choice.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\ChoiceFilterType
+    spiriit_form_filter.type.filter_date.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateFilterType
+    spiriit_form_filter.type.filter_date_range.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateRangeFilterType
+    spiriit_form_filter.type.filter_datetime.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeFilterType
+    spiriit_form_filter.type.filter_datetime_range.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\DateTimeRangeFilterType
+    spiriit_form_filter.type.filter_collection_adapter.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType
+    spiriit_form_filter.type.filter_sharedable.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType
+    spiriit_form_filter.type.filter_enum.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\EnumFilterType
+
+    # Type extension
+    spiriit_form_filter.type_extension.filter_extension.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\FilterTypeExtension
+
+services:
+    # Filter Types
+    spiriit_form_filter.type.filter_text:
+        class: '%spiriit_form_filter.type.filter_text.class%'
+        arguments:
+            - '%spiriit_form_filter.text.condition_pattern%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_number:
+        class: '%spiriit_form_filter.type.filter_number.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_number_range:
+        class: '%spiriit_form_filter.type.filter_number_range.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_checkbox:
+        class: '%spiriit_form_filter.type.filter_checkbox.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_boolean:
+        class: '%spiriit_form_filter.type.filter_boolean.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_choice:
+        class: '%spiriit_form_filter.type.filter_choice.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_date:
+        class: '%spiriit_form_filter.type.filter_date.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_date_range:
+        class: '%spiriit_form_filter.type.filter_date_range.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_datetime:
+        class: '%spiriit_form_filter.type.filter_datetime.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_datetime_range:
+        class: '%spiriit_form_filter.type.filter_datetime_range.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_collection_adapter:
+        class: '%spiriit_form_filter.type.filter_collection_adapter.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_sharedable:
+        class: '%spiriit_form_filter.type.filter_sharedable.class%'
+        tags:
+            - { name: form.type }
+
+    spiriit_form_filter.type.filter_enum:
+        class: '%spiriit_form_filter.type.filter_enum.class%'
+        tags:
+            - { name: form.type }
+
+    # Type extension
+    spiriit_form_filter.type_extension.filter_extension:
+        class: '%spiriit_form_filter.type_extension.filter_extension.class%'
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
