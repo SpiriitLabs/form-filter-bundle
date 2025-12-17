@@ -30,7 +30,7 @@ class InheritDataFilterType extends AbstractType
         $builder
             ->add('item', ItemFilterType::class, [
                 'add_shared' => function (FilterBuilderExecuterInterface $qbe): void {
-                    $closure = function (QueryBuilder $filterBuilder, string $alias, $joinAlias, Expr $expr): void {
+                    $closure = function (QueryBuilder $filterBuilder, string $alias, string $joinAlias, Expr $expr): void {
                         $filterBuilder->leftJoin($alias . '.item', $joinAlias);
                     };
 

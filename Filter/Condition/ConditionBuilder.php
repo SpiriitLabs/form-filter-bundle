@@ -29,11 +29,11 @@ class ConditionBuilder implements ConditionBuilderInterface
     {
         $operator = strtolower($operator);
 
-        if (!in_array($operator, [ConditionNodeInterface::EXPR_AND, ConditionNodeInterface::EXPR_OR])) {
+        if (!in_array($operator, [ConditionNodeInterface::EXPR_AND, ConditionNodeInterface::EXPR_OR], true)) {
             throw new RuntimeException(sprintf('Invalid operator "%s", allowed values: and, or', $operator));
         }
 
-        $this->root = new ConditionNode($operator, null);
+        $this->root = new ConditionNode($operator);
 
         return $this->root;
     }
