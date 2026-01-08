@@ -1,0 +1,50 @@
+parameters:
+    spiriit_form_filter.query_builder_updater.class: Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater
+    spiriit_form_filter.form_data_extractor.class: Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\FormDataExtractor
+    spiriit_form_filter.data_extraction_method.default.class: Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\DefaultExtractionMethod
+    spiriit_form_filter.data_extraction_method.text.class: Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\TextExtractionMethod
+    spiriit_form_filter.data_extraction_method.key_values.class: Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\Method\ValueKeysExtractionMethod
+    spiriit_form_filter.filter_prepare.class: Spiriit\Bundle\FormFilterBundle\Event\Listener\PrepareListener
+
+services:
+    # Query builder updater and aliases for autowiring
+    Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater:
+        alias: spiriit_form_filter.query_builder_updater
+        public: false
+
+    Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface:
+        alias: spiriit_form_filter.query_builder_updater
+        public: false
+
+    spiriit_form_filter.query_builder_updater:
+        class: '%spiriit_form_filter.query_builder_updater.class%'
+        public: true
+        arguments:
+            - '@spiriit_form_filter.form_data_extractor'
+            - '@event_dispatcher'
+
+    # Form data extraction
+    spiriit_form_filter.form_data_extractor:
+        class: '%spiriit_form_filter.form_data_extractor.class%'
+
+    spiriit_form_filter.data_extraction_method.default:
+        class: '%spiriit_form_filter.data_extraction_method.default.class%'
+        tags:
+            - { name: spiriit_form_filter.data_extraction_method }
+
+    spiriit_form_filter.data_extraction_method.text:
+        class: '%spiriit_form_filter.data_extraction_method.text.class%'
+        tags:
+            - { name: spiriit_form_filter.data_extraction_method }
+
+    spiriit_form_filter.data_extraction_method.key_values:
+        class: '%spiriit_form_filter.data_extraction_method.key_values.class%'
+        tags:
+            - { name: spiriit_form_filter.data_extraction_method }
+
+    # Prepare listener
+    spiriit_form_filter.filter_prepare:
+        class: '%spiriit_form_filter.filter_prepare.class%'
+        public: true
+        tags:
+            - { name: kernel.event_listener, event: spiriit_filter.prepare, method: onFilterBuilderPrepare }

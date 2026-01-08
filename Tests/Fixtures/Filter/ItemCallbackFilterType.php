@@ -28,7 +28,7 @@ class ItemCallbackFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextFilterType::class, ['apply_filter' => [$this, 'fieldNameCallback']]);
-        $builder->add('position', NumberFilterType::class, ['apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+        $builder->add('position', NumberFilterType::class, ['apply_filter' => function (QueryInterface $filterQuery, $field, array $values) {
             if (!empty($values['value'])) {
                 if ($filterQuery->getExpr() instanceof Expr) {
                     $expr = $filterQuery->getExpr()->field($field)->notEqual($values['value']);
@@ -48,7 +48,7 @@ class ItemCallbackFilterType extends AbstractType
         return 'item_filter';
     }
 
-    public function fieldNameCallback(QueryInterface $filterQuery, $field, $values)
+    public function fieldNameCallback(QueryInterface $filterQuery, $field, array $values)
     {
         if (!empty($values['value'])) {
             if ($filterQuery->getExpr() instanceof Expr) {

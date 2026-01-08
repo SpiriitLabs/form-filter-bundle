@@ -15,8 +15,7 @@ use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -35,13 +34,13 @@ class SpiriitFormFilterExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
-        $loader->load('form.xml');
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yaml');
+        $loader->load('form.yaml');
 
         foreach ($config['listeners'] as $name => $enable) {
             if ($enable) {
-                $loader->load(sprintf('%s.xml', $name));
+                $loader->load(sprintf('%s.yaml', $name));
             }
         }
 

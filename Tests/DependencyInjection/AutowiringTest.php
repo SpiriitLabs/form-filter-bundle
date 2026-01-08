@@ -18,10 +18,8 @@ use Spiriit\Bundle\FormFilterBundle\SpiriitFormFilterBundle;
 use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\Autowired;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
-use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use Symfony\Component\HttpKernel\Kernel;
 
 class AutowiringTest extends TestCase
 {
@@ -62,9 +60,9 @@ class AutowiringTest extends TestCase
                 'kernel.cache_dir' => __DIR__,
                 'kernel.debug' => false,
                 'kernel.environment' => 'test',
-                'kernel.name' => 'kernel',
-                'kernel.root_dir' => __DIR__,
                 'kernel.project_dir' => __DIR__,
+                'kernel.share_dir' => __DIR__,
+                'kernel.runtime_mode.web' => false,
                 'kernel.container_class' => 'AutowiringTestContainer',
                 'kernel.charset' => 'utf8',
                 'kernel.runtime_environment' => 'test',

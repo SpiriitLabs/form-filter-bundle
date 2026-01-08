@@ -1,0 +1,26 @@
+parameters:
+    spiriit_form_filter.get_filter.doctrine_orm.class: Spiriit\Bundle\FormFilterBundle\Event\Subscriber\DoctrineORMSubscriber
+    spiriit_form_filter.apply_filter.doctrine_orm.class: Spiriit\Bundle\FormFilterBundle\Event\Listener\DoctrineApplyFilterListener
+    spiriit_form_filter.type.filter_entity.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\EntityFilterType
+
+services:
+    # Listeners
+    spiriit_form_filter.get_filter.doctrine_orm:
+        class: '%spiriit_form_filter.get_filter.doctrine_orm.class%'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    spiriit_form_filter.apply_filter.doctrine_orm:
+        class: '%spiriit_form_filter.apply_filter.doctrine_orm.class%'
+        arguments:
+            - '%spiriit_form_filter.where_method%'
+        tags:
+            - { name: kernel.event_listener, event: spiriit_filter.apply_filters.orm, method: onApplyFilterCondition }
+
+    # Specific ORM types
+    spiriit_form_filter.type.filter_entity:
+        class: '%spiriit_form_filter.type.filter_entity.class%'
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: form.type }

@@ -28,7 +28,7 @@ class FormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class);
-        $builder->add('position', IntegerType::class, ['apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+        $builder->add('position', IntegerType::class, ['apply_filter' => function (QueryInterface $filterQuery, $field, array $values) {
             if (!empty($values['value'])) {
                 if ($filterQuery->getExpr() instanceof Expr) {
                     $expr = $filterQuery->getExpr()->field($field)->equals($values['value']);
