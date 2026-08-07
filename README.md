@@ -24,7 +24,7 @@ The idea is:
 have to create a custom listener class to apply the filter for this type.
 
 ## Installation
-================
+===============
 
 The bundle can be installed using Composer or the [Symfony binary](https://symfony.com/download):
 
