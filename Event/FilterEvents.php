@@ -19,4 +19,6 @@ namespace Spiriit\Bundle\FormFilterBundle\Event;
 class FilterEvents
 {
     public const PREPARE = 'spiriit_filter.prepare';
+
+    public const APPLIED = 'spiriit_filter.applied';
 }

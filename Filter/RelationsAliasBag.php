@@ -49,6 +49,14 @@ class RelationsAliasBag
         return isset($this->aliases[$relation]);
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function all(): array
+    {
+        return $this->aliases;
+    }
+
     public function count(): int
     {
         return count($this->aliases);

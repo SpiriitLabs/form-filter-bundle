@@ -273,3 +273,7 @@ class ListComponent
     {% endcomponent %}
 {% endblock %}
 ```
+
+***
+
+Next: [9. Debugging filters](debugging.md)

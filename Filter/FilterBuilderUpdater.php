@@ -14,6 +14,7 @@ namespace Spiriit\Bundle\FormFilterBundle\Filter;
 use Closure;
 use RuntimeException;
 use Spiriit\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Event\FilterAppliedEvent;
 use Spiriit\Bundle\FormFilterBundle\Event\FilterEvents;
 use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
 use Spiriit\Bundle\FormFilterBundle\Event\PrepareEvent;
@@ -22,6 +23,9 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionNodeInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\DataExtractor\FormDataExtractorInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Explanation\FieldExplanation;
+use Spiriit\Bundle\FormFilterBundle\Filter\Explanation\FieldOutcome;
+use Spiriit\Bundle\FormFilterBundle\Filter\Explanation\FilterExplanationBuilder;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CollectionAdapterFilterType;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\EmbeddedFilterTypeInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
@@ -51,6 +55,10 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
      * @var ConditionBuilder
      */
     protected $conditionBuilder;
+
+    protected ?FilterExplanationBuilder $explanationBuilder = null;
+
+    private const ROOT_PART = '__root__';
 
     /**
      * Constructor
@@ -93,11 +101,16 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
         $alias = $alias ?? $event->getFilterQuery()->getRootAlias();
 
         // init parts (= ['joins' -> 'alias']) / the root alias does not target a join
-        $this->parts->add('__root__', $alias);
+        $this->parts->add(self::ROOT_PART, $alias);
 
         // get conditions nodes defined by the 'filter_condition_builder' option
         // and add filters condition for each node
         $this->conditionBuilder = $this->getConditionBuilder($form);
+        $this->explanationBuilder = new FilterExplanationBuilder(
+            $form->getName(),
+            $form->getConfig()->getType()->getInnerType()::class,
+            $alias
+        );
         $this->addFilters($form, $event->getFilterQuery(), $alias);
 
         // walk condition nodes to add condition on the query builder instance
@@ -105,7 +118,16 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
 
         $this->dispatcher->dispatch(new ApplyFilterConditionEvent($queryBuilder, $this->conditionBuilder), $name);
 
+        $joins = $this->parts->all();
+        unset($joins[self::ROOT_PART]);
+
+        $this->dispatcher->dispatch(
+            new FilterAppliedEvent($queryBuilder, $this->explanationBuilder->build($this->conditionBuilder->getRoot(), $joins)),
+            FilterEvents::APPLIED
+        );
+
         $this->conditionBuilder = null;
+        $this->explanationBuilder = null;
 
         return $queryBuilder;
     }
@@ -171,11 +193,23 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
      */
     protected function getFilterCondition(FormInterface $form, AbstractType $formType, QueryInterface $filterQuery, $alias)
     {
+        $explanation = $this->explainField($form, $formType, $filterQuery, $alias);
+
+        $this->explanationBuilder?->add($explanation);
+
+        return $explanation->condition;
+    }
+
+    /**
+     * Get the condition through event dispatcher and describe how the field was handled.
+     *
+     * @param string $alias
+     */
+    protected function explainField(FormInterface $form, AbstractType $formType, QueryInterface $filterQuery, $alias): FieldExplanation
+    {
         $values = $this->prepareFilterValues($form);
         $values += ['alias' => $alias];
         $field = $form->getConfig()->getAttribute('filter_field_name') ?? trim($values['alias'] . '.' . $form->getName(), '. ');
-
-        $condition = null;
 
         // build a complete form name including parents
         $completeName = $form->getName();
@@ -191,23 +225,30 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
             }
         } while (!$parentForm->isRoot());
 
+        $name = trim(substr($completeName, strpos($completeName, '.')), '.'); // remove first level
+
         // apply the filter by using the closure set with the 'apply_filter' option
         $callable = $form->getConfig()->getAttribute('apply_filter');
 
-        if (false === $callable) {
-            return null;
-        }
+        $condition = null;
+        $eventName = null;
 
-        if ($callable instanceof Closure) {
+        if (false === $callable) {
+            $outcome = FieldOutcome::Disabled;
+        } elseif ($callable instanceof Closure) {
             $condition = $callable($filterQuery, $field, $values);
+            $outcome = FieldOutcome::NoCondition;
         } elseif (is_callable($callable)) {
             $condition = call_user_func($callable, $filterQuery, $field, $values);
+            $outcome = FieldOutcome::NoCondition;
         } else {
             // trigger a specific or a global event name
             $eventName = sprintf('spiriit_form_filter.apply.%s.%s', $filterQuery->getEventPartName(), $completeName);
             if (!$this->dispatcher->hasListeners($eventName)) {
                 $eventName = sprintf('spiriit_form_filter.apply.%s.%s', $filterQuery->getEventPartName(), is_string($callable) ? $callable : $formType->getBlockPrefix());
             }
+
+            $outcome = $this->dispatcher->hasListeners($eventName) ? FieldOutcome::NoCondition : FieldOutcome::NoListener;
 
             $event = new GetFilterConditionEvent($filterQuery, $field, $values);
 
@@ -218,12 +259,23 @@ class FilterBuilderUpdater implements FilterBuilderUpdaterInterface
 
         // set condition path
         if ($condition instanceof ConditionInterface) {
-            $condition->setName(
-                trim(substr($completeName, strpos($completeName, '.')), '.') // remove first level
-            );
+            $condition->setName($name);
+            $outcome = FieldOutcome::Applied;
+        } else {
+            $condition = null;
         }
 
-        return $condition;
+        return new FieldExplanation(
+            path: $completeName,
+            name: $name,
+            formType: $formType::class,
+            blockPrefix: $formType->getBlockPrefix(),
+            field: $field,
+            values: $values,
+            eventName: $eventName,
+            outcome: $outcome,
+            condition: $condition,
+        );
     }
 
     /**
