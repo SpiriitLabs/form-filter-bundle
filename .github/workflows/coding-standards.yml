@@ -5,13 +5,13 @@ on:
   push:
 
 jobs:
-    tests:
+    coding-standards:
         runs-on: ${{ matrix.operating-system }}
         strategy:
             matrix:
                 operating-system: [ubuntu-latest]
-                php-versions: ['8.3']
-        name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+                php-versions: ['8.5']
+        name: PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
 
         steps:
             - name: Checkout
@@ -24,17 +24,13 @@ jobs:
               with:
                   php-version: ${{ matrix.php-versions }}
                   extensions: json, mbstring, openssl, sqlite3
-                  coverage: xdebug
+                  coverage: none
 
             - name: Install Composer dependencies
-              run: |
-                  composer install
-                  composer require rector/rector symplify/easy-coding-standard --dev
+              run: composer update --prefer-dist --no-progress
 
-            - name: CONDING STANDARDS (ECS)
-              run: |
-                  vendor/bin/ecs check
+            - name: CODING STANDARDS (ECS)
+              run: vendor/bin/ecs check
 
-            - name: CONDING STANDARDS (RECTOR)
-              run: |
-                  vendor/bin/rector process --ansi --dry-run --xdebug
+            - name: CODING STANDARDS (RECTOR)
+              run: vendor/bin/rector process --ansi --dry-run

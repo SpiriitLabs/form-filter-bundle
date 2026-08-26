@@ -13,19 +13,17 @@ namespace Spiriit\Bundle\FormFilterBundle\Tests;
 
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\DocParser;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
-use Doctrine\ORM\Mapping\Driver\AttributeReader;
 use Doctrine\ORM\ORMSetup;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\Compiler\FormDataExtractorPass;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtension;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\FilterExtension;
 use Spiriit\Bundle\FormFilterBundle\SpiriitFormFilterBundle;
+use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\PublicServicesPass;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -45,8 +43,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      * @var FormFactory
      */
     protected $formFactory;
-
-    private static ?ContainerBuilder $container = null;
 
     public function setUp(): void
     {
@@ -101,7 +97,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function initQueryBuilderUpdater()
     {
-        $container = $this->createContainerBuilder([
+        return $this->initContainer()->get('spiriit_form_filter.query_builder_updater');
+    }
+
+    /**
+     * @param list<string> $publicServiceIds
+     */
+    protected function initContainer(bool $debug = false, array $publicServiceIds = []): ContainerBuilder
+    {
+        return self::createContainerBuilder([
             'framework' => [
                 'secret' => 'test',
                 'http_method_override' => true,
@@ -111,12 +115,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     'doctrine_orm' => true,
                 ]
             ],
-        ]);
-
-        return $container->get('spiriit_form_filter.query_builder_updater');
+        ], $debug, $publicServiceIds);
     }
 
-    private static function createContainerBuilder(array $configs = []): ContainerBuilder
+    /**
+     * @param list<string> $publicServiceIds
+     */
+    private static function createContainerBuilder(array $configs = [], bool $debug = false, array $publicServiceIds = []): ContainerBuilder
     {
         $container = new ContainerBuilder(new ParameterBag([
             'kernel.bundles' => [
@@ -127,7 +132,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             'kernel.bundles_metadata' => [],
             'kernel.cache_dir' => __DIR__,
             'kernel.build_dir' => __DIR__,
-            'kernel.debug' => false,
+            'kernel.debug' => $debug,
             'kernel.environment' => 'test',
             'kernel.name' => 'kernel',
             'kernel.root_dir' => __DIR__,
@@ -174,9 +179,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $container->addCompilerPass(new FormDataExtractorPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
         $container->addCompilerPass(new RegisterListenersPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
 
-        $container->compile(false);
+        if ([] !== $publicServiceIds) {
+            $container->addCompilerPass(new PublicServicesPass($publicServiceIds), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
+        }
 
-        static::$container = $container;
+        $container->compile(false);
 
         return $container;
     }

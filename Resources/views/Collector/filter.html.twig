@@ -1,0 +1,273 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block head %}
+    {{ parent() }}
+
+    <style>
+        .filter-fields { table-layout: fixed; }
+        .filter-fields th:nth-child(1), .filter-fields th:nth-child(2) { width: 20%; }
+        .filter-fields th:nth-child(3) { width: 16%; }
+        .filter-fields th:nth-child(4), .filter-fields th:nth-child(5) { width: 22%; }
+        .filter-fields td { vertical-align: top; word-break: break-word; }
+        .filter-fields code { white-space: normal; word-break: break-all; }
+        .filter-fields .field-details td { border-top: none; padding-top: 0; }
+        .filter-fields .field-details summary { cursor: pointer; }
+        .filter-condition-tree ul { margin: 4px 0 4px 16px; }
+    </style>
+{% endblock %}
+
+{% macro icon() %}
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 5m-7 0a7 2.5 0 1 0 14 0a7 2.5 0 1 0 -14 0"/>
+        <path d="M5 5v6c0 1.2 2.4 2.2 5.6 2.5"/>
+        <path d="M19 10.5v-5.5"/>
+        <path d="M5 11v6c0 1.3 2.7 2.4 6.2 2.5"/>
+        <path d="M13.5 13h7.5a.35 .35 0 0 1 .27 .6l-2.5 2.9v3.1l-2.8 -1.9v-1.2l-2.5 -2.9a.35 .35 0 0 1 .28 -.6"/>
+    </svg>
+{% endmacro %}
+
+{% macro outcome_badge(outcome) %}
+    {% set classes = { 'applied': 'status-success', 'no_listener': 'status-warning', 'no_condition': '', 'disabled': '' } %}
+    <span class="label {{ classes[outcome]|default('') }}">{{ outcome|replace({'_': ' '}) }}</span>
+{% endmacro %}
+
+{% macro condition_node(node) %}
+    <li>
+        <span class="label">{{ node.operator|upper }}</span>
+        <ul>
+            {% for field in node.fields %}
+                <li>
+                    <code>{{ field.name }}</code>
+                    {% if field.expression is not null %}
+                        <span class="text-muted">&rarr; {{ field.expression }}</span>
+                    {% else %}
+                        <span class="text-muted">(no condition{{ field.outcome ? ': ' ~ field.outcome|replace({'_': ' '}) }})</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            {% for child in node.children %}
+                {{ _self.condition_node(child) }}
+            {% endfor %}
+        </ul>
+    </li>
+{% endmacro %}
+
+{% block toolbar %}
+    {% if collector.filters|length %}
+        {% set status_color = collector.hasWarnings ? 'yellow' : '' %}
+
+        {% set icon %}
+            {{ _self.icon() }}
+            <span class="sf-toolbar-value">{{ collector.conditionCount }}</span>
+            <span class="sf-toolbar-label">cond.</span>
+        {% endset %}
+
+        {% set text %}
+            <div class="sf-toolbar-info-piece">
+                <b>Filter forms</b>
+                <span class="sf-toolbar-status">{{ collector.filters|length }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Applied conditions</b>
+                <span class="sf-toolbar-status">{{ collector.conditionCount }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Fields without listener</b>
+                <span class="sf-toolbar-status sf-toolbar-status-{{ collector.hasWarnings ? 'yellow' }}">{{ collector.warningCount }}</span>
+            </div>
+        {% endset %}
+
+        {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: profiler_url, status: status_color }) }}
+    {% endif %}
+{% endblock toolbar %}
+
+{% block menu %}
+    <span class="label {{ collector.hasWarnings ? 'label-status-warning' }} {{ collector.filters is empty ? 'disabled' }}">
+        <span class="icon">{{ _self.icon() }}</span>
+        <strong>Form filter</strong>
+        {% if collector.hasWarnings %}
+            <span class="count">
+                <span>{{ collector.warningCount }}</span>
+            </span>
+        {% endif %}
+    </span>
+{% endblock menu %}
+
+{% block panel %}
+    <h2>Form filter</h2>
+
+    {% if collector.filters is empty %}
+        <div class="empty empty-panel">
+            <p>No filter form was applied to a query builder during this request.</p>
+        </div>
+    {% else %}
+        <div class="metrics">
+            <div class="metric">
+                <span class="value">{{ collector.filters|length }}</span>
+                <span class="label">Filter form{{ collector.filters|length != 1 ? 's' }}</span>
+            </div>
+            <div class="metric">
+                <span class="value">{{ collector.conditionCount }}</span>
+                <span class="label">Applied condition{{ collector.conditionCount != 1 ? 's' }}</span>
+            </div>
+            <div class="metric">
+                <span class="value">{{ collector.warningCount }}</span>
+                <span class="label">Field{{ collector.warningCount != 1 ? 's' }} without listener</span>
+            </div>
+        </div>
+
+        {% if collector.hasWarnings %}
+            <p class="help">
+                A field is reported <span class="label status-warning">no listener</span> when no listener is registered for its
+                <code>spiriit_form_filter.apply.orm.&lt;block_prefix&gt;</code> event: the value was submitted but silently ignored.
+                Use a <code>*FilterType</code>, register a listener for that event, or set the <code>apply_filter</code> option.
+            </p>
+        {% endif %}
+
+        {% for run in collector.filters %}
+            <h3>{{ loop.index }}. <code>{{ run.form_name }}</code> <small class="text-muted">{{ run.form_type }}</small></h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th class="nowrap">Root alias</th>
+                        <th class="nowrap">Query builder</th>
+                        <th class="nowrap">Applied</th>
+                        <th class="nowrap">Without listener</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>{{ run.root_alias }}</code></td>
+                        <td>{{ run.query_builder_class }}</td>
+                        <td>{{ run.applied_count }}</td>
+                        <td>
+                            {% if run.no_listener_count %}
+                                <span class="label status-warning">{{ run.no_listener_count }}</span>
+                            {% else %}
+                                0
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Fields</h4>
+
+            {% if run.fields is empty %}
+                <div class="empty">
+                    <p>The form has no child field.</p>
+                </div>
+            {% else %}
+                <table class="filter-fields">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Form type</th>
+                            <th>DQL field</th>
+                            <th>Outcome</th>
+                            <th>Condition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for field in run.fields %}
+                            <tr>
+                                <td>
+                                    <code>{{ field.name }}</code>
+                                    <div class="text-muted">{{ field.path }}</div>
+                                </td>
+                                <td>
+                                    <span title="{{ field.form_type }}">{{ field.form_type_short_name }}</span>
+                                    <div class="text-muted">{{ field.block_prefix }}</div>
+                                </td>
+                                <td><code>{{ field.field }}</code></td>
+                                <td>
+                                    {{ _self.outcome_badge(field.outcome) }}
+                                    <div class="text-muted">
+                                        {% if field.event_name is not null %}
+                                            <code>{{ field.event_name }}</code>
+                                        {% else %}
+                                            <code>apply_filter</code> callable
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if field.expression is not null %}
+                                        <code>{{ field.expression }}</code>
+                                    {% else %}
+                                        <span class="text-muted">&mdash;</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr class="field-details">
+                                <td colspan="5">
+                                    <details>
+                                        <summary>
+                                            Extracted values{{ field.parameters is not null ? ' and bound parameters' }}
+                                            for <code>{{ field.name }}</code>
+                                        </summary>
+                                        {{ profiler_dump(field.values) }}
+                                        {% if field.parameters is not null %}
+                                            {{ profiler_dump(field.parameters) }}
+                                        {% endif %}
+                                    </details>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <h4>Condition tree</h4>
+
+            {% if run.condition_tree is null %}
+                <div class="empty">
+                    <p>No condition tree was built.</p>
+                </div>
+            {% else %}
+                <ul class="filter-condition-tree">
+                    {{ _self.condition_node(run.condition_tree) }}
+                </ul>
+            {% endif %}
+
+            <h4>Joins</h4>
+
+            {% if run.joins is empty %}
+                <div class="empty">
+                    <p>No join was declared through the <code>add_shared</code> option.</p>
+                </div>
+            {% else %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Relation</th>
+                            <th>Alias</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for relation, alias in run.joins %}
+                            <tr>
+                                <td><code>{{ relation }}</code></td>
+                                <td><code>{{ alias }}</code></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <h4>Resulting DQL</h4>
+
+            {% if run.dql is null %}
+                <div class="empty">
+                    <p>The query builder is not a Doctrine ORM <code>QueryBuilder</code> ({{ run.query_builder_class }}); no DQL to display.</p>
+                </div>
+            {% else %}
+                <pre class="prewrap">{{ run.dql }}</pre>
+
+                <h4>Bound parameters</h4>
+                {{ profiler_dump(run.parameters) }}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock panel %}

@@ -11,10 +11,7 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Event\Listener;
 
-use Doctrine\DBAL\Query\Expression\CompositeExpression;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Andx;
-use Doctrine\ORM\Query\Expr\Composite;
 use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder;
 use Spiriit\Bundle\FormFilterBundle\Event\ApplyFilterConditionEvent;

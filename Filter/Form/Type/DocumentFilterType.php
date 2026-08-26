@@ -13,7 +13,6 @@ namespace Spiriit\Bundle\FormFilterBundle\Filter\Form\Type;
 
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

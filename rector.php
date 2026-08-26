@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
+use Rector\TypeDeclaration\Rector\ClassMethod\ReturnNullableTypeRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictTypedPropertyRector;
 use Rector\ValueObject\PhpVersion;
 
 return RectorConfig::configure()
@@ -20,6 +22,9 @@ return RectorConfig::configure()
         __DIR__ . '/.github',
         __DIR__ . '/DependencyInjection/Configuration.php',
         __DIR__ . '/vendor',
+        // typing this protected method would break the subclasses that override it in userland
+        ReturnNullableTypeRector::class => [__DIR__ . '/Filter/FilterBuilderUpdater.php'],
+        ReturnTypeFromStrictTypedPropertyRector::class => [__DIR__ . '/Filter/FilterBuilderUpdater.php'],
     ])
     ->withPaths([
         __DIR__

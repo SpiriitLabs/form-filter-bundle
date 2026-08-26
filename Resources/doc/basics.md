@@ -166,6 +166,10 @@ Then another event will be triggered to add all the conditions to the (doctrine)
 
 * `spiriit_filter.apply_filters.dbal` if you provide a `Doctrine\DBAL\Query\QueryBuilder`
 
+Once the conditions are applied, a last event `spiriit_filter.applied` is dispatched with an explanation of
+what each field of the form did (or did not do) to the query builder. See
+[Debugging filters](debugging.md).
+
 ***
 
 Next: [5. Working with the filters](working-with-the-bundle.md)

@@ -11,7 +11,6 @@
 
 namespace Spiriit\Bundle\FormFilterBundle\Filter\Form;
 
-use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\CheckboxFilterType;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\ChoiceFilterType;
