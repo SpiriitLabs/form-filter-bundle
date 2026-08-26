@@ -12,7 +12,6 @@
 namespace Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity;
 
 use DateTime;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

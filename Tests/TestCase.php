@@ -13,14 +13,11 @@ namespace Spiriit\Bundle\FormFilterBundle\Tests;
 
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\DocParser;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
-use Doctrine\ORM\Mapping\Driver\AttributeReader;
 use Doctrine\ORM\ORMSetup;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\Compiler\FormDataExtractorPass;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtension;
