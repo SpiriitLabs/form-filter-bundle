@@ -1,9 +1,21 @@
 parameters:
     spiriit_form_filter.data_collector.class: Spiriit\Bundle\FormFilterBundle\DataCollector\FilterDataCollector
+    spiriit_form_filter.state.traceable_storage.class: Spiriit\Bundle\FormFilterBundle\Filter\State\TraceableFilterStateStorage
 
 services:
+    spiriit_form_filter.state.traceable_storage:
+        class: '%spiriit_form_filter.state.traceable_storage.class%'
+        decorates: Spiriit\Bundle\FormFilterBundle\Filter\State\FilterStateStorageInterface
+        arguments:
+            - '@.inner'
+        tags:
+            - { name: kernel.reset, method: reset }
+
     spiriit_form_filter.data_collector:
         class: '%spiriit_form_filter.data_collector.class%'
+        arguments:
+            - '@spiriit_form_filter.state.traceable_storage'
+            - '%spiriit_form_filter.persistence.reset_parameter%'
         tags:
             - { name: data_collector, template: '@SpiriitFormFilter/Collector/filter.html.twig', id: 'spiriit_form_filter', priority: 245 }
             - { name: kernel.event_subscriber }

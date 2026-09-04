@@ -63,6 +63,10 @@ class SpiriitFormFilterExtension extends Extension
         $container->setParameter('spiriit_form_filter.where_method', $config['where_method']);
         $container->setParameter('spiriit_form_filter.text.condition_pattern', FilterOperands::getStringOperandByString($config['condition_pattern']));
 
+        $container->setParameter('spiriit_form_filter.persistence.reset_parameter', $config['persistence']['reset_parameter']);
+
+        $loader->load('persistence.yaml');
+
         if ($container->hasParameter('kernel.debug') && $container->getParameter('kernel.debug')) {
             $loader->load('profiler.yaml');
         }

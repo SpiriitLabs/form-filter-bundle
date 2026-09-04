@@ -65,6 +65,17 @@ class Configuration implements ConfigurationInterface
                     ->info('Encoding for case insensitive LIKE comparisons.')
                     ->defaultNull()
                 ->end()
+
+                ->arrayNode('persistence')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('reset_parameter')
+                            ->defaultValue('_reset')
+                            ->cannotBeEmpty()
+                            ->info('Query parameter that clears the stored state of the forms using the "filter_persistence" option.')
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ->end();
     }

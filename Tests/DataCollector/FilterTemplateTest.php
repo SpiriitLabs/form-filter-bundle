@@ -16,8 +16,12 @@ use Doctrine\ORM\QueryBuilder;
 use ReflectionClass;
 use Spiriit\Bundle\FormFilterBundle\DataCollector\FilterDataCollector;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\FilterState;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\NullFilterStateStorage;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\TraceableFilterStateStorage;
 use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item;
 use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\InMemoryFilterStateStorage;
 use Spiriit\Bundle\FormFilterBundle\Tests\TestCase;
 use Symfony\Bundle\WebProfilerBundle\Twig\WebProfilerExtension;
 use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
@@ -129,6 +133,67 @@ class FilterTemplateTest extends TestCase
         $this->assertStringNotContainsString('>' . TextFilterType::class . '<', $rendered);
     }
 
+    public function testPanelBlockListsThePersistedStates(): void
+    {
+        $storage = new TraceableFilterStateStorage(new InMemoryFilterStateStorage());
+        $collector = new FilterDataCollector($storage, 'clear_filter');
+
+        $storage->save($this->createState());
+        $storage->load('item_filter');
+        $storage->clear('item_filter');
+
+        $collector->collect(new Request(), new Response());
+
+        $rendered = $this->renderBlock('panel', $this->panelContext($collector));
+
+        $this->assertStringContainsString('Persistence', $rendered);
+        $this->assertStringContainsString(InMemoryFilterStateStorage::class, $rendered);
+        $this->assertStringContainsString('<code>clear_filter</code>', $rendered);
+        $this->assertStringContainsString('>saved</span>', $rendered);
+        $this->assertStringContainsString('>restored</span>', $rendered);
+        $this->assertStringContainsString('>cleared</span>', $rendered);
+        $this->assertStringContainsString('blabla', $rendered);
+        $this->assertStringContainsString('sf-dump', $rendered);
+
+        // the panel is worth showing even when nothing was applied to a query builder
+        $this->assertStringNotContainsString('empty-panel', $rendered);
+        $this->assertStringContainsString('No filter form was applied', $rendered);
+    }
+
+    public function testPanelBlockWarnsAboutAStateTheStorageKeptNothingOf(): void
+    {
+        $storage = new TraceableFilterStateStorage(new NullFilterStateStorage());
+        $collector = new FilterDataCollector($storage, '_reset');
+
+        $storage->save($this->createState());
+
+        $collector->collect(new Request(), new Response());
+
+        $rendered = $this->renderBlock('panel', $this->panelContext($collector));
+
+        $this->assertStringContainsString('>not stored</span>', $rendered);
+        $this->assertStringContainsString('status-warning', $rendered);
+        $this->assertStringContainsString('never starts a session', $rendered);
+
+        $toolbar = $this->renderBlock('toolbar', $this->toolbarContext($collector));
+
+        $this->assertStringContainsString('sf-toolbar-status-yellow', $toolbar);
+        $this->assertStringContainsString('States saved', $toolbar);
+
+        $menu = $this->renderBlock('menu', $this->panelContext($collector));
+
+        $this->assertStringContainsString('label-status-warning', $menu);
+        $this->assertStringNotContainsString('disabled', $menu);
+    }
+
+    public function testPanelBlockTellsHowToEnablePersistence(): void
+    {
+        $rendered = $this->renderBlock('panel', $this->panelContext($this->collector));
+
+        $this->assertStringContainsString('No filter form persisted its state', $rendered);
+        $this->assertStringContainsString('<code>filter_persistence</code>', $rendered);
+    }
+
     public function testPanelBlockWithoutAnyRun(): void
     {
         $collector = new FilterDataCollector();
@@ -138,6 +203,11 @@ class FilterTemplateTest extends TestCase
 
         $this->assertStringContainsString('empty-panel', $rendered);
         $this->assertStringContainsString('No filter form was applied', $rendered);
+    }
+
+    private function createState(): FilterState
+    {
+        return FilterState::fromArray(['form' => 'item_filter', 'values' => ['name' => 'blabla']]);
     }
 
     /**

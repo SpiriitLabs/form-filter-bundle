@@ -19,6 +19,9 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionNodeInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\Explanation\FieldExplanation;
 use Spiriit\Bundle\FormFilterBundle\Filter\Explanation\FilterExplanation;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\FilterStateOperation;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\FilterStateOutcome;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\TraceableFilterStateStorage;
 use Stringable;
 use Symfony\Bundle\FrameworkBundle\DataCollector\AbstractDataCollector;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -38,6 +41,12 @@ final class FilterDataCollector extends AbstractDataCollector implements EventSu
      */
     private array $runs = [];
 
+    public function __construct(
+        private readonly ?TraceableFilterStateStorage $stateStorage = null,
+        private readonly ?string $resetParameter = null,
+    ) {
+    }
+
     public static function getSubscribedEvents(): array
     {
         return [
@@ -52,10 +61,18 @@ final class FilterDataCollector extends AbstractDataCollector implements EventSu
 
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
+        $operations = $this->stateStorage?->getOperations() ?? [];
+
         $this->data = [
             'runs' => $this->runs,
             'condition_count' => array_sum(array_column($this->runs, 'applied_count')),
             'warning_count' => array_sum(array_column($this->runs, 'no_listener_count')),
+            'state_operations' => array_map($this->describeOperation(...), $operations),
+            'state_storage_class' => $this->stateStorage?->getStorageClass(),
+            'reset_parameter' => $this->resetParameter,
+            'saved_count' => $this->countOutcome($operations, FilterStateOutcome::Saved),
+            'restored_count' => $this->countOutcome($operations, FilterStateOutcome::Restored),
+            'not_stored_count' => $this->countOutcome($operations, FilterStateOutcome::NotStored),
         ];
     }
 
@@ -100,6 +117,44 @@ final class FilterDataCollector extends AbstractDataCollector implements EventSu
     }
 
     /**
+     * @return list<array<string, mixed>>
+     */
+    public function getStateOperations(): array
+    {
+        return $this->data['state_operations'] ?? [];
+    }
+
+    public function getStateStorageClass(): ?string
+    {
+        return $this->data['state_storage_class'] ?? null;
+    }
+
+    public function getResetParameter(): ?string
+    {
+        return $this->data['reset_parameter'] ?? null;
+    }
+
+    public function getSavedCount(): int
+    {
+        return $this->data['saved_count'] ?? 0;
+    }
+
+    public function getRestoredCount(): int
+    {
+        return $this->data['restored_count'] ?? 0;
+    }
+
+    public function getNotStoredCount(): int
+    {
+        return $this->data['not_stored_count'] ?? 0;
+    }
+
+    public function hasStateWarnings(): bool
+    {
+        return $this->getNotStoredCount() > 0;
+    }
+
+    /**
      * @return array<string, mixed>
      */
     private function describeRun(FilterExplanation $explanation, object $queryBuilder): array
@@ -131,6 +186,26 @@ final class FilterDataCollector extends AbstractDataCollector implements EventSu
             'dql' => $isOrmQueryBuilder ? $queryBuilder->getDQL() : null,
             'parameters' => $isOrmQueryBuilder ? $this->cloneVar($this->extractParameters($queryBuilder)) : null,
         ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function describeOperation(FilterStateOperation $operation): array
+    {
+        return [
+            'form_name' => $operation->formName,
+            'outcome' => $operation->outcome->value,
+            'values' => null === $operation->values ? null : $this->cloneVar($operation->values),
+        ];
+    }
+
+    /**
+     * @param list<FilterStateOperation> $operations
+     */
+    private function countOutcome(array $operations, FilterStateOutcome $outcome): int
+    {
+        return count(array_filter($operations, static fn (FilterStateOperation $operation): bool => $outcome === $operation->outcome));
     }
 
     /**
