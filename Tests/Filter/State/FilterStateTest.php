@@ -255,10 +255,11 @@ class FilterStateTest extends StateTestCase
             ['createdAt' => ['date' => '2024-03-09', 'time' => ['hour' => '13', 'minute' => '21']]],
         ];
 
+        // an html5 datetime-local always carries its seconds before Symfony 6.3: asking for them keeps one expectation for every version
         yield 'datetime as single text' => [
-            fn (FormBuilderInterface $builder): FormBuilderInterface => $builder->add('createdAt', DateTimeType::class, ['widget' => 'single_text', 'required' => false]),
-            ['createdAt' => '2024-03-09T13:21'],
-            ['createdAt' => '2024-03-09T13:21'],
+            fn (FormBuilderInterface $builder): FormBuilderInterface => $builder->add('createdAt', DateTimeType::class, ['widget' => 'single_text', 'with_seconds' => true, 'required' => false]),
+            ['createdAt' => '2024-03-09T13:21:00'],
+            ['createdAt' => '2024-03-09T13:21:00'],
         ];
 
         yield 'repeated' => [
