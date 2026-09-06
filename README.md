@@ -94,26 +94,7 @@ This Symfony bundle is compatible with Symfony 4.3 or higher.
 
 For Symfony 2.8/3.4 please use tags v5.*
 
-For installation and how to use the bundle refer to [Resources/doc/index.md](Resources/doc/index.md)
-
-1. [Installation](Resources/doc/installation.md)
-2. [Configuration](Resources/doc/configuration.md)
-3. [Provided form types](Resources/doc/provided-types.md)
-4. [Example & inner workings](Resources/doc/basics.md)
-    1. [Simple example](Resources/doc/basics.md#i-simple-example)
-    2. [Inner workings](Resources/doc/basics.md#ii-inner-workings)
-5. [Working with the filters](Resources/doc/working-with-the-bundle.md)
-    1. [Customize condition operator](Resources/doc/working-with-the-bundle.md#i-customize-condition-operator)
-    2. [Filter customization](Resources/doc/working-with-the-bundle.md#ii-filter-customization)
-    3. [Working with entity associations and embeddeding filters](Resources/doc/working-with-the-bundle.md#iii-working-with-entity-associations-and-embeddeding-filters)
-    4. [Doctrine embeddables](Resources/doc/working-with-the-bundle.md#iv-doctrine-embeddables-orm)
-    5. [Create your own filter type](Resources/doc/working-with-the-bundle.md#v-create-your-own-filter-type)
-    6. [Enable validation on your filter type](Resources/doc/working-with-the-bundle.md#vi-enable-filtertype-form-validation)
-6. [The FilterTypeExtension](Resources/doc/filtertypeextension.md)
-7. [Working with other bundles](Resources/doc/working-with-other-bundles.md)
-    1. [KNP Paginator example](Resources/doc/working-with-other-bundles.md#i-knp-paginator-example)
-8. [Real use case - Advanced usage with PagerFanta](Resources/doc/advanced-usage-with-pagerfanta-bundle.md)
-9. [Debugging filters](Resources/doc/debugging.md)   
+Full documentation is available at **[spiriitlabs.github.io/form-filter-bundle](https://spiriitlabs.github.io/form-filter-bundle/)**.
 
 Community Support
 -----------------

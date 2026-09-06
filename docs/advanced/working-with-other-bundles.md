@@ -1,10 +1,12 @@
-[6] Working with other bundles
-==============================
+---
+description: Using the bundle together with KNP Paginator or PagerFanta.
+---
 
-i. KNP Paginator example
------------------
+# Working with other bundles
 
-[KNP Paginator](https://github.com/KnpLabs/KnpPaginatorBundle) example based on the [simple example](working-with-the-bundle.md#i-simple-example).
+## KNP Paginator example
+
+[KNP Paginator](https://github.com/KnpLabs/KnpPaginatorBundle) example based on the [simple example](/guide/basics#simple-example).
 
 ```php
 <?php
@@ -30,7 +32,8 @@ class DefaultController extends Controller
         $form = $this->formFactory->create(new ItemFilterType());
 
         if ($request->query->has($form->getName())) {
-            // manually bind values from the request
+            // manually bind values from the request; replace this block with $form->handleRequest($request)
+            // to use the persistence feature, and never keep both
             $form->submit($request->query->get($form->getName()));
 
             // build the query from the given form object
@@ -46,18 +49,17 @@ class DefaultController extends Controller
             10/*limit per page*/
         );
 
-        return $this->render('ProjectSuperBundle:Default:testFilter.html.twig', array(
+        return $this->render('ProjectSuperBundle:Default:testFilter.html.twig', [
             'form' => $form->createView(),
             'pagination' => $pagination
-        ));
+        ]);
     }
 }
 ```
 
-ii. PagerFanta example
-----------------------
+## PagerFanta example
 
-[PagerFanta](https://github.com/BabDev/Pagerfanta) example based on the [simple example](working-with-the-bundle.md#i-simple-example).
+[PagerFanta](https://github.com/BabDev/Pagerfanta) example based on the [simple example](/guide/basics#simple-example).
 
 ```php
 <?php
@@ -84,7 +86,8 @@ class DefaultController extends AbstractController
         $form = $this->formFactory->create(new ItemFilterType());
 
         if ($request->query->has($form->getName())) {
-            // manually bind values from the request
+            // manually bind values from the request; replace this block with $form->handleRequest($request)
+            // to use the persistence feature, and never keep both
             $form->submit($request->query->get($form->getName()));
 
             // build the query from the given form object
@@ -105,10 +108,12 @@ class DefaultController extends AbstractController
             $this->myRepository->getAllQueryBuilder(),
         );
 
-        return $this->render('ProjectSuperBundle:Default:testFilter.html.twig', array(
+        return $this->render('ProjectSuperBundle:Default:testFilter.html.twig', [
             'form' => $form->createView(),
             'pager' => $pager
-        ));
+        ]);
     }
 }
 ```
+
+Next: [Advanced usage with PagerFanta](/advanced/pagerfanta)

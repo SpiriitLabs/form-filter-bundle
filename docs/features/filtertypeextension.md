@@ -1,13 +1,16 @@
-[5] The FilterTypeExtension
-===========================
+---
+description: The apply_filter, data_extraction_method, filter_condition_builder and filter_persistence form options.
+---
 
-The bundle loads a custom type extension to add the `apply_filter`,`data_extraction_method`, and `filter_condition_builder` options to **all form types**.
+# The FilterTypeExtension
+
+The bundle loads a custom type extension to add the `apply_filter`, `data_extraction_method`, `filter_condition_builder`, `filter_field_name`, `filter_shared_name` and `filter_persistence` options to **all form types**.
 These options are used when a filter condition is applied to the query builder.
 
-##### The `apply_filter` option:
+##### The `apply_filter` option
 
 This option is set to `null` by default and aims to override the default way to apply the filter on the query builder.
-So you can use it if the default way to apply a filter does match to your needs.
+So you can use it if the default way to apply a filter does not match your needs.
 
 You can pass a Closure or a valid callback to this option, here is a simple example:
 
@@ -69,15 +72,15 @@ class CallbackFilterType extends AbstractType
 }
 ```
 
-##### The `data_extraction_method` option:
+##### The `data_extraction_method` option
 
-This option replaces the `translaformer_id` option. This option defines the way we extract some data from the form before the filter is applied.
+This option defines the way we extract some data from the form before the filter is applied.
 
 Available extraction methods:
 
-* default: get the form data.
-* text: used with `TextFilterType` and `NumberFilterType` types if you choose to display the combo box of available patterns/operator, it has the data from the combo box and the text field.
-* value_keys: used with `NumberRangeFilterType`, `DateTimeRangeFilterType` and `DateRangeFilterType` types to get values form each form child.
+* `default`: get the form data.
+* `text`: used with `TextFilterType` and `NumberFilterType` types if you choose to display the combo box of available patterns/operator, it has the data from the combo box and the text field.
+* `value_keys`: used with `NumberRangeFilterType`, `DateTimeRangeFilterType` and `DateRangeFilterType` types to get values from each form child.
 
 Create a custom extraction method:
 
@@ -99,7 +102,7 @@ class RainbowExtractionMethod implements DataExtractionMethodInterface
     public function extract(FormInterface $form)
     {
         $values = [
-            'value' => $form->getData(), // The value used to filter, most time the form value.
+            'value' => $form->getData(), // The value used to filter, most of the time the form value.
         ];
 
         // add other stuff into $values
@@ -124,27 +127,33 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 public function buildForm(FormBuilderInterface $builder, array $options)
 {
-    $builder->add('my_text_field', Filters\TextFilterType::class, array(
+    $builder->add('my_text_field', Filters\TextFilterType::class, [
         'data_extraction_method' => 'rainbow',
-    ));
+    ]);
 }
 ```
 
-##### The `filter_condition_builder` option:
+##### The `filter_condition_builder` option
 
 This option is used to define the operator (and/or) to use between each condition.
-This option is expected to be closure and recieve one parameter which is an instance of `Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface`.
+This option is expected to be a closure and receives one parameter which is an instance of `Spiriit\Bundle\FormFilterBundle\Filter\Condition\ConditionBuilderInterface`.
 
-See [4.iii section](working-with-the-bundle.md#iii-customize-condition-operator) for examples.
+See [Customize condition operator](/features/working-with-the-bundle#customize-condition-operator) for examples.
 
-##### The `filter_field_name` option:
+##### The `filter_field_name` option
 
 This option is used to define the field name on which the condition is applied.
 
-##### The `filter_shared_name` option:
+##### The `filter_shared_name` option
 
 This option is used to define the shared join name on which the condition is applied.
 
-***
+##### The `filter_persistence` option
 
-Next: [7. Working with other bundles](working-with-other-bundles.md)
+This option is set to `false` by default. Set it to `true` on a root filter form to make `handleRequest()`
+remember its state and restore it on the requests that carry no filter data.
+
+It is added by a second type extension, `FilterStateTypeExtension`, which swaps the request handler of the
+form. See [Remembering and sharing filters](/features/persistence).
+
+Next: [Working with other bundles](/advanced/working-with-other-bundles)
