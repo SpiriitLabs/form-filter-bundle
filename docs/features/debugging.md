@@ -1,5 +1,8 @@
-[9] Debugging filters
-=====================
+---
+description: Inspect which form field produced which DQL condition using the web profiler.
+---
+
+# Debugging filters
 
 A filter form is silent by design: a field that produces no condition simply adds nothing to the query
 builder. That is convenient until a filter "does nothing" and you have to guess why.
@@ -8,13 +11,11 @@ Every call to `FilterBuilderUpdater::addFilterConditions()` therefore builds a `
 entry per walked field, telling you the DQL field it targeted, the extracted values, the event that was
 dispatched and what came out of it.
 
-i. Web profiler
----------------
+## Web profiler
 
 When `kernel.debug` is true, the bundle registers a data collector. The web debug toolbar then shows the
-number of applied conditions, and turns yellow as soon as a submitted field was silently ignored.
-
-<!-- TODO: add a screenshot of the profiler panel here -->
+number of applied conditions, and turns yellow as soon as a submitted field was silently ignored or a
+filter state could not be stored.
 
 The **Form filter** panel lists, for each `addFilterConditions()` call: the root alias, the joins declared
 through the `add_shared` option, the condition tree, the resulting DQL with its bound parameters, and one
@@ -32,11 +33,34 @@ row per field with its outcome:
 The panel shows the event name that found no listener, for instance
 `spiriit_form_filter.apply.orm.textarea`. Three ways to fix it:
 
-* use one of the [provided filter types](provided-types.md) (`TextFilterType`, `NumberFilterType`, …)
+* use one of the [provided filter types](/features/provided-types) (`TextFilterType`, `NumberFilterType`, …)
   instead of the plain Symfony type;
 * register your own listener on the event shown in the panel (see
-  [Create your own filter type](working-with-the-bundle.md#v-create-your-own-filter-type));
+  [Create your own filter type](/features/working-with-the-bundle#create-your-own-filter-type));
 * set the `apply_filter` option on the field to build the condition yourself.
+
+### The Persistence section
+
+The panel also reports what the state storage was asked to keep during the request, as soon as a filter
+form uses the [`filter_persistence` option](/features/persistence): the storage behind
+`FilterStateStorageInterface`, the configured reset parameter, and one row per operation with the values
+that went in or came out.
+
+| Outcome | Meaning |
+| --- | --- |
+| `saved` | The submitted state was handed to the storage, which kept it. |
+| `not_stored` | The state was handed to the storage, which kept **nothing**. |
+| `restored` | A stored state was found and re-submitted to the form. |
+| `nothing_stored` | The storage held no state for this form. |
+| `cleared` | The state was dropped: the reset parameter was in the query string, or a restored state turned out to be invalid. |
+
+A `not_stored` row answers the "why is my filter not remembered?" question: `SessionFilterStateStorage`
+never starts a session, so a visitor who has none — or a request on a `stateless` route — gets no
+persistence. The storage is read back after each write instead of being trusted, so a state is never
+reported as saved when nothing was actually kept.
+
+The tracing is done by `TraceableFilterStateStorage`, which decorates `FilterStateStorageInterface` when
+`kernel.debug` is true: [your own storage](/features/persistence) is traced the same way.
 
 ### Disabling the collector
 
@@ -60,8 +84,7 @@ class RemoveFilterCollectorPass implements CompilerPassInterface
 }
 ```
 
-ii. The spiriit_filter.applied event
-------------------------------------
+## The spiriit_filter.applied event
 
 The explanation is published through the `spiriit_filter.applied` event
 (`FilterEvents::APPLIED`), dispatched once per `addFilterConditions()` call, after the conditions have been

@@ -1,10 +1,12 @@
-[4] Example & inner working
-===========================
+---
+description: A simple filter form example, and how the bundle applies conditions under the hood.
+---
 
-i. Simple example
------------------
+# Example & inner workings
 
-Here an example of how to use the bundle (with doctrine ORM). Let's use the following entity:
+## Simple example
+
+Here an example of how to use the bundle. Let's use the following entity:
 
 ```php
 <?php
@@ -65,10 +67,10 @@ class ItemFilterType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection'   => false,
-            'validation_groups' => array('filtering') // avoid NotBlank() constraint-related message
-        ));
+            'validation_groups' => ['filtering'] // avoid NotBlank() constraint-related message
+        ]);
     }
 }
 ```
@@ -99,7 +101,8 @@ class DefaultController extends AbstractController
     {
         $form = $formFactory->create(ItemFilterType::class);
 
-        // manually bind values from the request
+        // bind values from the request ($form->handleRequest($request) does the same, and is required
+        // by the persistence feature: never use both)
         $form->submit($request->query->get($form->getName()));
 
         // initialize a query builder
@@ -130,18 +133,15 @@ Basic template
 </form>
 ```
 
-ii. Inner workings
-------------------
+## Inner workings
 
 Filters are applied by using events. Basically the `FilterBuilderUpdater::class` service will trigger a default event named
 according to the form type to get the condition for a given filter.
 
-Then once all conditions have been gotten another event will be triggered to add these conditions to the (doctrine) query 
+Then once all conditions have been gotten another event will be triggered to add these conditions to the Doctrine ORM query
 builder according to the operators defined by the condition builder.
 
-We provide an event/listener that supports Doctrine ORM, DBAL.
-
-The default event name pattern is `spiriit_form_filter.apply.<query_builder_type>.<form_type_name>`.
+The default event name pattern is `spiriit_form_filter.apply.orm.<form_type_name>`.
 
 For example, let's say I use a form type with a name field:
 
@@ -154,22 +154,13 @@ public function buildForm(FormBuilder $builder, array $options)
 }
 ```
 
-The event name that will be triggered to get conditions to apply will be:
+The event name that will be triggered to get conditions to apply will be `spiriit_form_filter.apply.orm.filter_text`.
 
-* `spiriit_form_filter.apply.orm.filter_text` if you provide a `Doctrine\ORM\QueryBuilder`
-
-* `spiriit_form_filter.apply.dbal.filter_text` if you provide a `Doctrine\DBAL\Query\QueryBuilder`
-
-Then another event will be triggered to add all the conditions to the (doctrine) query builder instance:
-
-* `spiriit_filter.apply_filters.orm` if you provide a `Doctrine\ORM\QueryBuilder`
-
-* `spiriit_filter.apply_filters.dbal` if you provide a `Doctrine\DBAL\Query\QueryBuilder`
+Then another event, `spiriit_filter.apply_filters.orm`, will be triggered to add all the conditions to the Doctrine query
+builder instance.
 
 Once the conditions are applied, a last event `spiriit_filter.applied` is dispatched with an explanation of
 what each field of the form did (or did not do) to the query builder. See
-[Debugging filters](debugging.md).
+[Debugging filters](/features/debugging).
 
-***
-
-Next: [5. Working with the filters](working-with-the-bundle.md)
+Next: [Working with the filters](/features/working-with-the-bundle)

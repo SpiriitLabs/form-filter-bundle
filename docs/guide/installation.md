@@ -1,5 +1,8 @@
-[1] Installation
-================
+---
+description: Install the bundle with Composer.
+---
+
+# Installation
 
 The bundle can be installed using Composer or the [Symfony binary](https://symfony.com/download):
 
@@ -7,4 +10,4 @@ The bundle can be installed using Composer or the [Symfony binary](https://symfo
 composer require spiriitlabs/form-filter-bundle
 ```
 
-Next: [2. Configuration](configuration.md)
+Next: [Configuration](/guide/configuration)

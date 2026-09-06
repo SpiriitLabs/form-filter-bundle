@@ -1,5 +1,8 @@
-[8] Advanced usage with PagerFanta
-====================================
+---
+description: A real-world example combining the bundle with PagerFanta and a Twig component.
+---
+
+# Advanced usage with PagerFanta
 
 ```php
 // your controller
@@ -149,8 +152,7 @@
     }
 ```
 
-Bonus: Twig list component
-==========================
+## Bonus: Twig list component
 
 ```php
 #[AsTwigComponent(name: 'crud-list', template: 'components/crud/list.html.twig')]
@@ -178,7 +180,7 @@ class ListComponent
 }
 ```
 
--Bootstrap html-
+Bootstrap html:
 
 ```html
 {% trans_default_domain 'admin' %}
@@ -233,7 +235,7 @@ class ListComponent
 </div>
 ```
 
--usage-
+Usage:
 
 ```html
 {% block body %}
@@ -273,7 +275,3 @@ class ListComponent
     {% endcomponent %}
 {% endblock %}
 ```
-
-***
-
-Next: [9. Debugging filters](debugging.md)
