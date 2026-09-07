@@ -67,6 +67,7 @@ export default defineConfig({
     logo: { src: '/logo.svg', alt: 'Form Filter Bundle' },
     nav: [
       { text: 'Guide', link: '/guide/installation' },
+      { text: 'Demo', link: '/guide/interactive-demo' },
       { text: 'Features', link: '/features/provided-types' },
       { text: 'Advanced', link: '/advanced/working-with-other-bundles' },
       {
@@ -84,6 +85,7 @@ export default defineConfig({
           { text: 'Installation', link: '/guide/installation' },
           { text: 'Configuration', link: '/guide/configuration' },
           { text: 'Basics & inner workings', link: '/guide/basics' },
+          { text: 'Interactive demo', link: '/guide/interactive-demo' },
         ],
       },
       {

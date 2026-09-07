@@ -3,7 +3,6 @@ name: "Documentation"
 on:
   push:
     branches: [master]
-    tags: ['v*']
     paths:
       - 'docs/**'
       - 'package.json'

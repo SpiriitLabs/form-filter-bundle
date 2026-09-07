@@ -37,6 +37,11 @@ features:
     details: See exactly which form field produced which DQL condition, and why a field was silently ignored.
     link: /features/debugging
     linkText: Debug a filter
+  - icon: ▶️
+    title: Interactive demo
+    details: Follow a filter form from PHP definition to rendered fields, DQL and matching records.
+    link: /guide/interactive-demo
+    linkText: Try the demo
 ---
 
 <div class="home-extra">

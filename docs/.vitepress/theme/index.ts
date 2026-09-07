@@ -1,0 +1,1 @@
+import DefaultTheme from 'vitepress/theme'; import FilterDemo from './components/FilterDemo.vue'; import './custom.css'; export default { extends: DefaultTheme, enhanceApp({ app }) { app.component('FilterDemo', FilterDemo) } }
