@@ -17,9 +17,14 @@ use Spiriit\Bundle\FormFilterBundle\DataCollector\FilterDataCollector;
 use Spiriit\Bundle\FormFilterBundle\Event\FilterEvents;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\FilterState;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\NullFilterStateStorage;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\SessionFilterStateStorage;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\TraceableFilterStateStorage;
 use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Entity\Item;
 use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemEmbeddedOptionsFilterType;
 use Spiriit\Bundle\FormFilterBundle\Tests\Fixtures\Filter\ItemFilterType;
+use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\InMemoryFilterStateStorage;
 use Spiriit\Bundle\FormFilterBundle\Tests\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\FormType as SymfonyFormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -207,6 +212,84 @@ class FilterDataCollectorTest extends TestCase
         $this->assertSame('spiriit_form_filter', $this->collector->getName());
         $this->assertSame('@SpiriitFormFilter/Collector/filter.html.twig', FilterDataCollector::getTemplate());
         $this->assertArrayHasKey(FilterEvents::APPLIED, FilterDataCollector::getSubscribedEvents());
+    }
+
+    public function testCollectsWhatTheStateStorageWasAskedToKeep(): void
+    {
+        $storage = new TraceableFilterStateStorage(new InMemoryFilterStateStorage());
+        $collector = new FilterDataCollector($storage, '_reset');
+
+        $storage->save($this->createState());
+        $storage->load('item_filter');
+        $storage->clear('item_filter');
+        $storage->load('item_filter');
+
+        $collector->collect(new Request(), new Response());
+
+        $operations = $collector->getStateOperations();
+
+        $this->assertSame(['saved', 'restored', 'cleared', 'nothing_stored'], array_column($operations, 'outcome'));
+        $this->assertSame(['item_filter', 'item_filter', 'item_filter', 'item_filter'], array_column($operations, 'form_name'));
+        $this->assertInstanceOf(Data::class, $operations[0]['values']);
+        $this->assertNull($operations[2]['values']);
+
+        $this->assertSame(1, $collector->getSavedCount());
+        $this->assertSame(1, $collector->getRestoredCount());
+        $this->assertSame(0, $collector->getNotStoredCount());
+        $this->assertFalse($collector->hasStateWarnings());
+        $this->assertSame(InMemoryFilterStateStorage::class, $collector->getStateStorageClass());
+        $this->assertSame('_reset', $collector->getResetParameter());
+    }
+
+    public function testAStateTheStorageKeptNothingOfIsReportedAsAWarning(): void
+    {
+        $storage = new TraceableFilterStateStorage(new NullFilterStateStorage());
+        $collector = new FilterDataCollector($storage);
+
+        $storage->save($this->createState());
+
+        $collector->collect(new Request(), new Response());
+
+        $this->assertSame(['not_stored'], array_column($collector->getStateOperations(), 'outcome'));
+        $this->assertSame(0, $collector->getSavedCount());
+        $this->assertSame(1, $collector->getNotStoredCount());
+        $this->assertTrue($collector->hasStateWarnings());
+        $this->assertNull($collector->getResetParameter());
+    }
+
+    public function testNoStateIsCollectedWithoutAStorage(): void
+    {
+        $collector = new FilterDataCollector();
+
+        $collector->collect(new Request(), new Response());
+
+        $this->assertSame([], $collector->getStateOperations());
+        $this->assertNull($collector->getStateStorageClass());
+        $this->assertSame(0, $collector->getSavedCount());
+        $this->assertFalse($collector->hasStateWarnings());
+    }
+
+    /**
+     * The collector must watch the very storage the request handler was given.
+     */
+    public function testTheContainerTracesTheStorageUsedByTheRequestHandler(): void
+    {
+        $container = $this->initContainer(true, ['spiriit_form_filter.data_collector', 'spiriit_form_filter.state.request_handler']);
+        $collector = $container->get('spiriit_form_filter.data_collector');
+
+        $container->get('spiriit_form_filter.state.request_handler')
+            ->handleRequest($this->formFactory->create(ItemFilterType::class), Request::create('/'))
+        ;
+
+        $collector->collect(new Request(), new Response());
+
+        $this->assertSame(['nothing_stored'], array_column($collector->getStateOperations(), 'outcome'));
+        $this->assertSame(SessionFilterStateStorage::class, $collector->getStateStorageClass());
+    }
+
+    private function createState(): FilterState
+    {
+        return FilterState::fromArray(['form' => 'item_filter', 'values' => ['name' => 'blabla']]);
     }
 
     private function collect(): void

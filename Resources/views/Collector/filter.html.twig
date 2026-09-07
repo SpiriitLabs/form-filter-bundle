@@ -13,6 +13,7 @@
         .filter-fields .field-details td { border-top: none; padding-top: 0; }
         .filter-fields .field-details summary { cursor: pointer; }
         .filter-condition-tree ul { margin: 4px 0 4px 16px; }
+        .filter-state td { vertical-align: top; word-break: break-word; }
     </style>
 {% endblock %}
 
@@ -29,6 +30,11 @@
 
 {% macro outcome_badge(outcome) %}
     {% set classes = { 'applied': 'status-success', 'no_listener': 'status-warning', 'no_condition': '', 'disabled': '' } %}
+    <span class="label {{ classes[outcome]|default('') }}">{{ outcome|replace({'_': ' '}) }}</span>
+{% endmacro %}
+
+{% macro state_badge(outcome) %}
+    {% set classes = { 'saved': 'status-success', 'restored': 'status-success', 'not_stored': 'status-warning', 'nothing_stored': '', 'cleared': '' } %}
     <span class="label {{ classes[outcome]|default('') }}">{{ outcome|replace({'_': ' '}) }}</span>
 {% endmacro %}
 
@@ -54,8 +60,8 @@
 {% endmacro %}
 
 {% block toolbar %}
-    {% if collector.filters|length %}
-        {% set status_color = collector.hasWarnings ? 'yellow' : '' %}
+    {% if collector.filters|length or collector.stateOperations|length %}
+        {% set status_color = collector.hasWarnings or collector.hasStateWarnings ? 'yellow' : '' %}
 
         {% set icon %}
             {{ _self.icon() }}
@@ -76,6 +82,16 @@
                 <b>Fields without listener</b>
                 <span class="sf-toolbar-status sf-toolbar-status-{{ collector.hasWarnings ? 'yellow' }}">{{ collector.warningCount }}</span>
             </div>
+            {% if collector.stateOperations|length %}
+                <div class="sf-toolbar-info-piece">
+                    <b>States saved</b>
+                    <span class="sf-toolbar-status sf-toolbar-status-{{ collector.hasStateWarnings ? 'yellow' }}">{{ collector.savedCount }}</span>
+                </div>
+                <div class="sf-toolbar-info-piece">
+                    <b>States restored</b>
+                    <span class="sf-toolbar-status">{{ collector.restoredCount }}</span>
+                </div>
+            {% endif %}
         {% endset %}
 
         {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: profiler_url, status: status_color }) }}
@@ -83,12 +99,12 @@
 {% endblock toolbar %}
 
 {% block menu %}
-    <span class="label {{ collector.hasWarnings ? 'label-status-warning' }} {{ collector.filters is empty ? 'disabled' }}">
+    <span class="label {{ collector.hasWarnings or collector.hasStateWarnings ? 'label-status-warning' }} {{ collector.filters is empty and collector.stateOperations is empty ? 'disabled' }}">
         <span class="icon">{{ _self.icon() }}</span>
         <strong>Form filter</strong>
-        {% if collector.hasWarnings %}
+        {% if collector.hasWarnings or collector.hasStateWarnings %}
             <span class="count">
-                <span>{{ collector.warningCount }}</span>
+                <span>{{ collector.warningCount + collector.notStoredCount }}</span>
             </span>
         {% endif %}
     </span>
@@ -97,7 +113,7 @@
 {% block panel %}
     <h2>Form filter</h2>
 
-    {% if collector.filters is empty %}
+    {% if collector.filters is empty and collector.stateOperations is empty %}
         <div class="empty empty-panel">
             <p>No filter form was applied to a query builder during this request.</p>
         </div>
@@ -123,6 +139,93 @@
                 <code>spiriit_form_filter.apply.orm.&lt;block_prefix&gt;</code> event: the value was submitted but silently ignored.
                 Use a <code>*FilterType</code>, register a listener for that event, or set the <code>apply_filter</code> option.
             </p>
+        {% endif %}
+
+        <h3>Persistence</h3>
+
+        {% if collector.stateOperations is empty %}
+            <div class="empty">
+                <p>
+                    No filter form persisted its state during this request. Set the <code>filter_persistence</code>
+                    option to <code>true</code> on a filter form to remember what was submitted.
+                </p>
+            </div>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th class="nowrap">Storage</th>
+                        <th class="nowrap">Saved</th>
+                        <th class="nowrap">Restored</th>
+                        <th class="nowrap">Reset parameter</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            {% if collector.stateStorageClass is not null %}
+                                {{ collector.stateStorageClass }}
+                            {% else %}
+                                <span class="text-muted">&mdash;</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if collector.hasStateWarnings %}
+                                <span class="label status-warning">{{ collector.savedCount }}</span>
+                            {% else %}
+                                {{ collector.savedCount }}
+                            {% endif %}
+                        </td>
+                        <td>{{ collector.restoredCount }}</td>
+                        <td>
+                            {% if collector.resetParameter is not null %}
+                                <code>{{ collector.resetParameter }}</code>
+                            {% else %}
+                                <span class="text-muted">&mdash;</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {% if collector.hasStateWarnings %}
+                <p class="help">
+                    A state reported <span class="label status-warning">not stored</span> was handed to the storage, which
+                    kept nothing: <code>SessionFilterStateStorage</code> never starts a session, so a visitor who has none
+                    &mdash; or a request on a <code>stateless</code> route &mdash; gets no persistence.
+                </p>
+            {% endif %}
+
+            <table class="filter-state">
+                <thead>
+                    <tr>
+                        <th>Form</th>
+                        <th>Outcome</th>
+                        <th>Persisted state</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for operation in collector.stateOperations %}
+                        <tr>
+                            <td><code>{{ operation.form_name }}</code></td>
+                            <td>{{ _self.state_badge(operation.outcome) }}</td>
+                            <td>
+                                {% if operation.values is not null %}
+                                    {{ profiler_dump(operation.values) }}
+                                {% else %}
+                                    <span class="text-muted">&mdash;</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% if collector.filters is empty %}
+            <div class="empty">
+                <p>No filter form was applied to a query builder during this request.</p>
+            </div>
         {% endif %}
 
         {% for run in collector.filters %}

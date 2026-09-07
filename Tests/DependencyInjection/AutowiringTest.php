@@ -14,12 +14,18 @@ namespace Spiriit\Bundle\FormFilterBundle\Tests\DependencyInjection;
 use PHPUnit\Framework\TestCase;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtension;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\FilterUrlGenerator;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\SessionFilterStateStorage;
 use Spiriit\Bundle\FormFilterBundle\SpiriitFormFilterBundle;
 use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\Autowired;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollection;
 
 class AutowiringTest extends TestCase
 {
@@ -35,6 +41,12 @@ class AutowiringTest extends TestCase
             'spiriit_form_filter' => []
         ]);
 
+        // the bundle references @router, which FrameworkBundle only registers with a routing configuration
+        $container->register('router', UrlGenerator::class)->setArguments([
+            new Definition(RouteCollection::class),
+            new Definition(RequestContext::class),
+        ]);
+
         $container
             ->register('autowired', Autowired::class)
             ->setPublic(true)
@@ -46,6 +58,8 @@ class AutowiringTest extends TestCase
         $autowired = $container->get('autowired');
 
         $this->assertInstanceOf(FilterBuilderUpdater::class, $autowired->getFilterBuilderUpdater());
+        $this->assertInstanceOf(SessionFilterStateStorage::class, $autowired->getFilterStateStorage());
+        $this->assertInstanceOf(FilterUrlGenerator::class, $autowired->getFilterUrlGenerator());
     }
 
     private static function createContainerBuilder(array $configs = []): ContainerBuilder

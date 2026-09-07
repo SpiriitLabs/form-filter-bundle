@@ -27,6 +27,7 @@ use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\PublicServicesPass;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\DependencyInjection\Compiler\DecoratorServicePass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -174,7 +175,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $container->loadFromExtension($extension, $config);
         }
 
-        $container->getCompilerPassConfig()->setOptimizationPasses([new ResolveChildDefinitionsPass()]);
+        $container->getCompilerPassConfig()->setOptimizationPasses([new ResolveChildDefinitionsPass(), new DecoratorServicePass()]);
         $container->getCompilerPassConfig()->setRemovingPasses([]);
         $container->addCompilerPass(new FormDataExtractorPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
         $container->addCompilerPass(new RegisterListenersPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);

@@ -1,0 +1,43 @@
+parameters:
+    spiriit_form_filter.state.session_storage.class: Spiriit\Bundle\FormFilterBundle\Filter\State\SessionFilterStateStorage
+    spiriit_form_filter.state.request_handler.class: Spiriit\Bundle\FormFilterBundle\Filter\State\FilterStateRequestHandler
+    spiriit_form_filter.state.url_generator.class: Spiriit\Bundle\FormFilterBundle\Filter\State\FilterUrlGenerator
+    spiriit_form_filter.type_extension.state.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\FilterStateTypeExtension
+
+services:
+    spiriit_form_filter.state.session_storage:
+        class: '%spiriit_form_filter.state.session_storage.class%'
+        arguments:
+            - '@request_stack'
+
+    Spiriit\Bundle\FormFilterBundle\Filter\State\FilterStateStorageInterface:
+        alias: spiriit_form_filter.state.session_storage
+        public: false
+
+    spiriit_form_filter.state.request_handler:
+        class: '%spiriit_form_filter.state.request_handler.class%'
+        arguments:
+            - '@form.type_extension.form.request_handler'
+            - '@Spiriit\Bundle\FormFilterBundle\Filter\State\FilterStateStorageInterface'
+            - '%spiriit_form_filter.persistence.reset_parameter%'
+
+    Spiriit\Bundle\FormFilterBundle\Filter\State\FilterStateRequestHandler:
+        alias: spiriit_form_filter.state.request_handler
+        public: false
+
+    spiriit_form_filter.state.url_generator:
+        class: '%spiriit_form_filter.state.url_generator.class%'
+        arguments:
+            - '@router'
+            - '%spiriit_form_filter.persistence.reset_parameter%'
+
+    Spiriit\Bundle\FormFilterBundle\Filter\State\FilterUrlGenerator:
+        alias: spiriit_form_filter.state.url_generator
+        public: false
+
+    spiriit_form_filter.type_extension.state:
+        class: '%spiriit_form_filter.type_extension.state.class%'
+        arguments:
+            - '@spiriit_form_filter.state.request_handler'
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType, priority: -10 }

@@ -14,6 +14,8 @@ namespace Spiriit\Bundle\FormFilterBundle\Tests\DependencyInjection;
 use PHPUnit\Framework\TestCase;
 use Spiriit\Bundle\FormFilterBundle\DataCollector\FilterDataCollector;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtension;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\FilterStateStorageInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\State\TraceableFilterStateStorage;
 use Spiriit\Bundle\FormFilterBundle\SpiriitFormFilterBundle;
 use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\PublicServicesPass;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
@@ -25,6 +27,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 class ProfilerRegistrationTest extends TestCase
 {
     private const COLLECTOR_ID = 'spiriit_form_filter.data_collector';
+
+    private const TRACEABLE_STORAGE_ID = 'spiriit_form_filter.state.traceable_storage';
 
     public function testCollectorDefinitionIsRegisteredInDebug(): void
     {
@@ -46,6 +50,45 @@ class ProfilerRegistrationTest extends TestCase
         ], $tags['data_collector']);
         $this->assertArrayHasKey('kernel.event_subscriber', $tags);
         $this->assertSame([['method' => 'reset']], $tags['kernel.reset']);
+    }
+
+    public function testTheStateStorageIsDecoratedInDebug(): void
+    {
+        $container = new ContainerBuilder(new ParameterBag(['kernel.debug' => true]));
+
+        $extension = new SpiriitFormFilterExtension();
+        $extension->load([[]], $container);
+
+        $definition = $container->getDefinition(self::TRACEABLE_STORAGE_ID);
+
+        $this->assertSame(TraceableFilterStateStorage::class, $container->getParameterBag()->resolveValue($definition->getClass()));
+        $this->assertSame(FilterStateStorageInterface::class, $definition->getDecoratedService()[0]);
+        $this->assertSame('.inner', (string) $definition->getArgument(0));
+        $this->assertSame([['method' => 'reset']], $definition->getTags()['kernel.reset']);
+    }
+
+    public function testTheCollectorWatchesTheDecoratedStorage(): void
+    {
+        $container = new ContainerBuilder(new ParameterBag(['kernel.debug' => true]));
+
+        $extension = new SpiriitFormFilterExtension();
+        $extension->load([[]], $container);
+
+        $definition = $container->getDefinition(self::COLLECTOR_ID);
+
+        $this->assertSame(self::TRACEABLE_STORAGE_ID, (string) $definition->getArgument(0));
+        $this->assertSame('%spiriit_form_filter.persistence.reset_parameter%', $definition->getArgument(1));
+    }
+
+    public function testTheStateStorageIsNotDecoratedWithoutDebug(): void
+    {
+        $container = new ContainerBuilder(new ParameterBag(['kernel.debug' => false]));
+
+        $extension = new SpiriitFormFilterExtension();
+        $extension->load([[]], $container);
+
+        $this->assertFalse($container->hasDefinition(self::TRACEABLE_STORAGE_ID));
+        $this->assertSame('spiriit_form_filter.state.session_storage', (string) $container->getAlias(FilterStateStorageInterface::class));
     }
 
     public function testCollectorDefinitionIsAbsentWithoutDebug(): void
@@ -75,6 +118,7 @@ class ProfilerRegistrationTest extends TestCase
         $container->compile();
 
         $this->assertInstanceOf(FilterDataCollector::class, $container->get(self::COLLECTOR_ID));
+        $this->assertInstanceOf(TraceableFilterStateStorage::class, $container->get(self::TRACEABLE_STORAGE_ID));
     }
 
     public function testCollectorIsNotRegisteredInCompiledProductionContainer(): void
@@ -122,7 +166,7 @@ class ProfilerRegistrationTest extends TestCase
         ]);
         $container->loadFromExtension('spiriit_form_filter', []);
 
-        $container->addCompilerPass(new PublicServicesPass([self::COLLECTOR_ID]), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
+        $container->addCompilerPass(new PublicServicesPass([self::COLLECTOR_ID, self::TRACEABLE_STORAGE_ID]), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
 
         return $container;
     }
