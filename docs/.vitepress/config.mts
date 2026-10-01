@@ -103,6 +103,7 @@ export default defineConfig({
         items: [
           { text: 'Working with other bundles', link: '/advanced/working-with-other-bundles' },
           { text: 'Advanced usage with PagerFanta', link: '/advanced/pagerfanta' },
+          { text: 'Live filtering with Turbo and Stimulus', link: '/advanced/turbo-stimulus' },
         ],
       },
     ],
