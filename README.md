@@ -98,6 +98,7 @@ class DefaultController extends AbstractController
 - [Filter state persistence](https://spiriitlabs.github.io/form-filter-bundle/features/persistence)
 - [Debugging & profiler](https://spiriitlabs.github.io/form-filter-bundle/features/debugging)
 - [Pagination with Pagerfanta](https://spiriitlabs.github.io/form-filter-bundle/advanced/pagerfanta)
+- [Live filtering with Turbo and Stimulus](https://spiriitlabs.github.io/form-filter-bundle/advanced/turbo-stimulus)
 
 ## Community support
 
