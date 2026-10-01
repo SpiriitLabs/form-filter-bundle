@@ -8,9 +8,6 @@
 Build a Symfony form dedicated to filtering an entity, then let the bundle turn it into Doctrine ORM
 query builder conditions.
 
-> `LexikFormFilterBundle` is now `SpiriitFormFilterBundle`: only the name and the GitHub organization
-> changed, the code remains the same.
-
 **📖 Full documentation: [spiriitlabs.github.io/form-filter-bundle](https://spiriitlabs.github.io/form-filter-bundle/)**
 
 The idea is:
@@ -22,13 +19,25 @@ The idea is:
 Any type works, but filtering on a type other than a `XxxFilterType::class` requires a
 [custom listener](https://spiriitlabs.github.io/form-filter-bundle/features/working-with-the-bundle) to apply the filter.
 
+## Why this bundle
+
+- **Plain Symfony forms**: no new DSL, your filters are regular form types with validation, theming and CSRF.
+- **Ready-to-use filter types**: text, number, date and date range, boolean, choice, entity, enum and more.
+- **Composable conditions**: AND/OR trees, embedded filters, collections and automatic joins.
+- **Fully customisable**: override any field with a closure or a dedicated listener through `apply_filter`.
+- **Debuggable**: the Symfony profiler shows which form field produced which DQL condition.
+
 ## Installation
 
 ```bash
 composer require spiriitlabs/form-filter-bundle
 ```
 
-Requires PHP 8.1+ and Symfony 5.4+. For Symfony 2.8/3.4, use the latest `v5.*` tag.
+| Requirement | Version |
+|-------------|---------|
+| PHP | 8.1+ |
+| Symfony | 5.4, 6.4, 7.4, 8.0 |
+| Doctrine ORM | 3.0+ |
 
 ## Use it in two steps
 
@@ -81,18 +90,19 @@ class DefaultController extends AbstractController
 
 ## Documentation
 
+- [Interactive demo](https://spiriitlabs.github.io/form-filter-bundle/guide/interactive-demo): follow a filter from form to DQL
 - [Installation](https://spiriitlabs.github.io/form-filter-bundle/guide/installation)
 - [Basics](https://spiriitlabs.github.io/form-filter-bundle/guide/basics)
 - [Configuration](https://spiriitlabs.github.io/form-filter-bundle/guide/configuration)
 - [Provided filter types](https://spiriitlabs.github.io/form-filter-bundle/features/provided-types)
 - [Filter state persistence](https://spiriitlabs.github.io/form-filter-bundle/features/persistence)
 - [Debugging & profiler](https://spiriitlabs.github.io/form-filter-bundle/features/debugging)
+- [Pagination with Pagerfanta](https://spiriitlabs.github.io/form-filter-bundle/advanced/pagerfanta)
 
 ## Community support
 
-Please [open a question on StackOverflow](http://stackoverflow.com/questions/ask) using the
-[`spiriitformfilterbundle` tag](http://stackoverflow.com/questions/tagged/spiriitformfilterbundle), the
-official support platform for this bundle. GitHub issues are dedicated to bug reports and feature requests.
+Found a bug or missing a feature? [Open an issue](https://github.com/SpiriitLabs/form-filter-bundle/issues).
+Questions are welcome there too.
 
 ## Credits
 
