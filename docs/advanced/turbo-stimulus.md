@@ -66,7 +66,11 @@ The form lives outside the frame, so it is never re-rendered and keeps its focus
 </turbo-frame>
 ```
 
-Links inside the frame, such as pagination links, also navigate only the frame. Make sure they keep the current query string so the filter survives a page change.
+Links inside the frame, such as pagination links, also navigate only the frame. The `pagerfanta()` Twig function of [PagerfantaBundle](/advanced/pagerfanta) merges the current query string into every link it generates, so the filter survives a page change. For hand-written links, do the same:
+
+```twig
+<a href="{{ path('user_list', app.request.query.all|merge({page: 2})) }}">Next</a>
+```
 
 ## The Stimulus controller
 
