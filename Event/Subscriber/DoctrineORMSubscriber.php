@@ -1,10 +1,8 @@
 <?php
 
 /*
- * This file is part of the composer-write-changelogs project.
- *
- * (c) Dev Spiriit <dev@spiriit.com>
- *
+ * This file is part of the spiriitlabs/form-filter-bundle package.
+ * Copyright (c) SpiriitLabs <https://www.spiriit.com/>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -65,6 +63,7 @@ class DoctrineORMSubscriber extends AbstractDoctrineSubscriber implements EventS
             'spiriit_form_filter.apply.orm.birthday' => ['filterDate'],
             'spiriit_form_filter.apply.orm.checkbox' => ['filterValue'],
             'spiriit_form_filter.apply.orm.radio' => ['filterValue'],
+            'spiriit_form_filter.apply.orm.bounds' => ['filterBounds'],
         ];
     }
 

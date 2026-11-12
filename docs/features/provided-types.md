@@ -100,4 +100,23 @@ Options:
 See the `FilterOperands::STRING_xxx` constants for all available patterns (starts with, ends with or contains).
 You can also use `FilterOperands::OPERAND_SELECTOR`, this will display a combo box with available patterns in addition to the input text.
 
+---
+**Symfony's BoundsType (Symfony 8.2+):**
+
+Symfony 8.2's core `BoundsType` filters a range out of the box. You don't need a dedicated filter type.
+
+```php
+use Symfony\Component\Form\Extension\Core\Type\BoundsType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+
+$builder
+    ->add('price', BoundsType::class, ['type' => MoneyType::class])
+    ->add('createdAt', BoundsType::class, ['type' => DateType::class]);
+```
+
+* With both bounds, the condition is `field >= :from AND field <= :to`. With only one bound, you get `>=` or `<=` alone. With no bound, no condition is added.
+* With a `DateType` inner type, the upper bound covers the whole day, so `createdAt < :to + 1 day` keeps the rows of the last day. This requires the `input` option to be `datetime` (the default) or `datetime_immutable`. A `DateTimeType` keeps its exact time.
+* Bounds SQL cannot order the way the form does are refused with a `LogicException`, for example enums, entities or booleans. Filter them with the `apply_filter` option.
+
 Next: [Example & inner workings](/guide/basics)

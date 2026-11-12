@@ -1,10 +1,8 @@
 <?php
 
 /*
- * This file is part of the composer-write-changelogs project.
- *
- * (c) Dev Spiriit <dev@spiriit.com>
- *
+ * This file is part of the spiriitlabs/form-filter-bundle package.
+ * Copyright (c) SpiriitLabs <https://www.spiriit.com/>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -17,6 +15,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use Spiriit\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\Bound;
 use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type\BooleanFilterType;
@@ -256,6 +255,42 @@ abstract class AbstractDoctrineSubscriber
         }
     }
 
+    public function filterBounds(GetFilterConditionEvent $event): void
+    {
+        $values = $event->getValues();
+        $range = $values['value'];
+
+        if (!\is_array($range)) {
+            return;
+        }
+
+        $bounds = [];
+
+        if (!self::isEmptyBound($range['from'] ?? null)) {
+            $bounds['from'] = Bound::lower($range['from']);
+        }
+
+        if (!self::isEmptyBound($range['to'] ?? null)) {
+            $bounds['to'] = ($values['whole_days'] ?? false) ? Bound::upperWholeDay($range['to']) : Bound::upper($range['to']);
+        }
+
+        if ([] === $bounds) {
+            return;
+        }
+
+        $expression = $event->getFilterQuery()->getExpr()->andX();
+        $parameters = [];
+
+        foreach ($bounds as $name => $bound) {
+            $parameterName = \sprintf('%s_%s', $this->generateParameterName($event->getField()), $name);
+
+            $expression->add($bound->comparison($event->getField(), $parameterName));
+            $parameters[$parameterName] = $bound->parameter();
+        }
+
+        $event->setCondition($expression, $parameters);
+    }
+
     /**
      * @param string $field
      * @return string
@@ -263,5 +298,10 @@ abstract class AbstractDoctrineSubscriber
     protected function generateParameterName($field)
     {
         return sprintf('p_%s', str_replace('.', '_', $field));
+    }
+
+    private static function isEmptyBound(mixed $bound): bool
+    {
+        return null === $bound || '' === $bound || [] === $bound;
     }
 }

@@ -7,6 +7,7 @@ bin
 .idea
 nbproject
 .phpunit.result.cache
+.php-cs-fixer.cache
 node_modules
 docs/.vitepress/cache
 docs/.vitepress/dist

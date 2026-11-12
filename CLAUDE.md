@@ -10,22 +10,24 @@ The root namespace is `Spiriit\Bundle\FormFilterBundle\` mapped to the repositor
 
 ## Commands
 
-```bash
-composer test                                 # run PHPUnit (uses simple-phpunit bridge)
-vendor/bin/simple-phpunit Tests/Filter/Doctrine/ORMQueryBuilderUpdaterTest.php   # single file
-vendor/bin/simple-phpunit --filter testBuildQuery                                # single test
+Always go through the Makefile (`make help` lists the targets):
 
-vendor/bin/ecs check                          # coding-standards check (PSR-12 + ordered imports + short arrays)
-vendor/bin/ecs check --fix                    # auto-fix (there is no Makefile here: no `make phpcsfix`)
-vendor/bin/rector process --dry-run           # preview Rector changes (CI runs this in dry-run and fails on diff)
-vendor/bin/rector process                     # apply Rector
+```bash
+make test                                     # run PHPUnit (simple-phpunit bridge)
+make test-filter FILTER=testBuildQuery        # single test or test class
+make test-symfony SYMFONY='8.2.*' PHP=php8.4  # pin every Symfony package like CI does (Flex), then run the suite
+make update                                   # back to unpinned dependencies after a test-symfony run
+make quality                                  # php-cs-fixer + Rector dry-run, like the coding-standards CI
+make phpcsfix                                 # php-cs-fixer auto-fix (file headers and unused imports included)
+make rector                                   # apply Rector
 ```
 
-`ecs` and `rector` are already in `require-dev`; `composer install` runs directly on the host (no Docker, no frontend toolchain in this repo).
+`make deps-symfony` installs Flex in an isolated `COMPOSER_HOME` (`var/composer-flex`, git-ignored): the global Composer is never touched. `composer install` runs directly on the host (no Docker, no frontend toolchain in this repo).
 
 CI (`.github/workflows/`):
-- `ci.yml` — PHP 8.1/Symfony 5.4, 8.1/6.4, 8.2/7.4, 8.4/8.0. Any change must stay compatible with all four. The Symfony version is selected via the `SYMFONY_REQUIRE` env var and Flex.
-- `coding-standards.yml` — ECS **and** Rector `--dry-run` on PHP 8.3. A Rector diff fails the build, so run `rector process --dry-run` before pushing.
+- `ci.yml` — PHP 8.1/Symfony 6.4, 8.2/7.4, 8.4/8.0, 8.4/8.1, 8.4/8.2. Any change must stay compatible with all five. The Symfony version is selected via the `SYMFONY_REQUIRE` env var and Flex; `minimum-stability: dev` + `prefer-stable` in `composer.json` let it install a not-yet-stable Symfony.
+- `coding-standards.yml` — php-cs-fixer **and** Rector `--dry-run` on PHP 8.3. A diff from either fails the build, so run `make quality` before pushing. `.php-cs-fixer.dist.php` (PSR-12, ordered imports, no unused imports, short arrays) enforces the `spiriitlabs/form-filter-bundle` file header: a new file gets it from `make phpcsfix`, don't write it by hand.
+- **Rector trap:** `rector.php` targets PHP 8.4 and rewrites `(new Foo())->bar()` into `new Foo()->bar()`, a PHP 8.4-only syntax that is a parse error on the PHP 8.1/8.2 CI jobs. Assign the instance to a variable first instead of accepting that diff.
 - `bc-check.yml` — Roave BC check, but its `paths` filter is `lib/**`, a directory that does not exist in this repo. **The BC check therefore never actually runs on source changes.** Don't rely on it to catch a broken public signature; check by hand.
 
 ## Architecture
@@ -42,7 +44,9 @@ Customising via the form's `apply_filter` option short-circuits step 2 (closure 
 ### Where the filter handlers actually live
 Handler methods are named `filterXxx()` — **not** `onFilterXxx()` — and several events share one handler (every simple scalar type points at `filterValue`).
 
-`DoctrineORMSubscriber` is thin: `getSubscribedEvents()`, `filterEntity()` and `getEntityIdentifier()`. **Every other handler** (`filterValue`, `filterBoolean`, `filterCheckbox`, `filterDate`, `filterDateRange`, `filterDateTime`, `filterDateTimeRange`, `filterNumber`, `filterNumberRange`, `filterText`, `filterEnum`) is inherited from `AbstractDoctrineSubscriber`. Put a driver-agnostic handler in the abstract class and only ORM-specific ones (anything needing the `EntityManager`) in `DoctrineORMSubscriber`.
+`DoctrineORMSubscriber` is thin: `getSubscribedEvents()`, `filterEntity()` and `getEntityIdentifier()`. **Every other handler** (`filterValue`, `filterBoolean`, `filterCheckbox`, `filterDate`, `filterDateRange`, `filterDateTime`, `filterDateTimeRange`, `filterNumber`, `filterNumberRange`, `filterText`, `filterEnum`, `filterBounds`) is inherited from `AbstractDoctrineSubscriber`. Put a driver-agnostic handler in the abstract class and only ORM-specific ones (anything needing the `EntityManager`) in `DoctrineORMSubscriber`.
+
+`filterBounds` handles Symfony 8.2's core `BoundsType` (block prefix `bounds`). The handler never sees the form, so `BoundsFilterTypeExtension` passes `whole_days` through the `filter_options` attribute: it is true when the inner type is a `DateType`. Each bound is a `Filter\Doctrine\Bound`, which refuses values SQL cannot order. The tests live in `ORMBoundsFilterTest` and are skipped before symfony/form 8.2.
 
 ### Key collaborators
 - `FilterBuilderUpdater` — public entry point; recursive `addFilters()` handles embedded types, collections, joins, and `inherit_data` forms.
@@ -78,6 +82,7 @@ When adding a new built-in filter type:
 - **Tests use `testFoo()` naming**, not `it_should_*` — stay consistent with the surrounding file.
 - `Tests/Filter/Doctrine/DoctrineQueryBuilderUpdater.php` is an **abstract base class** (no `Test` suffix, never run on its own) extended by `ORMQueryBuilderUpdaterTest` — a leftover of the era when ORM/DBAL/ODM shared the same suite. Shared assertions go there; ORM-specific ones in the concrete test.
 - Tests bootstrap an in-memory SQLite EntityManager (`TestCase::getSqliteEntityManager()`, attribute mapping over `Tests/Fixtures/Entity`); the container is built manually in `TestCase::createContainerBuilder()` rather than via `KernelTestCase` — there is no test kernel. `initQueryBuilderUpdater()` is the usual entry point in a test.
+- Since Symfony 8.2, `FrameworkBundle` declares `#[RequiredBundle]` dependencies (`CacheBundle`, `ServicesBundle`…), which the kernel normally resolves. Every hand-built container (`TestCase`, `AutowiringTest`, `ProfilerRegistrationTest`) must call `Tests\Stubs\RequiredBundleExtensions::register($container, FrameworkBundle::class)`. Otherwise you get "Parent definition "cache.system" does not exist". On PHP 8.4, `getSqliteEntityManager()` enables native lazy objects, because `symfony/var-exporter` 8 removed the `LazyGhostTrait` that ORM 3 proxies relied on.
 - Public signatures are effectively unguarded in CI (see the BC-check note above). A deliberate break must be documented in a `CHANGELOG-X.0.md`.
 
 ## Known dead / stale code
@@ -85,6 +90,5 @@ When adding a new built-in filter type:
 Don't treat these as live API when refactoring, and don't "fix" them without asking:
 - `Filter/Doctrine/Expression/DBALExpressionBuilder.php` — nothing references it since DBAL was dropped in v12; only `ORMExpressionBuilder` is used.
 - `Filter/Form/Type/DocumentFilterType.php` — imports `Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType`, a class no longer available since MongoDB support was removed in v10.
-- `.php_cs` at the root — superseded by `ecs.php`.
 - `FilterTypeExtension::getExtendedType()` — kept alongside the static `getExtendedTypes()` that Symfony actually uses.
 - `autoload.php.dist` still registers `AnnotationRegistry`, although mapping is attribute-based.

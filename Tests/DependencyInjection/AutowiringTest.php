@@ -1,10 +1,8 @@
 <?php
 
 /*
- * This file is part of the composer-write-changelogs project.
- *
- * (c) Dev Spiriit <dev@spiriit.com>
- *
+ * This file is part of the spiriitlabs/form-filter-bundle package.
+ * Copyright (c) SpiriitLabs <https://www.spiriit.com/>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -16,6 +14,7 @@ use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtensi
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
 use Spiriit\Bundle\FormFilterBundle\SpiriitFormFilterBundle;
 use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\Autowired;
+use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\RequiredBundleExtensions;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -78,6 +77,7 @@ class AutowiringTest extends TestCase
 
         $container->registerExtension(new FrameworkExtension());
         $container->registerExtension(new SpiriitFormFilterExtension());
+        RequiredBundleExtensions::register($container, FrameworkBundle::class);
 
         foreach ($configs as $extension => $config) {
             $container->loadFromExtension($extension, $config);

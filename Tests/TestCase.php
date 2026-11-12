@@ -1,10 +1,8 @@
 <?php
 
 /*
- * This file is part of the composer-write-changelogs project.
- *
- * (c) Dev Spiriit <dev@spiriit.com>
- *
+ * This file is part of the spiriitlabs/form-filter-bundle package.
+ * Copyright (c) SpiriitLabs <https://www.spiriit.com/>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -14,16 +12,17 @@ namespace Spiriit\Bundle\FormFilterBundle\Tests;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
-use Doctrine\ORM\ORMSetup;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\Compiler\FormDataExtractorPass;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtension;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\FilterExtension;
 use Spiriit\Bundle\FormFilterBundle\SpiriitFormFilterBundle;
 use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\PublicServicesPass;
+use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\RequiredBundleExtensions;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -76,16 +75,21 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $mappingDriver = new AttributeDriver([__DIR__ . '/Fixtures/Entity']);
 
-        $config = ORMSetup::createAttributeMetadataConfiguration([]);
+        $config = new Configuration();
 
         $config->setMetadataDriverImpl($mappingDriver);
         $config->setMetadataCache($arrayAdapter);
         $config->setQueryCache($cache);
-        $config->setProxyDir(sys_get_temp_dir());
-        $config->setProxyNamespace('Proxy');
-        $config->setAutoGenerateProxyClasses(true);
         $config->setClassMetadataFactoryName(ClassMetadataFactory::class);
         $config->setDefaultRepositoryClassName(EntityRepository::class);
+
+        if (PHP_VERSION_ID >= 80400 && method_exists($config, 'enableNativeLazyObjects')) {
+            $config->enableNativeLazyObjects(true);
+        } else {
+            $config->setProxyDir(sys_get_temp_dir());
+            $config->setProxyNamespace('Proxy');
+            $config->setAutoGenerateProxyClasses(true);
+        }
 
         $connection = DriverManager::getConnection([
            'driver' => 'pdo_sqlite',
@@ -149,6 +153,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $container->registerExtension(new FrameworkExtension());
         $container->registerExtension(new SpiriitFormFilterExtension());
+        RequiredBundleExtensions::register($container, FrameworkBundle::class);
 
         $extension = new DoctrineExtension();
         $container->registerExtension($extension);

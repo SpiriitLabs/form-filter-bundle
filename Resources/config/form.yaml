@@ -16,6 +16,7 @@ parameters:
 
     # Type extension
     spiriit_form_filter.type_extension.filter_extension.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\FilterTypeExtension
+    spiriit_form_filter.type_extension.bounds_extension.class: Spiriit\Bundle\FormFilterBundle\Filter\Form\BoundsFilterTypeExtension
 
 services:
     # Filter Types
@@ -91,3 +92,8 @@ services:
         class: '%spiriit_form_filter.type_extension.filter_extension.class%'
         tags:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
+    spiriit_form_filter.type_extension.bounds_extension:
+        class: '%spiriit_form_filter.type_extension.bounds_extension.class%'
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\BoundsType }
