@@ -1,17 +1,14 @@
 <?php
 
 /*
- * This file is part of the composer-write-changelogs project.
- *
- * (c) Dev Spiriit <dev@spiriit.com>
- *
+ * This file is part of the spiriitlabs/form-filter-bundle package.
+ * Copyright (c) SpiriitLabs <https://www.spiriit.com/>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 namespace Spiriit\Bundle\FormFilterBundle\DependencyInjection;
 
-use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 

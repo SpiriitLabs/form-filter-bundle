@@ -21,24 +21,25 @@
     ],
     "homepage": "https://github.com/SpiriitLabs/form-filter-bundle",
     "license": "MIT",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": "^8.1",
         "doctrine/orm": "^3.0",
         "symfony/deprecation-contracts": "^3.5",
-        "symfony/form": "^5.4|^6.4|^7.4|^8.0",
-        "symfony/framework-bundle": "^5.4|^6.4|^7.4|^8.0"
+        "symfony/form": "^6.4|^7.4|^8.0",
+        "symfony/framework-bundle": "^6.4|^7.4|^8.0"
     },
     "require-dev": {
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^1.8 || ^2.0 || ^3.0",
+        "friendsofphp/php-cs-fixer": "^3.64",
         "rector/rector": "^2.0",
-        "symfony/phpunit-bridge": "^5.4|^6.4|^7.4|^8.0",
-        "symfony/var-dumper": "^5.4|^6.4|^7.4|^8.0",
-        "symfony/var-exporter": "^5.4|^6.4|^7.4",
-        "symfony/web-profiler-bundle": "^5.4|^6.4|^7.4|^8.0",
-        "symfony/yaml": "^5.4|^6.4|^7.4|^8.0",
-        "symplify/easy-coding-standard": "^12.5",
+        "symfony/phpunit-bridge": "^6.4|^7.4|^8.0",
+        "symfony/var-dumper": "^6.4|^7.4|^8.0",
+        "symfony/var-exporter": "^6.4|^7.4|^8.0",
+        "symfony/web-profiler-bundle": "^6.4|^7.4|^8.0",
+        "symfony/yaml": "^6.4|^7.4|^8.0",
         "twig/twig": "^3.0"
     },
     "suggest": {

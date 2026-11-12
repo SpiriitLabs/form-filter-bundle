@@ -3,10 +3,8 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the composer-write-changelogs project.
- *
- * (c) Dev Spiriit <dev@spiriit.com>
- *
+ * This file is part of the spiriitlabs/form-filter-bundle package.
+ * Copyright (c) SpiriitLabs <https://www.spiriit.com/>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -22,6 +20,7 @@ return RectorConfig::configure()
         __DIR__ . '/.github',
         __DIR__ . '/DependencyInjection/Configuration.php',
         __DIR__ . '/vendor',
+        __DIR__ . '/var',
         // typing this protected method would break the subclasses that override it in userland
         ReturnNullableTypeRector::class => [__DIR__ . '/Filter/FilterBuilderUpdater.php'],
         ReturnTypeFromStrictTypedPropertyRector::class => [__DIR__ . '/Filter/FilterBuilderUpdater.php'],

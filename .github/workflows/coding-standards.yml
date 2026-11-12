@@ -29,8 +29,8 @@ jobs:
             - name: Install Composer dependencies
               run: composer update --prefer-dist --no-progress
 
-            - name: CODING STANDARDS (ECS)
-              run: vendor/bin/ecs check
+            - name: CODING STANDARDS (PHP-CS-FIXER)
+              run: vendor/bin/php-cs-fixer fix --dry-run --diff
 
             - name: CODING STANDARDS (RECTOR)
               run: vendor/bin/rector process --ansi --dry-run

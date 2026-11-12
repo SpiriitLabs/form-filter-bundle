@@ -1,10 +1,8 @@
 <?php
 
 /*
- * This file is part of the composer-write-changelogs project.
- *
- * (c) Dev Spiriit <dev@spiriit.com>
- *
+ * This file is part of the spiriitlabs/form-filter-bundle package.
+ * Copyright (c) SpiriitLabs <https://www.spiriit.com/>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -16,6 +14,7 @@ use Spiriit\Bundle\FormFilterBundle\DataCollector\FilterDataCollector;
 use Spiriit\Bundle\FormFilterBundle\DependencyInjection\SpiriitFormFilterExtension;
 use Spiriit\Bundle\FormFilterBundle\SpiriitFormFilterBundle;
 use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\PublicServicesPass;
+use Spiriit\Bundle\FormFilterBundle\Tests\Stubs\RequiredBundleExtensions;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -115,6 +114,7 @@ class ProfilerRegistrationTest extends TestCase
 
         $container->registerExtension(new FrameworkExtension());
         $container->registerExtension(new SpiriitFormFilterExtension());
+        RequiredBundleExtensions::register($container, FrameworkBundle::class);
 
         $container->loadFromExtension('framework', [
             'secret' => 'test',

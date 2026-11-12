@@ -5,6 +5,7 @@
 /Tests             export-ignore
 /.gitattributes    export-ignore
 /.gitignore        export-ignore
-/.php_cs           export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/Makefile          export-ignore
 /autoload.php.dist export-ignore
 /phpunit.xml.dist  export-ignore
